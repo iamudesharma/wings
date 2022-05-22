@@ -1,41 +1,37 @@
+// import 'dart:js';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/provider/auth_provider.dart';
-import 'package:wings/routes/routes.gr.dart';
 
+import '../routes/routes.gr.dart';
 import '../widgets/textfield_widget.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  LoginPageState createState() => LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class LoginPageState extends ConsumerState<LoginPage> {
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
+  TextEditingController usernameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final _auth = ref.watch(authProvider);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
+      child: Consumer(builder: (context, ref, child) {
+        final _auth = ref.watch(authProvider);
+
+        return Scaffold(
+          body: Padding(
+            padding: EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 10,
             ),
@@ -63,7 +59,26 @@ class LoginPageState extends ConsumerState<LoginPage> {
                     height: 40,
                   ),
                   textFormField(
-                    emailController,
+                    usernameController,
+                    validator: (value) {
+                      //user RegExp
+
+                      if (value!.isEmpty) {
+                        return 'Please enter a username';
+                      } else {
+                        return null;
+                      }
+                    },
+                    hintText: 'Enter The  Username',
+                    icon: Icons.person,
+                    label: 'Username',
+                    isPassword: false,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  textFormField(
                     validator: (value) {
                       //Email RegExp
                       if (value!.isEmpty) {
@@ -76,6 +91,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         return null;
                       }
                     },
+                    emailController,
                     hintText: 'Enter The  Email',
                     icon: Icons.email,
                     label: 'Email',
@@ -107,38 +123,39 @@ class LoginPageState extends ConsumerState<LoginPage> {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        if (_auth.isLoading) {
+                        if (_auth.isLoadingSignUp) {
                           return;
                         } else {
-                          await _auth.login(
+                          await _auth.signUp(
                               email: emailController.text,
-                              password: passwordController.text);
+                              password: passwordController.text,
+                              username: usernameController.text);
 
                           context.router.navigate(const HomeRoute());
                         }
                       }
                     },
-                    child: _auth.isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : const Text('Login'),
+                    child: const Text('Register'),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Don\'t have an account?',
+                        'Have an account?',
                         style: TextStyle(
                           fontSize: 12,
                         ),
                       ),
                       TextButton(
                         onPressed: () {
-                          context.router.navigate(const RegisterRoute());
+                          _auth.signUp(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              username: usernameController.text);
+                          AutoRouter.of(context).pop();
                         },
                         child: const Text(
-                          'Register',
+                          'Login',
                           style: TextStyle(
                             color: Colors.blue,
                             fontSize: 14,
@@ -151,8 +168,8 @@ class LoginPageState extends ConsumerState<LoginPage> {
               ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

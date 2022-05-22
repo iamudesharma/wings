@@ -36,67 +36,15 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'Wings',
       theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
+        // colorSchemeSeed: Colors.green,
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.green, brightness: Brightness.dark),
+        // brightness: Brightness.dark,
       ),
       routeInformationParser: _routes.defaultRouteParser(),
       routerDelegate: _routes.delegate(),
     );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(
-    BuildContext context,
-  ) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Post'),
-        ),
-        body: const UsersList());
-  }
-}
-
-class UsersList extends StatelessWidget {
-  const UsersList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FirestoreBuilder<PostQuerySnapshot>(
-      ref: postRef,
-      builder:
-          (context, AsyncSnapshot<PostQuerySnapshot> snapshot, Widget? child) {
-        if (snapshot.hasError) return const Text('Something went wrong!');
-        if (!snapshot.hasData) return const Text('Loading users...');
-
-        PostQuerySnapshot querySnapshot = snapshot.data!;
-
-        return ListView.builder(
-          itemCount: querySnapshot.docs.length,
-          itemBuilder: (context, index) {
-            final post = querySnapshot.docs[index].data;
-
-            return Text('User name: ${post.postText}, age ${post.likes}');
-          },
-        );
-      },
-    );
-  }
-}
-
-class CreatePost extends StatefulWidget {
-  const CreatePost({Key? key}) : super(key: key);
-
-  @override
-  State<CreatePost> createState() => _CreatePostState();
-}
-
-class _CreatePostState extends State<CreatePost> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }

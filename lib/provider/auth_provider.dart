@@ -20,6 +20,7 @@ class AuthProvider extends ChangeNotifier {
   final AuthRespository authRespositoryImpl;
 
   bool isLoading = false;
+  bool isLoadingSignUp = false;
 
   AuthProvider(this.authRespositoryImpl);
 
@@ -31,8 +32,8 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  void logout() {
-    authRespositoryImpl.signOut();
+  void logout() async {
+    await authRespositoryImpl.signOut();
   }
 
   Future<void> login({required String email, required String password}) async {
@@ -44,6 +45,23 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       isLoading = false;
+      notifyListeners();
+      print(e.toString());
+    }
+  }
+
+  Future<void> signUp(
+      {required String email,
+      required String password,
+      required String username}) async {
+    try {
+      isLoadingSignUp = true;
+      notifyListeners();
+      await authRespositoryImpl.signUp(email, password, username);
+      isLoadingSignUp = false;
+      notifyListeners();
+    } catch (e) {
+      isLoadingSignUp = false;
       notifyListeners();
       print(e.toString());
     }
