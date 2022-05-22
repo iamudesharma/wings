@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/respository/auth_respository.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
+import 'package:wings/widgets/toast_widget.dart';
 
 // final authRespositoryImpl = AuthRespositoryImpl;
 final authRepositoryProvider = Provider(
@@ -33,6 +34,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void logout() async {
+    ToastWidget.showSuccessToast('Logout Successfully');
+
     await authRespositoryImpl.signOut();
   }
 
@@ -42,9 +45,12 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       await authRespositoryImpl.login(email, password);
       isLoading = false;
+      ToastWidget.showSuccessToast('Login Successfully');
       notifyListeners();
     } catch (e) {
       isLoading = false;
+      ToastWidget.showErrorToast('Something went wrong');
+
       notifyListeners();
       print(e.toString());
     }
@@ -58,10 +64,14 @@ class AuthProvider extends ChangeNotifier {
       isLoadingSignUp = true;
       notifyListeners();
       await authRespositoryImpl.signUp(email, password, username);
+      ToastWidget.showSuccessToast('Register Successfully');
+
       isLoadingSignUp = false;
       notifyListeners();
     } catch (e) {
       isLoadingSignUp = false;
+      ToastWidget.showErrorToast('Something went wrong');
+
       notifyListeners();
       print(e.toString());
     }

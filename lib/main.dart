@@ -5,10 +5,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:sharedpreference/sharedpreference.dart';
 import 'package:wings/firebase_options.dart';
 import 'package:wings/models/post_model.dart';
 import "package:wings/routes/routes.gr.dart";
 import "package:wings/routes/routes.dart";
+
+late SharedPreferences sharedPreferenceProvider;
+// FutureProvider((ref) async => await ¸.getInstance());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +21,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+// final _sharedPreference =  sharedPreferenceProvider;
+
+sharedPreferenceProvider=  await SharedPreferences.getInstance();
 
   runApp(
     const ProviderScope(

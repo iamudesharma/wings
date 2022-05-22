@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
+import 'package:wings/provider/local_data.dart';
+// import 'package:sharedpreference/sharedpreference.dart';
 
 import '../respository/auth_respository.dart';
 
@@ -33,7 +35,7 @@ class AuthRespositoryImpl extends AuthRespository {
   }
 
   @override
-  User? getCurrentUser()  {
+  User? getCurrentUser() {
     try {
       _logger.i('getCurrentUser');
       return _auth.currentUser;
@@ -50,6 +52,8 @@ class AuthRespositoryImpl extends AuthRespository {
 
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+
+      await SharedPref.saveUserUid(userCredential.user!.uid);
       return userCredential.user;
     } catch (e) {
       _logger.e('login', e);
@@ -67,6 +71,9 @@ class AuthRespositoryImpl extends AuthRespository {
   Future<void> signOut() async {
     try {
       _logger.i('signOut');
+
+      await SharedPref.clearUid();
+
       await _auth.signOut();
     } catch (e) {
       _logger.e('signOut', e);
@@ -90,6 +97,7 @@ class AuthRespositoryImpl extends AuthRespository {
         'email': email,
         'uid': user.uid,
       });
+      await SharedPref.saveUserUid(user.uid);
 
       return user;
     } catch (e) {

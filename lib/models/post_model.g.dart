@@ -71,6 +71,10 @@ class _$PostCollectionReference extends _$PostQuery
 
   @override
   PostDocumentReference doc([String? id]) {
+    assert(
+      id == null || id.split('/').length == 1,
+      'The document ID cannot be from a different collection',
+    );
     return PostDocumentReference(
       reference.doc(id),
     );
@@ -115,6 +119,11 @@ abstract class PostDocumentReference
 
   Future<void> update({
     String postText,
+    String id,
+    String ownerId,
+    String usernameName,
+    String location,
+    String mediaUrl,
     int likes,
   });
 
@@ -161,10 +170,20 @@ class _$PostDocumentReference
 
   Future<void> update({
     Object? postText = _sentinel,
+    Object? id = _sentinel,
+    Object? ownerId = _sentinel,
+    Object? usernameName = _sentinel,
+    Object? location = _sentinel,
+    Object? mediaUrl = _sentinel,
     Object? likes = _sentinel,
   }) async {
     final json = {
       if (postText != _sentinel) "postText": postText as String,
+      if (id != _sentinel) "id": id as String,
+      if (ownerId != _sentinel) "ownerId": ownerId as String,
+      if (usernameName != _sentinel) "usernameName": usernameName as String,
+      if (location != _sentinel) "location": location as String,
+      if (mediaUrl != _sentinel) "mediaUrl": mediaUrl as String,
       if (likes != _sentinel) "likes": likes as int,
     };
 
@@ -225,6 +244,61 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  PostQuery whereId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  PostQuery whereOwnerId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  PostQuery whereUsernameName({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  PostQuery whereLocation({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
+  PostQuery whereMediaUrl({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   PostQuery whereLikes({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -238,6 +312,66 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
   });
 
   PostQuery orderByPostText({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderById({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderByOwnerId({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderByUsernameName({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderByLocation({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderByMediaUrl({
     bool descending = false,
     String startAt,
     String startAfter,
@@ -351,6 +485,146 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     );
   }
 
+  PostQuery whereId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        'id',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereOwnerId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        'ownerId',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereUsernameName({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        'usernameName',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereLocation({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        'location',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereMediaUrl({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        'mediaUrl',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
   PostQuery whereLikes({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -391,6 +665,216 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy('postText', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderById({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('id', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderByOwnerId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('ownerId', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderByUsernameName({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('usernameName', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderByLocation({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('location', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderByMediaUrl({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('mediaUrl', descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -520,11 +1004,21 @@ _$assertPost(Post instance) {
 // **************************************************************************
 
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
-      likes: json['likes'] as int,
       postText: json['postText'] as String,
+      id: json['id'] as String,
+      ownerId: json['ownerId'] as String,
+      usernameName: json['usernameName'] as String,
+      location: json['location'] as String,
+      mediaUrl: json['mediaUrl'] as String,
+      likes: json['likes'] as int,
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'postText': instance.postText,
+      'id': instance.id,
+      'ownerId': instance.ownerId,
+      'usernameName': instance.usernameName,
+      'location': instance.location,
+      'mediaUrl': instance.mediaUrl,
       'likes': instance.likes,
     };
