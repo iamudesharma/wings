@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/provider/auth_provider.dart';
 
-import '../routes/routes.gr.dart';
-import '../widgets/textfield_widget.dart';
+import '../../routes/routes.gr.dart';
+import '../../widgets/textfield_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);

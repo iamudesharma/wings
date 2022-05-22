@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
 
-import '../widgets/textfield_widget.dart';
+import '../../widgets/textfield_widget.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

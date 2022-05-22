@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:wings/page/post_list_page.dart';
+import 'package:wings/page/posts/post_list_page.dart';
 import 'package:wings/routes/routes.gr.dart';
 
 class HomePage extends StatelessWidget {

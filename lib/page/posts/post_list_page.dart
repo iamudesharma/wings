@@ -2,7 +2,7 @@ import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:wings/models/post_model.dart';
 
-import '../widgets/widgets.dart';
+import '../../widgets/widgets.dart';
 
 class PostsListPage extends StatelessWidget {
   const PostsListPage({Key? key}) : super(key: key);
