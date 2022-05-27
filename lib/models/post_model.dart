@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'post_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Post {
   Post({
     required this.postText,

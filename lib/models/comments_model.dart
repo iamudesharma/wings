@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'comments_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Comment {
   final String username;
   final String comment;
