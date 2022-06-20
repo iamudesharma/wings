@@ -1,5 +1,6 @@
 // import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
@@ -85,8 +86,10 @@ class _UserAccountPageState extends State<UserAccountPage>
               text: 'Profile',
             ),
             const Tab(
-              icon: const Icon(Icons.person),
-              text: 'Profile',
+              icon: const Icon(
+                Icons.post_add,
+              ),
+              text: 'Posts',
             ),
           ]),
         ),
@@ -96,7 +99,7 @@ class _UserAccountPageState extends State<UserAccountPage>
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: CustomTabBarView(children: [
-              Container(),
+              UserAccountDetails(),
               ListView.builder(
                 itemBuilder: (context, index) => const PostCardWidget(),
                 itemCount: 10,
@@ -221,5 +224,92 @@ class _UserAccountPageState extends State<UserAccountPage>
     //     ),
     //   ),
     // );
+  }
+}
+
+class UserAccountDetails extends StatelessWidget {
+  const UserAccountDetails({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.grey,
+                child: Stack(children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage:
+                        NetworkImage("https://picsum.photos/200/300"),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.greenAccent,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "username",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Name",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Email"),
+          Text("udesh2568@gmail.com"),
+          SizedBox(
+            height: 10,
+          ),
+          Text("phone"),
+          Text("950694827"),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Bio"),
+          Text("Hi I am a developer \n I am a developer"),
+          SizedBox(
+            height: 10,
+          ),
+          Text("tags"),
+          Text("#developer #flutter #android"),
+          SizedBox(
+            height: 10,
+          ),
+          Text("location"),
+          Text("India"),
+        ],
+      ),
+    );
   }
 }

@@ -1,7 +1,12 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker_platform_interface/src/types/image_source.dart';
 import 'package:wings/models/user_model.dart';
 import 'package:wings/respository/user_respository.dart';
 
 class UserRepositoryImpl extends UserRepository {
+  final Ref reader;
+
+  UserRepositoryImpl({required this.reader});
   @override
   Future<List<User>> getUsers() async {
     List<User> user = [];
@@ -21,18 +26,13 @@ class UserRepositoryImpl extends UserRepository {
 
       // TODO
     }
-
-    // TODO: implement getUser
-    throw UnimplementedError();
   }
 
   @override
   Future<User> getUserByUid(String uid) async {
     final _users = await usersRef.whereId(isEqualTo: uid).get();
 
-   return _users.docs.first.data;
-
-    
+    return _users.docs.first.data;
   }
 
   @override
@@ -45,6 +45,12 @@ class UserRepositoryImpl extends UserRepository {
   Future<void> updateUserProfile(User user) {
     // TODO: implement updateUserProfile
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> pickImage(ImageSource source) {
+
+    
   }
 
   // @override

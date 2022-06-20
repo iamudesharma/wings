@@ -23,7 +23,7 @@ void main() async {
   );
 // final _sharedPreference =  sharedPreferenceProvider;
 
-sharedPreferenceProvider=  await SharedPreferences.getInstance();
+  sharedPreferenceProvider = await SharedPreferences.getInstance();
 
   runApp(
     const ProviderScope(
@@ -47,8 +47,13 @@ class MyApp extends ConsumerWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
         // colorSchemeSeed: Colors.green,
+        iconTheme: IconThemeData(
+          color: Colors.greenAccent,
+        ),
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.green, brightness: Brightness.dark),
+          seedColor: Colors.green,
+          brightness: Brightness.dark,
+        ),
         // brightness: Brightness.dark,
       ),
       routeInformationParser: _routes.defaultRouteParser(),
