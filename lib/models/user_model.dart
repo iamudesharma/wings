@@ -16,6 +16,7 @@ class User {
     required this.isOnline,
     required this.name,
     required this.age,
+    required this.dob,
   });
 
   final String username;
@@ -24,9 +25,10 @@ class User {
   final String country;
   final String bio;
   final String id;
-   
+
   final bool isOnline;
   final String name;
+  final String dob;
 
   @Min(13)
   final int age;

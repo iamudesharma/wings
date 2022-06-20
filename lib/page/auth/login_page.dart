@@ -96,7 +96,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       return null;
                     },
                     hintText: 'Enter The  Password',
-                    icon: Icons.email,
+                    icon: Icons.password,
                     label: 'Password',
                     isPassword: true,
                     textInputAction: TextInputAction.go,

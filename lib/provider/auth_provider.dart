@@ -59,11 +59,15 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signUp(
       {required String email,
       required String password,
-      required String username}) async {
+      required String username,
+      required String dob,
+
+
+      }) async {
     try {
       isLoadingSignUp = true;
       notifyListeners();
-      await authRespositoryImpl.signUp(email, password, username);
+      await authRespositoryImpl.signUp(email, password, username,dob);
       ToastWidget.showSuccessToast('Register Successfully');
 
       isLoadingSignUp = false;

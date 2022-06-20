@@ -126,6 +126,7 @@ abstract class UserDocumentReference
     String id,
     bool isOnline,
     String name,
+    String dob,
     int age,
   });
 
@@ -179,6 +180,7 @@ class _$UserDocumentReference
     Object? id = _sentinel,
     Object? isOnline = _sentinel,
     Object? name = _sentinel,
+    Object? dob = _sentinel,
     Object? age = _sentinel,
   }) async {
     final json = {
@@ -190,6 +192,7 @@ class _$UserDocumentReference
       if (id != _sentinel) "id": id as String,
       if (isOnline != _sentinel) "isOnline": isOnline as bool,
       if (name != _sentinel) "name": name as String,
+      if (dob != _sentinel) "dob": dob as String,
       if (age != _sentinel) "age": age as int,
     };
 
@@ -327,6 +330,17 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  UserQuery whereDob({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   UserQuery whereAge({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -424,6 +438,18 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
   });
 
   UserQuery orderByName({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  });
+
+  UserQuery orderByDob({
     bool descending = false,
     String startAt,
     String startAfter,
@@ -719,6 +745,34 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     return _$UserQuery(
       reference.where(
         'name',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  UserQuery whereDob({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$UserQuery(
+      reference.where(
+        'dob',
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1097,6 +1151,48 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     return _$UserQuery(query, _collection);
   }
 
+  UserQuery orderByDob({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('dob', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$UserQuery(query, _collection);
+  }
+
   UserQuery orderByAge({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -1205,6 +1301,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       isOnline: json['isOnline'] as bool,
       name: json['name'] as String,
       age: json['age'] as int,
+      dob: json['dob'] as String,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -1216,5 +1313,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'isOnline': instance.isOnline,
       'name': instance.name,
+      'dob': instance.dob,
       'age': instance.age,
     };

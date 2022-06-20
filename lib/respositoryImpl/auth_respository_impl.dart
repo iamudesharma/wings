@@ -85,6 +85,7 @@ class AuthRespositoryImpl extends AuthRespository {
     String email,
     String password,
     String username,
+    String dob,
   ) async {
     try {
       _logger.i('signUp');
@@ -96,6 +97,8 @@ class AuthRespositoryImpl extends AuthRespository {
         'username': username,
         'email': email,
         'uid': user.uid,
+        "createdAt": FieldValue.serverTimestamp(),
+        "dob":dob
       });
       await SharedPref.saveUserUid(user.uid);
 

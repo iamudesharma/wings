@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=2.16.2 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,11 +41,12 @@ dependencies:
   logger: ^1.1.0
   cloud_firestore: ^3.1.15
   firebase_dynamic_links: ^4.2.3
-  cloud_firestore_odm: ^1.0.0-dev.15
+  cloud_firestore_odm: ^1.0.0-dev.18
   fluttertoast: ^8.0.9
   # sharedpreference: ^0.0.1
   shared_preferences: ^2.0.15
   json_annotation:
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -56,10 +57,10 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: 
   build_runner: ^2.1.11
   auto_route_generator: ^4.0.0
-  cloud_firestore_odm_generator: ^1.0.0-dev.15
+  cloud_firestore_odm_generator: ^1.0.0-dev.18
   json_serializable: ^6.2.0
 
 # For information on the generic Dart part of this file, see the
