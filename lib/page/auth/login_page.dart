@@ -114,7 +114,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                               email: emailController.text,
                               password: passwordController.text);
 
-                          context.router.navigate(const HomeRoute());
+                          context.router.replace(const HomeRoute());
                         }
                       }
                     },
