@@ -48,6 +48,7 @@ dependencies:
   json_annotation:
   intl: ^0.17.0
   image_picker: ^0.8.5+3
+  permission_handler: ^10.0.0
 
 dev_dependencies:
   flutter_test:

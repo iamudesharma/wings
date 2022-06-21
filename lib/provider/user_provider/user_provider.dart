@@ -38,6 +38,8 @@ class UserProvider extends ChangeNotifier {
     final _imageData = await userRepository.pickImage(source);
 
     _image = _imageData;
+    notifyListeners();
+
     _isImagePicked = false;
     notifyListeners();
   }

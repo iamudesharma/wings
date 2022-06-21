@@ -2,6 +2,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
@@ -233,7 +234,7 @@ class UserAccountDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _user = ref.read(userProvider);
+    final _user = ref.watch(userProvider);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -260,6 +261,8 @@ class UserAccountDetails extends ConsumerWidget {
                       onTap: () {
                         showModalBottomSheet(
                             context: context,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
                             builder: (context) {
                               return SizedBox(
                                 height: 100,
@@ -269,12 +272,20 @@ class UserAccountDetails extends ConsumerWidget {
                                   children: [
                                     IconWithTextWidget(
                                       iconData: Icons.camera,
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        Navigator.pop(context);
+
+                                        _user.pickImage(ImageSource.camera);
+                                      },
                                       title: "Camera",
                                     ),
                                     IconWithTextWidget(
                                       iconData: Icons.photo_album,
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        Navigator.pop(context);
+
+                                        _user.pickImage(ImageSource.gallery);
+                                      },
                                       title: "Gallery",
                                     )
                                   ],
