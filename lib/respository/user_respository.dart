@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
 import '../models/user_model.dart';
@@ -18,7 +20,7 @@ abstract class UserRepository {
   // -> Method 'getUserByUsername'
   Future<User> getUserByUsername(String username);
 
-  Future<void> pickImage(ImageSource source);
+  Future<File?> pickImage(ImageSource source);
 
   
 }

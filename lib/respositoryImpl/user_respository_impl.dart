@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker_platform_interface/src/types/image_source.dart';
 import 'package:wings/models/user_model.dart';
 import 'package:wings/respository/user_respository.dart';
+import 'package:wings/utils/image_picker.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final Ref reader;
@@ -48,9 +51,16 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> pickImage(ImageSource source) {
+  Future<File?> pickImage(ImageSource source) async {
+    try {
+      final image = await pickerImage(source);
 
-    
+      if (image != null) {
+        return File(image.path);
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   // @override

@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wings/provider/auth_provider.dart';
+import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
 import 'package:wings/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -227,11 +228,12 @@ class _UserAccountPageState extends State<UserAccountPage>
   }
 }
 
-class UserAccountDetails extends StatelessWidget {
+class UserAccountDetails extends ConsumerWidget {
   const UserAccountDetails({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _user = ref.read(userProvider);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -247,20 +249,48 @@ class UserAccountDetails extends StatelessWidget {
                 child: Stack(children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage:
-                        NetworkImage("https://picsum.photos/200/300"),
+                    child: _user.image == null
+                        ? Image.network("https://picsum.photos/200/300")
+                        : Image.file(_user.image!),
                   ),
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: Container(
-                      child: const Icon(
-                        Icons.edit,
-                        color: Colors.greenAccent,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        shape: BoxShape.circle,
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return SizedBox(
+                                height: 100,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    IconWithTextWidget(
+                                      iconData: Icons.camera,
+                                      onTap: () async {},
+                                      title: "Camera",
+                                    ),
+                                    IconWithTextWidget(
+                                      iconData: Icons.photo_album,
+                                      onTap: () async {},
+                                      title: "Gallery",
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
+                      },
+                      child: Container(
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.greenAccent,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     ),
                   ),
