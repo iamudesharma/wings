@@ -120,9 +120,9 @@ abstract class UserDocumentReference
   Future<void> update({
     String username,
     String email,
-    String photoUrl,
+    String? photoUrl,
     String country,
-    String bio,
+    String? bio,
     String id,
     bool isOnline,
     String name,
@@ -186,9 +186,9 @@ class _$UserDocumentReference
     final json = {
       if (username != _sentinel) "username": username as String,
       if (email != _sentinel) "email": email as String,
-      if (photoUrl != _sentinel) "photoUrl": photoUrl as String,
+      if (photoUrl != _sentinel) "photoUrl": photoUrl as String?,
       if (country != _sentinel) "country": country as String,
-      if (bio != _sentinel) "bio": bio as String,
+      if (bio != _sentinel) "bio": bio as String?,
       if (id != _sentinel) "id": id as String,
       if (isOnline != _sentinel) "isOnline": isOnline as bool,
       if (name != _sentinel) "name": name as String,
@@ -272,8 +272,8 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   UserQuery whereCountry({
     String? isEqualTo,
@@ -294,8 +294,8 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   UserQuery whereId({
     String? isEqualTo,
@@ -379,10 +379,10 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
 
   UserQuery orderByPhotoUrl({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -403,10 +403,10 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
 
   UserQuery orderByBio({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -599,8 +599,8 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$UserQuery(
       reference.where(
@@ -655,8 +655,8 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$UserQuery(
       reference.where(
@@ -1294,9 +1294,9 @@ _$assertUser(User instance) {
 User _$UserFromJson(Map<String, dynamic> json) => User(
       username: json['username'] as String,
       email: json['email'] as String,
-      photoUrl: json['photoUrl'] as String,
+      photoUrl: json['photoUrl'] as String?,
       country: json['country'] as String,
-      bio: json['bio'] as String,
+      bio: json['bio'] as String?,
       id: json['id'] as String,
       isOnline: json['isOnline'] as bool,
       name: json['name'] as String,

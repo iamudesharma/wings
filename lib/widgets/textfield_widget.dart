@@ -11,8 +11,12 @@ TextFormField textFormField(
   bool readonly = false,
   TextInputType? textInputType,
   required String? Function(String?)? validator,
+   void Function(String)? onChanged,
+
+
 }) {
   return TextFormField(
+    onChanged: onChanged,
     onTap: onTap,
     readOnly: readonly,
     validator: validator,

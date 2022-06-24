@@ -8,6 +8,12 @@ import 'package:wings/respositoryImpl/user_respository_impl.dart';
 import '../../respository/user_respository.dart';
 // import 'package:wings/respository/user_respository.dart';
 
+final userDetails = FutureProvider((ref) {
+  final userRep = ref.read(userRepository);
+
+  return userRep.getUserDetails();
+});
+
 final userRepository =
     Provider<UserRepository>((ref) => UserRepositoryImpl(reader: ref));
 

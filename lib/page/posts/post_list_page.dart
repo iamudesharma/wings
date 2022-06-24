@@ -21,6 +21,7 @@ class _PostsListPageState extends State<PostsListPage> {
 
   void permission() async {
     if (await Permission.camera.status.isGranted) {
+    } else {
       Permission.camera.request();
       Permission.mediaLibrary.request();
     }
@@ -40,8 +41,8 @@ class _PostsListPageState extends State<PostsListPage> {
         return Scaffold(
           // backgroundColor: Colors.white,
           appBar: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
+            leading: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: CircleAvatar(
                 backgroundImage: NetworkImage("https://picsum.photos/200/300"),
               ),

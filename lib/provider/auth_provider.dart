@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wings/models/user_model.dart';
 import 'package:wings/respository/auth_respository.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
 import 'package:wings/widgets/toast_widget.dart';
@@ -59,15 +60,13 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signUp(
       {required String email,
       required String password,
-      required String username,
-      required String dob,
-
+     required User user
 
       }) async {
     try {
       isLoadingSignUp = true;
       notifyListeners();
-      await authRespositoryImpl.signUp(email, password, username,dob);
+      await authRespositoryImpl.signUp(email, password, user);
       ToastWidget.showSuccessToast('Register Successfully');
 
       isLoadingSignUp = false;

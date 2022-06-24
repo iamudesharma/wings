@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:wings/provider/local_data.dart';
+import '../models/user_model.dart' as userModel;
 // import 'package:sharedpreference/sharedpreference.dart';
 
 import '../respository/auth_respository.dart';
@@ -84,25 +85,29 @@ class AuthRespositoryImpl extends AuthRespository {
   Future<User?> signUp(
     String email,
     String password,
-    String username,
-    String dob,
+    userModel.User user,
   ) async {
     try {
       _logger.i('signUp');
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      User user = userCredential.user!;
+      User _user = userCredential.user!;
 
-      await _firestore.collection('users').doc(user.uid).set({
-        'username': username,
+      await _firestore.collection('users').doc(_user.uid).set({
+        'username': user.username,
         'email': email,
-        'uid': user.uid,
+        'id': _user.uid,
         "createdAt": FieldValue.serverTimestamp(),
-        "dob":dob
+        "dob": user.dob,
+        "name": user.name,
+        "image": "",
+        "bio": "",
+        "country": "India",
+        "age": user.age,
       });
-      await SharedPref.saveUserUid(user.uid);
+      await SharedPref.saveUserUid(_user.uid);
 
-      return user;
+      return _user;
     } catch (e) {
       _logger.e('signUp', e);
       return null;

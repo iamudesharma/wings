@@ -13,18 +13,27 @@ import 'package:wings/routes/routes.gr.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(page: HomePage, initial: true, guards: [AuthGuard],
-    children: [
-      AutoRoute(page: PostsListPage, ),
-      AutoRoute(page: CreatePostPage,),
-      AutoRoute(page: UserAccountPage,),
+    AutoRoute(page: HomePage, initial: true, guards: [
+      AuthGuard
+    ], children: [
+      AutoRoute(
+        page: PostsListPage,
+      ),
+      AutoRoute(
+        page: CreatePostPage,
+      ),
+      AutoRoute(
+        page: UserAccountPage,
+      ),
     ]),
-    
     AutoRoute(
       page: LoginPage,
     ),
     AutoRoute(
       page: RegisterPage,
+    ),
+    AutoRoute(
+      page: UserEditPage,
     ),
   ],
 )

@@ -3,7 +3,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:wings/models/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
+import 'package:wings/provider/user_provider/user_provider.dart';
+import 'package:wings/utils/get_age.dart';
 
 import '../../routes/routes.gr.dart';
 import '../../widgets/textfield_widget.dart';
@@ -21,8 +25,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   TextEditingController datetimeController = TextEditingController();
+
+  int? age;
 
   void _DateTimePickers() async {
     final data = await showDatePicker(
@@ -34,8 +41,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
     setState(() {
       datetimeController.text = "${data!.day}/${data.month}/${data.year}";
+      age = getAge(data);
     });
   }
+
+  Logger _logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -75,20 +85,44 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  textFormField(
-                    usernameController,
-                    validator: (value) {
-                      //user RegExp
+                  Consumer(builder: (context, ref, child) {
+                    final _user = ref.watch(userRepository);
+                    return textFormField(
+                      usernameController,
+                      onChanged: (value) async {
+                        if (value.length > 3) {}
+                      },
+                      validator: (value) {
+                        //user RegExp
 
+                        if (value!.isEmpty) {
+                          return 'Please enter a username';
+                        } else {
+                          return null;
+                        }
+                      },
+                      hintText: 'Enter The  Username',
+                      icon: Icons.person,
+                      label: 'Username',
+                      isPassword: false,
+                      textInputAction: TextInputAction.next,
+                    );
+                  }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  textFormField(
+                    nameController,
+                    validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter a username';
+                        return 'Please enter a name';
                       } else {
                         return null;
                       }
                     },
-                    hintText: 'Enter The  Username',
+                    hintText: 'Enter The  Name',
                     icon: Icons.person,
-                    label: 'Username',
+                    label: 'Name',
                     isPassword: false,
                     textInputAction: TextInputAction.next,
                   ),
@@ -162,11 +196,22 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (_auth.isLoadingSignUp) {
                           return;
                         } else {
+                          User _user = User(
+                            name: nameController.text,
+                            email: emailController.text,
+                            age: age!,
+                            bio: "",
+                            country: "India",
+                            dob: datetimeController.text,
+                            id: "",
+                            isOnline: false,
+                            photoUrl: "",
+                            username: usernameController.text,
+                          );
                           await _auth.signUp(
                             email: emailController.text,
                             password: passwordController.text,
-                            username: usernameController.text,
-                            dob: datetimeController.text,
+                            user: _user,
                           );
 
                           context.router.navigate(const HomeRoute());
@@ -186,12 +231,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // _auth.signUp(
-                          //     email: emailController.text,
-                          //     password: passwordController.text,
-                          //     username: usernameController.text,
-                          //     dob: datetimeController.text,
-                          //     );
                           AutoRouter.of(context).pop();
                         },
                         child: const Text(

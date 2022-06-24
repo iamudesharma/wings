@@ -1,13 +1,20 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker_platform_interface/src/types/image_source.dart';
+import 'package:logger/logger.dart';
 import 'package:wings/models/user_model.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/respository/user_respository.dart';
 import 'package:wings/utils/image_picker.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final Ref reader;
+
+  FirebaseFirestore store = FirebaseFirestore.instance;
+
+  Logger _logger = Logger();
 
   UserRepositoryImpl({required this.reader});
   @override
@@ -63,6 +70,41 @@ class UserRepositoryImpl extends UserRepository {
     }
   }
 
+  @override
+  Future<void> editUserDetails(
+    User user,
+  ) async {
+    await usersRef.reference.doc(await SharedPref.getUid()).update({
+      'name': user.name,
+      'username': user.username,
+      'bio': user.bio,
+      'image': user.photoUrl,
+      "email": user.email,
+      "country": user.country,
+      "age": user.age,
+      "dob": user.dob,
+    });
+    // store.collection("users")..withConverter(fromFirestore: (snapshot, options) => User., toFirestore: toFirestore);
+  }
+
+  @override
+  Future<bool> checkUsernameExists(String username) async {
+    final user =
+        await usersRef.whereUsername(isEqualTo: username).limit(1).get();
+    print(user.docs.length);
+    return user.docs.first.exists;
+  }
+
+  @override
+  Future<User?> getUserDetails() async {
+    final user = await usersRef.doc("sN9BqubAq0YbMSGsrQd2PvdV7k02").get();
+
+    _logger.i("User ${user.data?.age}");
+    if (user.exists) {
+      return user.data as User;
+    }
+  }
+
   // @override
   // Future<User> getUser()async {
 
@@ -90,6 +132,5 @@ Future<User> getUserByUsername(String username) {
 
 @override
 Future<void> updateUserProfile(User user) {
-  // TODO: implement updateUserProfile
   throw UnimplementedError();
 }

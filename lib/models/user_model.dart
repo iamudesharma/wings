@@ -21,11 +21,10 @@ class User {
 
   final String username;
   final String email;
-  final String photoUrl;
+  final String? photoUrl;
   final String country;
-  final String bio;
+  final String? bio;
   final String id;
-
   final bool isOnline;
   final String name;
   final String dob;
