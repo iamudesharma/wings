@@ -124,7 +124,6 @@ abstract class UserDocumentReference
     String country,
     String? bio,
     String id,
-    bool isOnline,
     String name,
     String dob,
     int age,
@@ -178,7 +177,6 @@ class _$UserDocumentReference
     Object? country = _sentinel,
     Object? bio = _sentinel,
     Object? id = _sentinel,
-    Object? isOnline = _sentinel,
     Object? name = _sentinel,
     Object? dob = _sentinel,
     Object? age = _sentinel,
@@ -190,7 +188,6 @@ class _$UserDocumentReference
       if (country != _sentinel) "country": country as String,
       if (bio != _sentinel) "bio": bio as String?,
       if (id != _sentinel) "id": id as String,
-      if (isOnline != _sentinel) "isOnline": isOnline as bool,
       if (name != _sentinel) "name": name as String,
       if (dob != _sentinel) "dob": dob as String,
       if (age != _sentinel) "age": age as int,
@@ -308,17 +305,6 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  UserQuery whereIsOnline({
-    bool? isEqualTo,
-    bool? isNotEqualTo,
-    bool? isLessThan,
-    bool? isLessThanOrEqualTo,
-    bool? isGreaterThan,
-    bool? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<bool>? whereIn,
-    List<bool>? whereNotIn,
-  });
   UserQuery whereName({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -419,18 +405,6 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     String startAfter,
     String endAt,
     String endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
-  });
-
-  UserQuery orderByIsOnline({
-    bool descending = false,
-    bool startAt,
-    bool startAfter,
-    bool endAt,
-    bool endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -689,34 +663,6 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     return _$UserQuery(
       reference.where(
         'id',
-        isEqualTo: isEqualTo,
-        isNotEqualTo: isNotEqualTo,
-        isLessThan: isLessThan,
-        isLessThanOrEqualTo: isLessThanOrEqualTo,
-        isGreaterThan: isGreaterThan,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
-        isNull: isNull,
-        whereIn: whereIn,
-        whereNotIn: whereNotIn,
-      ),
-      _collection,
-    );
-  }
-
-  UserQuery whereIsOnline({
-    bool? isEqualTo,
-    bool? isNotEqualTo,
-    bool? isLessThan,
-    bool? isLessThanOrEqualTo,
-    bool? isGreaterThan,
-    bool? isGreaterThanOrEqualTo,
-    bool? isNull,
-    List<bool>? whereIn,
-    List<bool>? whereNotIn,
-  }) {
-    return _$UserQuery(
-      reference.where(
-        'isOnline',
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1067,48 +1013,6 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     return _$UserQuery(query, _collection);
   }
 
-  UserQuery orderByIsOnline({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
-  }) {
-    var query = reference.orderBy('isOnline', descending: descending);
-
-    if (startAtDocument != null) {
-      query = query.startAtDocument(startAtDocument.snapshot);
-    }
-    if (startAfterDocument != null) {
-      query = query.startAfterDocument(startAfterDocument.snapshot);
-    }
-    if (endAtDocument != null) {
-      query = query.endAtDocument(endAtDocument.snapshot);
-    }
-    if (endBeforeDocument != null) {
-      query = query.endBeforeDocument(endBeforeDocument.snapshot);
-    }
-
-    if (startAt != _sentinel) {
-      query = query.startAt([startAt]);
-    }
-    if (startAfter != _sentinel) {
-      query = query.startAfter([startAfter]);
-    }
-    if (endAt != _sentinel) {
-      query = query.endAt([endAt]);
-    }
-    if (endBefore != _sentinel) {
-      query = query.endBefore([endBefore]);
-    }
-
-    return _$UserQuery(query, _collection);
-  }
-
   UserQuery orderByName({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -1298,7 +1202,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       country: json['country'] as String,
       bio: json['bio'] as String?,
       id: json['id'] as String,
-      isOnline: json['isOnline'] as bool,
       name: json['name'] as String,
       age: json['age'] as int,
       dob: json['dob'] as String,
@@ -1311,7 +1214,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'country': instance.country,
       'bio': instance.bio,
       'id': instance.id,
-      'isOnline': instance.isOnline,
       'name': instance.name,
       'dob': instance.dob,
       'age': instance.age,

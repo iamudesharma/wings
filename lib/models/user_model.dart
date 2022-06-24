@@ -13,21 +13,22 @@ class User {
     required this.country,
     required this.bio,
     required this.id,
-    required this.isOnline,
+    // this.isOnline = false,
     required this.name,
     required this.age,
     required this.dob,
+    this.tags = const [],
   });
 
   final String username;
   final String email;
   final String? photoUrl;
-  final String country;
+  final String? country;
   final String? bio;
   final String id;
-  final bool isOnline;
+  final List<String>? tags;
   final String name;
-  final String dob;
+  final String? dob;
 
   @Min(13)
   final int age;

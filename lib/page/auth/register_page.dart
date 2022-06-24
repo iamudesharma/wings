@@ -204,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             country: "India",
                             dob: datetimeController.text,
                             id: "",
-                            isOnline: false,
+                            // isOnline: false,
                             photoUrl: "",
                             username: usernameController.text,
                           );

@@ -55,25 +55,25 @@ class _UserAccountPageState extends State<UserAccountPage>
                           MediaQuery.of(context).size.width - 50, 10, 10, 0),
                       items: [
                         PopupMenuItem(
-                          child: Text('Logout'),
+                          child: const Text('Logout'),
                           value: 'logout',
                           onTap: () {
                             ref.read(authProvider).logout();
-                            context.navigateTo(LoginRoute());
+                            context.navigateTo(const LoginRoute());
                           },
                         ),
-                        PopupMenuItem(
-                          child: Text('Save'),
+                        const PopupMenuItem(
+                          child: const Text('Save'),
                           value: 'Save',
                         ),
-                        PopupMenuItem(
-                          child: Text('Report'),
+                        const PopupMenuItem(
+                          child: const Text('Report'),
                           value: 'Report',
                         ),
                       ],
                     );
                   },
-                  icon: Icon(Icons.more_vert_outlined))
+                  icon: const Icon(Icons.more_vert_outlined))
             ],
             // collapsedHeight: 50,
             title: Text(_user?.username ?? ""),
@@ -125,8 +125,8 @@ class _UserAccountPageState extends State<UserAccountPage>
       }, error: (e, stackTrace) {
         return Center(child: Text("${stackTrace}"));
       }, loading: () {
-        return Center(
-          child: CircularProgressIndicator(),
+        return const Center(
+          child: const CircularProgressIndicator(),
         );
       });
     });
@@ -212,7 +212,7 @@ class UserAccountDetails extends ConsumerWidget {
                           Icons.edit,
                           color: Colors.greenAccent,
                         ),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.transparent,
                           shape: BoxShape.circle,
                         ),
@@ -234,7 +234,7 @@ class UserAccountDetails extends ConsumerWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
@@ -248,31 +248,31 @@ class UserAccountDetails extends ConsumerWidget {
             "Name",
             style: Theme.of(context).textTheme.headline6,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Text("Email"),
-          Text("udesh2568@gmail.com"),
-          SizedBox(
+          const Text("Email"),
+          Text(user!.email),
+          const SizedBox(
             height: 10,
           ),
-          Text("phone"),
-          Text("950694827"),
-          SizedBox(
+          const Text("phone"),
+          const Text("950694827"),
+          const SizedBox(
             height: 10,
           ),
-          Text("Bio"),
-          Text("Hi I am a developer \n I am a developer"),
-          SizedBox(
+          const Text("Bio"),
+          Text(user?.bio ?? " Hi I am a developer \n I am a developer"),
+          const SizedBox(
             height: 10,
           ),
-          Text("tags"),
-          Text("#developer #flutter #android"),
-          SizedBox(
+          const Text("tags"),
+          const Text(""),
+          const SizedBox(
             height: 10,
           ),
-          Text("location"),
-          Text("India"),
+          const Text("location"),
+          const Text("India"),
         ],
       ),
     );
