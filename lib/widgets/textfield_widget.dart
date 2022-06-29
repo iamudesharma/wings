@@ -11,11 +11,11 @@ TextFormField textFormField(
   bool readonly = false,
   TextInputType? textInputType,
   required String? Function(String?)? validator,
-   void Function(String)? onChanged,
-
-
+  void Function(String)? onChanged,
+  int? maxLines = 1,
 }) {
   return TextFormField(
+    maxLines: maxLines,
     onChanged: onChanged,
     onTap: onTap,
     readOnly: readonly,
