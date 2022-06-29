@@ -121,11 +121,13 @@ abstract class UserDocumentReference
     String username,
     String email,
     String? photoUrl,
-    String country,
+    String? country,
     String? bio,
     String id,
+    List<String>? tags,
     String name,
-    String dob,
+    String? dob,
+    int? phone,
     int age,
   });
 
@@ -177,19 +179,23 @@ class _$UserDocumentReference
     Object? country = _sentinel,
     Object? bio = _sentinel,
     Object? id = _sentinel,
+    Object? tags = _sentinel,
     Object? name = _sentinel,
     Object? dob = _sentinel,
+    Object? phone = _sentinel,
     Object? age = _sentinel,
   }) async {
     final json = {
       if (username != _sentinel) "username": username as String,
       if (email != _sentinel) "email": email as String,
       if (photoUrl != _sentinel) "photoUrl": photoUrl as String?,
-      if (country != _sentinel) "country": country as String,
+      if (country != _sentinel) "country": country as String?,
       if (bio != _sentinel) "bio": bio as String?,
       if (id != _sentinel) "id": id as String,
+      if (tags != _sentinel) "tags": tags as List<String>?,
       if (name != _sentinel) "name": name as String,
-      if (dob != _sentinel) "dob": dob as String,
+      if (dob != _sentinel) "dob": dob as String?,
+      if (phone != _sentinel) "phone": phone as int?,
       if (age != _sentinel) "age": age as int,
     };
 
@@ -280,8 +286,8 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   UserQuery whereBio({
     String? isEqualTo,
@@ -305,6 +311,16 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  UserQuery whereTags({
+    List<String>? isEqualTo,
+    List<String>? isNotEqualTo,
+    List<String>? isLessThan,
+    List<String>? isLessThanOrEqualTo,
+    List<String>? isGreaterThan,
+    List<String>? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? arrayContainsAny,
+  });
   UserQuery whereName({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -324,8 +340,19 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
+  });
+  UserQuery wherePhone({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int?>? whereIn,
+    List<int?>? whereNotIn,
   });
   UserQuery whereAge({
     int? isEqualTo,
@@ -377,10 +404,10 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
 
   UserQuery orderByCountry({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -411,6 +438,18 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     UserDocumentSnapshot? startAfterDocument,
   });
 
+  UserQuery orderByTags({
+    bool descending = false,
+    List<String>? startAt,
+    List<String>? startAfter,
+    List<String>? endAt,
+    List<String>? endBefore,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  });
+
   UserQuery orderByName({
     bool descending = false,
     String startAt,
@@ -425,10 +464,22 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
 
   UserQuery orderByDob({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  });
+
+  UserQuery orderByPhone({
+    bool descending = false,
+    int? startAt,
+    int? startAfter,
+    int? endAt,
+    int? endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -601,8 +652,8 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$UserQuery(
       reference.where(
@@ -677,6 +728,32 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
+  UserQuery whereTags({
+    List<String>? isEqualTo,
+    List<String>? isNotEqualTo,
+    List<String>? isLessThan,
+    List<String>? isLessThanOrEqualTo,
+    List<String>? isGreaterThan,
+    List<String>? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? arrayContainsAny,
+  }) {
+    return _$UserQuery(
+      reference.where(
+        'tags',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        arrayContainsAny: arrayContainsAny,
+      ),
+      _collection,
+    );
+  }
+
   UserQuery whereName({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -713,12 +790,40 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$UserQuery(
       reference.where(
         'dob',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  UserQuery wherePhone({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int?>? whereIn,
+    List<int?>? whereNotIn,
+  }) {
+    return _$UserQuery(
+      reference.where(
+        'phone',
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1013,6 +1118,48 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     return _$UserQuery(query, _collection);
   }
 
+  UserQuery orderByTags({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('tags', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$UserQuery(query, _collection);
+  }
+
   UserQuery orderByName({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -1067,6 +1214,48 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy('dob', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$UserQuery(query, _collection);
+  }
+
+  UserQuery orderByPhone({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('phone', descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1199,12 +1388,16 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       username: json['username'] as String,
       email: json['email'] as String,
       photoUrl: json['photoUrl'] as String?,
-      country: json['country'] as String,
+      country: json['country'] as String?,
       bio: json['bio'] as String?,
       id: json['id'] as String,
       name: json['name'] as String,
       age: json['age'] as int,
-      dob: json['dob'] as String,
+      dob: json['dob'] as String?,
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
+      phone: json['phone'] as int?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -1214,7 +1407,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'country': instance.country,
       'bio': instance.bio,
       'id': instance.id,
+      'tags': instance.tags,
       'name': instance.name,
       'dob': instance.dob,
+      'phone': instance.phone,
       'age': instance.age,
     };

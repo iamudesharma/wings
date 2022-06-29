@@ -18,6 +18,7 @@ class User {
     required this.age,
     required this.dob,
     this.tags = const [],
+    this.phone,
   });
 
   final String username;
@@ -29,6 +30,7 @@ class User {
   final List<String>? tags;
   final String name;
   final String? dob;
+  final int? phone;
 
   @Min(13)
   final int age;

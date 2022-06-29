@@ -156,8 +156,33 @@ class UserAccountDetails extends ConsumerWidget {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.grey,
-                child: Stack(children: [
-                  _userProvider.image == null
+                child: CupertinoContextMenu(
+                  previewBuilder: (context, animation, child) => Container(
+                    alignment: Alignment.center,
+                    width: 100,
+                    height: 100,
+                    child: child,
+                  ),
+                  actions: [
+                    CupertinoContextMenuAction(
+                      trailingIcon: Icons.camera,
+                      child: Text('Camera'),
+                      onPressed: () async {
+                        _userProvider.pickImage(ImageSource.camera);
+
+                        // Navigator.pop(context);
+                      },
+                    ),
+                    CupertinoContextMenuAction(
+                      child: const Text('Gallery'),
+                      trailingIcon: Icons.photo_album,
+                      onPressed: () async {
+                        _userProvider.pickImage(ImageSource.gallery);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                  child: _userProvider.image == null
                       ? CircleAvatar(
                           radius: 40,
                           backgroundImage: NetworkImage(user?.photoUrl ??
@@ -166,60 +191,7 @@ class UserAccountDetails extends ConsumerWidget {
                           radius: 40,
                           backgroundImage: FileImage(_userProvider.image!),
                         ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            builder: (context) {
-                              return SizedBox(
-                                height: 100,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    IconWithTextWidget(
-                                      iconData: Icons.camera,
-                                      onTap: () async {
-                                        Navigator.pop(context);
-
-                                        _userProvider
-                                            .pickImage(ImageSource.camera);
-                                      },
-                                      title: "Camera",
-                                    ),
-                                    IconWithTextWidget(
-                                      iconData: Icons.photo_album,
-                                      onTap: () async {
-                                        Navigator.pop(context);
-
-                                        _userProvider
-                                            .pickImage(ImageSource.gallery);
-                                      },
-                                      title: "Gallery",
-                                    )
-                                  ],
-                                ),
-                              );
-                            });
-                      },
-                      child: Container(
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.greenAccent,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Colors.transparent,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ),
-                ]),
+                ),
               ),
               IconWithTextWidget(
                 iconData: Icons.edit,
