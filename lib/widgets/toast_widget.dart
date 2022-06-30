@@ -1,26 +1,35 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_toastr/flutter_toastr.dart';
+
+import '../main.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 class ToastWidget {
-  static showSuccessToast(String msg) {
-    return Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0);
+  static showSuccessToast(
+    String msg,
+  ) {
+    return FlutterToastr.show(
+      msg,
+      navigatorKey.currentState!.context,
+
+      backgroundColor: Colors.red,
+
+      // toastLength: Toast.LENGTH_SHORT,
+      // gravity: ToastGravity.BOTTOM,
+    );
   }
 
-  static showErrorToast(String msg) {
-    return Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+  static showErrorToast(
+    String msg,
+  ) {
+    // AutoRouterX.
+    return FlutterToastr.show(
+      msg,
+      navigatorKey.currentState!.context,
+      backgroundColor: Colors.red,
+
+      //  position:
+    );
   }
 }

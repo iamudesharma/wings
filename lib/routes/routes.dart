@@ -10,8 +10,12 @@ import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
 import 'package:wings/routes/routes.gr.dart';
 
+
+// @CupertinoAutoRouter()
 @MaterialAutoRouter(
+  // preferRelativeImports: ,
   replaceInRouteName: 'Page,Route',
+
   routes: <AutoRoute>[
     AutoRoute(page: HomePage, initial: true, guards: [
       AuthGuard

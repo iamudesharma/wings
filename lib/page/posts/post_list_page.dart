@@ -15,7 +15,7 @@ class PostsListPage extends StatefulWidget {
 class _PostsListPageState extends State<PostsListPage> {
   @override
   void initState() {
-    permission();
+    // permission();
     super.initState();
   }
 

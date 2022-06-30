@@ -41,7 +41,9 @@ class UserProvider extends ChangeNotifier {
     _isImagePicked = true;
     notifyListeners();
 
-    final _imageData = await userRepository.pickImage(source);
+    final _imageData = Platform.isMacOS
+        ? await userRepository.pickImageMacos()
+        : await userRepository.pickImage(source);
 
     _image = _imageData;
     notifyListeners();

@@ -8,6 +8,8 @@ import "package:wings/routes/routes.dart";
 import "package:wings/routes/routes.gr.dart";
 
 late SharedPreferences sharedPreferenceProvider;
+
+final navigatorKey = new GlobalKey<NavigatorState>();
 // FutureProvider((ref) async => await ¸.getInstance());
 
 void main() async {
@@ -37,6 +39,7 @@ class MyApp extends ConsumerWidget {
     final _routes = ref.watch(routesProvider);
 
     return MaterialApp.router(
+      key: navigatorKey,
       title: 'Wings',
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -52,7 +55,10 @@ class MyApp extends ConsumerWidget {
         // brightness: Brightness.dark,
       ),
       routeInformationParser: _routes.defaultRouteParser(),
-      routerDelegate: _routes.delegate(),
+      routerDelegate: _routes.delegate(
+          // initialDeepLink: "udesharma.in",
+          ),
+      // useInheritedMediaQuery: ,
     );
   }
 }

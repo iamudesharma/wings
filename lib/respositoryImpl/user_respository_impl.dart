@@ -9,6 +9,8 @@ import 'package:wings/provider/local_data.dart';
 import 'package:wings/respository/user_respository.dart';
 import 'package:wings/utils/image_picker.dart';
 
+import '../utils/mac_os_imaage_picker.dart';
+
 class UserRepositoryImpl extends UserRepository {
   final Ref reader;
 
@@ -102,6 +104,19 @@ class UserRepositoryImpl extends UserRepository {
     _logger.i("User ${user.data?.age}");
     if (user.exists) {
       return user.data as User;
+    }
+  }
+  
+  @override
+  Future<File?> pickImageMacos() async{
+  try {
+      final image = await pickerImageMacos();
+
+      if (image != null) {
+        return File(image.path);
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

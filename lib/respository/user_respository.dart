@@ -19,6 +19,8 @@ abstract class UserRepository {
   Future<User> getUserByUsername(String username);
 
   Future<File?> pickImage(ImageSource source);
+  Future<File?> pickImageMacos();
+
 
   Future<void> editUserDetails(User user);
 
