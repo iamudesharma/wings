@@ -5,7 +5,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'post_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(
+  explicitToJson: true,
+)
 class Post {
   Post({
     required this.postText,
@@ -15,7 +17,7 @@ class Post {
     required this.location,
     required this.mediaUrl,
     required this.likes,
-    // required this.timestamp,
+    // this.timestampConverter,
   }) {
     _$assertPost(this);
   }
@@ -23,13 +25,9 @@ class Post {
   final String postText;
   final String id;
   final String ownerId;
-  // final username;
   final String usernameName;
   final String location;
   final String mediaUrl;
-
-  // @TimestampConverter()
-  // final Timestamp timestamp;
 
   @Min(0)
   final int likes;
@@ -37,7 +35,6 @@ class Post {
 
 @Collection<Post>('posts')
 final postRef = PostCollectionReference();
-
 
 class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
   const TimestampConverter();

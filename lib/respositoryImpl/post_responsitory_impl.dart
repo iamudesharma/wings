@@ -5,7 +5,7 @@ import 'package:wings/provider/local_data.dart';
 
 import 'package:wings/respository/respository.dart';
 
-class PostsResponsitoryImpl extends PostsResponsitory {
+class PostsRepositoryImpl extends PostsRepository {
   @override
   Future<void> addPost(Post post) async {
     await postRef.doc(await SharedPref.getUid()).set(post);
@@ -18,8 +18,8 @@ class PostsResponsitoryImpl extends PostsResponsitory {
 
   @override
   Future<void> editPost(Post post) async {
-    await postRef
-        .doc(await SharedPref.getUid())
-        .update(likes: post.likes, postText: post.postText);
+    // await postRef
+    //     .doc(await SharedPref.getUid())
+    //     .update(likes: post.likes, postText: post.postText);
   }
 }
