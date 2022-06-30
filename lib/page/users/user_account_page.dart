@@ -114,10 +114,22 @@ class _UserAccountPageState extends State<UserAccountPage>
                 UserAccountDetails(
                   user: _user,
                 ),
-                ListView.builder(
-                  itemBuilder: (context, index) => const PostCardWidget(),
-                  itemCount: 10,
-                ),
+                ResponsiveLatout(
+                  mobileBody: ListView.builder(
+                    itemBuilder: (context, index) => const PostCardWidget(),
+                    itemCount: 10,
+                  ),
+                  desktopBody: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.0,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (context, index) => const PostCardWidget(),
+                    itemCount: 10,
+                  ),
+                )
               ], controller: controller),
             ),
           ),

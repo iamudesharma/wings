@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/models/user_model.dart';
+import 'package:wings/widgets/resposive.dart';
 import 'package:wings/widgets/textfield_widget.dart';
 
 class UserEditPage extends ConsumerStatefulWidget {
@@ -39,61 +40,69 @@ class _UserEditPageState extends ConsumerState<UserEditPage> {
         appBar: AppBar(
           title: Text("Edit User"),
         ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 10,
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Responsive(
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormField(nameController,
+                      hintText: "",
+                      icon: Icons.person,
+                      label: "Name",
+                      validator: (value) {}),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormField(phoneController,
+                      hintText: "Enter the Phone",
+                      icon: Icons.phone,
+                      label: "Phone",
+                      validator: (value) {}),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormField(
+                    bioController,
+                    hintText: "Enter The Bio",
+                    icon: Icons.biotech,
+                    label: "Bio",
+                    maxLines: 3,
+                    validator: (value) {},
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormField(tagsController,
+                      hintText: "",
+                      maxLines: 2,
+                      icon: Icons.tag,
+                      label: "Tag",
+                      validator: (value) {}),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormField(contryController,
+                      hintText: "",
+                      icon: Icons.inbox,
+                      label: "Contry",
+                      validator: (value) {}),
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        fixedSize:
+                            Size(MediaQuery.of(context).size.width * 0.8, 40)),
+                    child: Text("Update"),
+                  ),
+                  Spacer(),
+                ],
+              ),
             ),
-            textFormField(nameController,
-                hintText: "",
-                icon: Icons.person,
-                label: "Name",
-                validator: (value) {}),
-            SizedBox(
-              height: 10,
-            ),
-            textFormField(phoneController,
-                hintText: "Enter the Phone",
-                icon: Icons.phone,
-                label: "Phone",
-                validator: (value) {}),
-            SizedBox(
-              height: 10,
-            ),
-            textFormField(
-              bioController,
-              hintText: "Enter The Bio",
-              icon: Icons.biotech,
-              label: "Bio",
-              maxLines: 3,
-              validator: (value) {},
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            textFormField(tagsController,
-                hintText: "",
-                maxLines: 2,
-                icon: Icons.tag,
-                label: "Tag",
-                validator: (value) {}),
-            SizedBox(
-              height: 10,
-            ),
-            textFormField(contryController,
-                hintText: "",
-                icon: Icons.inbox,
-                label: "Contry",
-                validator: (value) {}),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 40)),
-              child: Text("Update"),
-            ),
-            Spacer(),
-          ],
+          ),
         ));
   }
 }

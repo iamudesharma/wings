@@ -57,7 +57,10 @@ class _PostsListPageState extends State<PostsListPage> {
               ),
             ],
           ),
-          body: PostCardWidget(),
+          body: ResponsiveLatout(
+            mobileBody: PostCardWidget(),
+            desktopBody: Container(),
+          ),
         );
       },
     );
