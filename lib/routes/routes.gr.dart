@@ -55,7 +55,7 @@ class AppRouter extends _i5.RootStackRouter {
     },
     CreatePostRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.CreatePostPage());
+          routeData: routeData, child: _i3.CreatePostPage());
     },
     UserAccountRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
