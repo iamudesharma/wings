@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 // import 'package:stories_editor/stories_editor.dart';
+import 'package:wings/widgets/widgets.dart';
 
 class CreatePostPage extends StatefulWidget {
   const CreatePostPage({Key? key}) : super(key: key);
@@ -12,22 +13,16 @@ class CreatePostPage extends StatefulWidget {
 
 class _CreatePostPageState extends State<CreatePostPage> {
   // File? editedFile;
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(),
-      // body: StoriesEditor(
-      //   onShare: (value){},
-      //   middleBottomWidget: Text("Create Post"),
-      //   giphyKey: '[HERE YOUR API KEY]',
-      //   galleryThumbnailQuality: 300,
-      //   onDone: (uri) {
-      //     debugPrint(uri);
-      //     Share.shareFiles([uri]);
-      //   },
-      // ),
-    );
+        // backgroundColor: Colors.black,
+        body: Column(
+      children: [
+        // textFormField(textEditingController, hintText: , icon: icon, label: label, validator: validator)
+      ],
+    ));
   }
 }

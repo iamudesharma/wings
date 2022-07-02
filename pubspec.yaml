@@ -40,11 +40,10 @@ dependencies:
   auto_route: ^4.0.1
   logger: ^1.1.0
   cloud_firestore: ^3.1.15
-  # firebase_dynamic_links: ^4.2.3
+  
   cloud_firestore_odm: ^1.0.0-dev.18
-  fluttertoast: ^8.0.9
-  # flutter_toastr: ^1.0.3
-  # sharedpreference: ^0.0.1
+  # fluttertoast: ^8.0.9
+  
   shared_preferences: ^2.0.15
   json_annotation:
   intl: ^0.17.0
@@ -53,11 +52,10 @@ dependencies:
   file_selector: ^0.8.4+3
   uuid: ^3.0.6
   auto_size_text: ^3.0.0
-  # story_creator: ^1.0.1
-  # stories_editor: ^0.1.8
+  
   share_plus: ^4.0.10
+  get: ^4.6.5
   # story_creator: ^1.0.1
-  stories_editor: ^0.1.8
 
 dev_dependencies:
   flutter_test:

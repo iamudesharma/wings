@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:sharedpreference/sharedpreference.dart';
 import 'package:wings/firebase_options.dart';
@@ -38,7 +39,8 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final _routes = ref.watch(routesProvider);
 
-    return MaterialApp.router(
+    return GetMaterialApp.router(
+      // useInheritedMediaQuery: ,
       key: navigatorKey,
       title: 'Wings',
       theme: ThemeData(
