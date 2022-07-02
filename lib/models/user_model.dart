@@ -21,6 +21,8 @@ class User {
     this.phone,
   });
 
+  factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);
+
   final String username;
   final String email;
   final String? photoUrl;
@@ -34,6 +36,8 @@ class User {
 
   @Min(13)
   final int age;
+
+   Map<String, Object?> toJson() => _$UserToJson(this);
 }
 
 @Collection<User>('users')

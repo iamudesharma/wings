@@ -124,6 +124,7 @@ abstract class PostDocumentReference
     String usernameName,
     String location,
     String mediaUrl,
+    String createdAt,
     int likes,
   });
 
@@ -175,6 +176,7 @@ class _$PostDocumentReference
     Object? usernameName = _sentinel,
     Object? location = _sentinel,
     Object? mediaUrl = _sentinel,
+    Object? createdAt = _sentinel,
     Object? likes = _sentinel,
   }) async {
     final json = {
@@ -184,6 +186,7 @@ class _$PostDocumentReference
       if (usernameName != _sentinel) "usernameName": usernameName as String,
       if (location != _sentinel) "location": location as String,
       if (mediaUrl != _sentinel) "mediaUrl": mediaUrl as String,
+      if (createdAt != _sentinel) "createdAt": createdAt as String,
       if (likes != _sentinel) "likes": likes as int,
     };
 
@@ -299,6 +302,17 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  PostQuery whereCreatedAt({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   PostQuery whereLikes({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -372,6 +386,18 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
   });
 
   PostQuery orderByMediaUrl({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderByCreatedAt({
     bool descending = false,
     String startAt,
     String startAfter,
@@ -611,6 +637,34 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     return _$PostQuery(
       reference.where(
         'mediaUrl',
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereCreatedAt({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        'createdAt',
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -905,6 +959,48 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     return _$PostQuery(query, _collection);
   }
 
+  PostQuery orderByCreatedAt({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy('createdAt', descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
   PostQuery orderByLikes({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -1010,6 +1106,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       usernameName: json['usernameName'] as String,
       location: json['location'] as String,
       mediaUrl: json['mediaUrl'] as String,
+      createdAt: json['createdAt'] as String,
       likes: json['likes'] as int,
     );
 
@@ -1020,5 +1117,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'usernameName': instance.usernameName,
       'location': instance.location,
       'mediaUrl': instance.mediaUrl,
+      'createdAt': instance.createdAt,
       'likes': instance.likes,
     };

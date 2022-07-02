@@ -56,6 +56,7 @@ dependencies:
   share_plus: ^4.0.10
   get: ^4.6.5
   hashtagable: ^2.1.0
+  riverpod: ^1.0.3
   # story_creator: ^1.0.1
 
 dev_dependencies:

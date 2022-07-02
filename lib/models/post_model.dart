@@ -10,17 +10,20 @@ part 'post_model.g.dart';
 )
 class Post {
   Post({
+    // this.timestampConverter,
     required this.postText,
     required this.id,
     required this.ownerId,
     required this.usernameName,
     required this.location,
     required this.mediaUrl,
+    required this.createdAt,
     required this.likes,
-    // this.timestampConverter,
   }) {
     _$assertPost(this);
   }
+
+  factory Post.fromJson(Map<String, Object?> json) => _$PostFromJson(json);
 
   final String postText;
   final String id;
@@ -28,9 +31,12 @@ class Post {
   final String usernameName;
   final String location;
   final String mediaUrl;
+  final String createdAt;
 
   @Min(0)
   final int likes;
+
+  Map<String, Object?> toJson() => _$PostToJson(this);
 }
 
 @Collection<Post>('posts')

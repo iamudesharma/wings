@@ -28,14 +28,14 @@ abstract class UserCollectionReference
     DocumentSnapshot<Map<String, Object?>> snapshot,
     SnapshotOptions? options,
   ) {
-    return _$UserFromJson(snapshot.data()!);
+    return User.fromJson(snapshot.data()!);
   }
 
   static Map<String, Object?> toFirestore(
     User value,
     SetOptions? options,
   ) {
-    return _$UserToJson(value);
+    return value.toJson();
   }
 
   @override
