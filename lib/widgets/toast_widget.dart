@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 // import 'package:get/get_utils/get_utils.dart';
 
 class ToastWidget {
-  static showSuccessToast(String msg) {
+  static SnackbarController showSuccessToast(String msg) {
     return Get.snackbar(
-      "",
+      "Success",
       msg,
       backgroundColor: Colors.green,
       colorText: Colors.white,
@@ -15,13 +15,13 @@ class ToastWidget {
     );
   }
 
-  static showErrorToast(String msg) {
+  static SnackbarController showErrorToast(String msg) {
     return Get.snackbar(
-      "",
+      "Error",
       msg,
       backgroundColor: Colors.red,
       colorText: Colors.white,
-      isDismissible: true,
+      // isDismissible: true,
       snackPosition: SnackPosition.BOTTOM,
     );
   }
