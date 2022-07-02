@@ -11,14 +11,13 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:flutter/cupertino.dart' as _i8;
 import 'package:flutter/material.dart' as _i6;
 
-import '../models/user_model.dart' as _i9;
+import '../models/user_model.dart' as _i8;
 import '../page/auth/login_page.dart' as _i2;
+import '../page/auth/register_page.dart' as _i3;
 import '../page/home_page.dart' as _i1;
-import '../page/page.dart' as _i3;
-import '../page/users/user_account_page.dart' as _i4;
+import '../page/page.dart' as _i4;
 import 'routes.dart' as _i7;
 
 class AppRouter extends _i5.RootStackRouter {
@@ -47,15 +46,15 @@ class AppRouter extends _i5.RootStackRouter {
       final args = routeData.argsAs<UserEditRouteArgs>();
       return _i5.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i3.UserEditPage(key: args.key, user: args.user));
-    },
-    PostsListRoute.name: (routeData) {
-      return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.PostsListPage());
+          child: _i4.UserEditPage(key: args.key, user: args.user));
     },
     CreatePostRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i3.CreatePostPage());
+          routeData: routeData, child: const _i4.CreatePostPage());
+    },
+    PostsListRoute.name: (routeData) {
+      return _i5.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i4.PostsListPage());
     },
     UserAccountRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
@@ -70,14 +69,13 @@ class AppRouter extends _i5.RootStackRouter {
         ], children: [
           _i5.RouteConfig(PostsListRoute.name,
               path: 'posts-list-page', parent: HomeRoute.name),
-          _i5.RouteConfig(CreatePostRoute.name,
-              path: 'create-post-page', parent: HomeRoute.name),
           _i5.RouteConfig(UserAccountRoute.name,
               path: 'user-account-page', parent: HomeRoute.name)
         ]),
         _i5.RouteConfig(LoginRoute.name, path: '/login-page'),
         _i5.RouteConfig(RegisterRoute.name, path: '/register-page'),
-        _i5.RouteConfig(UserEditRoute.name, path: '/user-edit-page')
+        _i5.RouteConfig(UserEditRoute.name, path: '/user-edit-page'),
+        _i5.RouteConfig(CreatePostRoute.name, path: '/create-post-page')
       ];
 }
 
@@ -107,9 +105,9 @@ class RegisterRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.UserEditPage]
+/// [_i4.UserEditPage]
 class UserEditRoute extends _i5.PageRouteInfo<UserEditRouteArgs> {
-  UserEditRoute({_i8.Key? key, required _i9.User? user})
+  UserEditRoute({_i6.Key? key, required _i8.User? user})
       : super(UserEditRoute.name,
             path: '/user-edit-page',
             args: UserEditRouteArgs(key: key, user: user));
@@ -120,9 +118,9 @@ class UserEditRoute extends _i5.PageRouteInfo<UserEditRouteArgs> {
 class UserEditRouteArgs {
   const UserEditRouteArgs({this.key, required this.user});
 
-  final _i8.Key? key;
+  final _i6.Key? key;
 
-  final _i9.User? user;
+  final _i8.User? user;
 
   @override
   String toString() {
@@ -131,20 +129,20 @@ class UserEditRouteArgs {
 }
 
 /// generated route for
-/// [_i3.PostsListPage]
+/// [_i4.CreatePostPage]
+class CreatePostRoute extends _i5.PageRouteInfo<void> {
+  const CreatePostRoute()
+      : super(CreatePostRoute.name, path: '/create-post-page');
+
+  static const String name = 'CreatePostRoute';
+}
+
+/// generated route for
+/// [_i4.PostsListPage]
 class PostsListRoute extends _i5.PageRouteInfo<void> {
   const PostsListRoute() : super(PostsListRoute.name, path: 'posts-list-page');
 
   static const String name = 'PostsListRoute';
-}
-
-/// generated route for
-/// [_i3.CreatePostPage]
-class CreatePostRoute extends _i5.PageRouteInfo<void> {
-  const CreatePostRoute()
-      : super(CreatePostRoute.name, path: 'create-post-page');
-
-  static const String name = 'CreatePostRoute';
 }
 
 /// generated route for

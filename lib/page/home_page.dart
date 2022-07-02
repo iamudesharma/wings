@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     return AutoTabsScaffold(
       routes: const [
         PostsListRoute(),
-        CreatePostRoute(),
+        // CreatePostRoute(),
         UserAccountRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
@@ -23,10 +23,6 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'Create Post',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),

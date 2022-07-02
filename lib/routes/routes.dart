@@ -1,10 +1,9 @@
 import 'package:auto_route/annotations.dart' show AutoRoute, MaterialAutoRouter;
 import 'package:auto_route/auto_route.dart';
-import 'package:wings/main.dart';
-import 'package:wings/page/home_page.dart';
 import 'package:wings/page/auth/login_page.dart';
-import 'package:wings/page/page.dart';
 import 'package:wings/page/auth/register_page.dart';
+import 'package:wings/page/home_page.dart';
+import 'package:wings/page/page.dart';
 import 'package:wings/page/users/user_account_page.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
@@ -23,9 +22,7 @@ import 'package:wings/routes/routes.gr.dart';
       AutoRoute(
         page: PostsListPage,
       ),
-      AutoRoute(
-        page: CreatePostPage,
-      ),
+      
       AutoRoute(
         page: UserAccountPage,
       ),
@@ -39,29 +36,12 @@ import 'package:wings/routes/routes.gr.dart';
     AutoRoute(
       page: UserEditPage,
     ),
+    AutoRoute(
+        page: CreatePostPage,
+      ),
   ],
 )
 class $AppRouter {}
-
-// class AuthGuard extends AutoRouteGuard {
-//   @override
-//   void onNavigation(NavigationResolver resolver, StackRouter router) {
-//     // the navigation is paused until resolver.next() is called with either
-//     // true to resume/continue navigation or false to abort navigation
-//     //
-
-//     Reader read ;
-//     Provider(
-//       ((ref) {
-//         if (ref.read(authProvider).isLoggedIn() == true) {
-//           resolver.next(true);
-//         } else {
-//           router.push(const LoginRoute());
-//         }
-//       }),
-//     );
-//   }
-// }
 
 class AuthGuard extends AutoRouteGuard {
   @override
