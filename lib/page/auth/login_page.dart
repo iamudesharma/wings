@@ -107,6 +107,10 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       height: 50,
                     ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize:
+                            Size(MediaQuery.of(context).size.width * 0.7, 40),
+                      ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           if (_auth.isLoading) {

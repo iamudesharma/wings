@@ -53,9 +53,11 @@ dependencies:
   file_selector: ^0.8.4+3
   uuid: ^3.0.6
   auto_size_text: ^3.0.0
-  story_creator: ^1.0.1
-  stories_editor: ^0.1.8
+  # story_creator: ^1.0.1
+  # stories_editor: ^0.1.8
   share_plus: ^4.0.10
+  # story_creator: ^1.0.1
+  stories_editor: ^0.1.8
 
 dev_dependencies:
   flutter_test:
