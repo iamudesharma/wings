@@ -245,6 +245,17 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
   @override
   UserQuery limitToLast(int limit);
 
+  UserQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   UserQuery whereUsername({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -364,6 +375,18 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     bool? isNull,
     List<int>? whereIn,
     List<int>? whereNotIn,
+  });
+
+  UserQuery orderByDocumentId({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
   });
 
   UserQuery orderByUsername({
@@ -560,6 +583,34 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
+  UserQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$UserQuery(
+      reference.where(
+        FieldPath.documentId,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
   UserQuery whereUsername({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -573,7 +624,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'username',
+        "username",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -601,7 +652,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'email',
+        "email",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -629,7 +680,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'photoUrl',
+        "photoUrl",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -657,7 +708,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'country',
+        "country",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -685,7 +736,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'bio',
+        "bio",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -713,7 +764,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'id',
+        "id",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -740,7 +791,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'tags',
+        "tags",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -767,7 +818,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'name',
+        "name",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -795,7 +846,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'dob',
+        "dob",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -823,7 +874,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'phone',
+        "phone",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -851,7 +902,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }) {
     return _$UserQuery(
       reference.where(
-        'age',
+        "age",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -866,6 +917,48 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
+  UserQuery orderByDocumentId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(FieldPath.documentId, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$UserQuery(query, _collection);
+  }
+
   UserQuery orderByUsername({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -877,7 +970,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('username', descending: descending);
+    var query = reference.orderBy("username", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -919,7 +1012,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('email', descending: descending);
+    var query = reference.orderBy("email", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -961,7 +1054,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('photoUrl', descending: descending);
+    var query = reference.orderBy("photoUrl", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1003,7 +1096,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('country', descending: descending);
+    var query = reference.orderBy("country", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1045,7 +1138,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('bio', descending: descending);
+    var query = reference.orderBy("bio", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1087,7 +1180,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('id', descending: descending);
+    var query = reference.orderBy("id", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1129,7 +1222,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('tags', descending: descending);
+    var query = reference.orderBy("tags", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1171,7 +1264,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('name', descending: descending);
+    var query = reference.orderBy("name", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1213,7 +1306,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('dob', descending: descending);
+    var query = reference.orderBy("dob", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1255,7 +1348,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('phone', descending: descending);
+    var query = reference.orderBy("phone", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1297,7 +1390,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     UserDocumentSnapshot? endBeforeDocument,
     UserDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('age', descending: descending);
+    var query = reference.orderBy("age", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);

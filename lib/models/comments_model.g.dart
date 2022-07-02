@@ -226,6 +226,17 @@ abstract class CommentQuery implements QueryReference<CommentQuerySnapshot> {
   @override
   CommentQuery limitToLast(int limit);
 
+  CommentQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   CommentQuery whereUsername({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -269,6 +280,18 @@ abstract class CommentQuery implements QueryReference<CommentQuerySnapshot> {
     bool? isNull,
     List<String>? whereIn,
     List<String>? whereNotIn,
+  });
+
+  CommentQuery orderByDocumentId({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    CommentDocumentSnapshot? startAtDocument,
+    CommentDocumentSnapshot? endAtDocument,
+    CommentDocumentSnapshot? endBeforeDocument,
+    CommentDocumentSnapshot? startAfterDocument,
   });
 
   CommentQuery orderByUsername({
@@ -381,6 +404,34 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     );
   }
 
+  CommentQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$CommentQuery(
+      reference.where(
+        FieldPath.documentId,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
   CommentQuery whereUsername({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -394,7 +445,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        'username',
+        "username",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -422,7 +473,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        'comment',
+        "comment",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -450,7 +501,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        'userDp',
+        "userDp",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -478,7 +529,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        'userId',
+        "userId",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -493,6 +544,48 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     );
   }
 
+  CommentQuery orderByDocumentId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    CommentDocumentSnapshot? startAtDocument,
+    CommentDocumentSnapshot? endAtDocument,
+    CommentDocumentSnapshot? endBeforeDocument,
+    CommentDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(FieldPath.documentId, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$CommentQuery(query, _collection);
+  }
+
   CommentQuery orderByUsername({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -504,7 +597,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('username', descending: descending);
+    var query = reference.orderBy("username", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -546,7 +639,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('comment', descending: descending);
+    var query = reference.orderBy("comment", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -588,7 +681,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('userDp', descending: descending);
+    var query = reference.orderBy("userDp", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -630,7 +723,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('userId', descending: descending);
+    var query = reference.orderBy("userId", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);

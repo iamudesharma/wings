@@ -28,14 +28,14 @@ abstract class PostCollectionReference
     DocumentSnapshot<Map<String, Object?>> snapshot,
     SnapshotOptions? options,
   ) {
-    return _$PostFromJson(snapshot.data()!);
+    return Post.fromJson(snapshot.data()!);
   }
 
   static Map<String, Object?> toFirestore(
     Post value,
     SetOptions? options,
   ) {
-    return _$PostToJson(value);
+    return value.toJson();
   }
 
   @override
@@ -125,6 +125,7 @@ abstract class PostDocumentReference
     String location,
     String mediaUrl,
     String createdAt,
+    List<String> tags,
     int likes,
   });
 
@@ -177,6 +178,7 @@ class _$PostDocumentReference
     Object? location = _sentinel,
     Object? mediaUrl = _sentinel,
     Object? createdAt = _sentinel,
+    Object? tags = _sentinel,
     Object? likes = _sentinel,
   }) async {
     final json = {
@@ -187,6 +189,7 @@ class _$PostDocumentReference
       if (location != _sentinel) "location": location as String,
       if (mediaUrl != _sentinel) "mediaUrl": mediaUrl as String,
       if (createdAt != _sentinel) "createdAt": createdAt as String,
+      if (tags != _sentinel) "tags": tags as List<String>,
       if (likes != _sentinel) "likes": likes as int,
     };
 
@@ -236,6 +239,17 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
   @override
   PostQuery limitToLast(int limit);
 
+  PostQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   PostQuery wherePostText({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -313,6 +327,16 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
+  PostQuery whereTags({
+    List<String>? isEqualTo,
+    List<String>? isNotEqualTo,
+    List<String>? isLessThan,
+    List<String>? isLessThanOrEqualTo,
+    List<String>? isGreaterThan,
+    List<String>? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? arrayContainsAny,
+  });
   PostQuery whereLikes({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -323,6 +347,18 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     bool? isNull,
     List<int>? whereIn,
     List<int>? whereNotIn,
+  });
+
+  PostQuery orderByDocumentId({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
   });
 
   PostQuery orderByPostText({
@@ -403,6 +439,18 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     String startAfter,
     String endAt,
     String endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  PostQuery orderByTags({
+    bool descending = false,
+    List<String> startAt,
+    List<String> startAfter,
+    List<String> endAt,
+    List<String> endBefore,
     PostDocumentSnapshot? startAtDocument,
     PostDocumentSnapshot? endAtDocument,
     PostDocumentSnapshot? endBeforeDocument,
@@ -483,6 +531,34 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     );
   }
 
+  PostQuery whereDocumentId({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        FieldPath.documentId,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
   PostQuery wherePostText({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -496,7 +572,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'postText',
+        "postText",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -524,7 +600,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'id',
+        "id",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -552,7 +628,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'ownerId',
+        "ownerId",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -580,7 +656,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'usernameName',
+        "usernameName",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -608,7 +684,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'location',
+        "location",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -636,7 +712,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'mediaUrl',
+        "mediaUrl",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -664,7 +740,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'createdAt',
+        "createdAt",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -674,6 +750,32 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
         isNull: isNull,
         whereIn: whereIn,
         whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereTags({
+    List<String>? isEqualTo,
+    List<String>? isNotEqualTo,
+    List<String>? isLessThan,
+    List<String>? isLessThanOrEqualTo,
+    List<String>? isGreaterThan,
+    List<String>? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? arrayContainsAny,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        "tags",
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        arrayContainsAny: arrayContainsAny,
       ),
       _collection,
     );
@@ -692,7 +794,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        'likes',
+        "likes",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -707,6 +809,48 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     );
   }
 
+  PostQuery orderByDocumentId({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(FieldPath.documentId, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
   PostQuery orderByPostText({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -718,7 +862,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('postText', descending: descending);
+    var query = reference.orderBy("postText", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -760,7 +904,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('id', descending: descending);
+    var query = reference.orderBy("id", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -802,7 +946,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('ownerId', descending: descending);
+    var query = reference.orderBy("ownerId", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -844,7 +988,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('usernameName', descending: descending);
+    var query = reference.orderBy("usernameName", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -886,7 +1030,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('location', descending: descending);
+    var query = reference.orderBy("location", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -928,7 +1072,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('mediaUrl', descending: descending);
+    var query = reference.orderBy("mediaUrl", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -970,7 +1114,49 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('createdAt', descending: descending);
+    var query = reference.orderBy("createdAt", descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderByTags({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy("tags", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1012,7 +1198,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy('likes', descending: descending);
+    var query = reference.orderBy("likes", descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1107,6 +1293,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       location: json['location'] as String,
       mediaUrl: json['mediaUrl'] as String,
       createdAt: json['createdAt'] as String,
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       likes: json['likes'] as int,
     );
 
@@ -1118,5 +1305,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'location': instance.location,
       'mediaUrl': instance.mediaUrl,
       'createdAt': instance.createdAt,
+      'tags': instance.tags,
       'likes': instance.likes,
     };

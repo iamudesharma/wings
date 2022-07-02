@@ -17,7 +17,7 @@ class PostProvider extends ChangeNotifier {
     required this.postsResponsitory,
   });
 
-  void createPost(Post post) async {
+  Future<void> createPost(Post post) async {
     try {
       await postsResponsitory.addPost(post);
     } catch (e) {

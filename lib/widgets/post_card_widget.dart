@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../models/post_model.dart';
+
 class PostCardWidget extends StatelessWidget {
-  const PostCardWidget({Key? key}) : super(key: key);
+  final Post post;
+  const PostCardWidget({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,7 @@ class PostCardWidget extends StatelessWidget {
                 "https://picsum.photos/200/300",
                 fit: BoxFit.cover,
               ),
-              const Text("Post Title"),
+              Text(post.postText),
               const Text("Post Description"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +69,7 @@ class PostCardWidget extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      const Text("Like"),
+                      Text("${post.likes} Like"),
                     ],
                   ),
                   Row(

@@ -41,7 +41,7 @@ dependencies:
   logger: ^1.1.0
   cloud_firestore: ^3.1.15
   
-  cloud_firestore_odm: ^1.0.0-dev.18
+  cloud_firestore_odm: ^1.0.0-dev.20
   # fluttertoast: ^8.0.9
   
   shared_preferences: ^2.0.15
@@ -71,7 +71,7 @@ dev_dependencies:
   flutter_lints: 
   build_runner: ^2.1.11
   auto_route_generator: 
-  cloud_firestore_odm_generator: ^1.0.0-dev.18
+  cloud_firestore_odm_generator: ^1.0.0-dev.20
   json_serializable:
 
 # For information on the generic Dart part of this file, see the

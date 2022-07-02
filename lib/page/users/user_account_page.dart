@@ -116,7 +116,7 @@ class _UserAccountPageState extends State<UserAccountPage>
                 ),
                 ResponsiveLatout(
                   mobileBody: ListView.builder(
-                    itemBuilder: (context, index) => const PostCardWidget(),
+                    itemBuilder: (context, index) => Container(),
                     itemCount: 10,
                   ),
                   desktopBody: GridView.builder(
@@ -126,7 +126,7 @@ class _UserAccountPageState extends State<UserAccountPage>
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemBuilder: (context, index) => const PostCardWidget(),
+                    itemBuilder: (context, index) => Container(),
                     itemCount: 10,
                   ),
                 )

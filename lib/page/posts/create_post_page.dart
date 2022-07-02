@@ -1,7 +1,9 @@
 // import 'package:flutter/foundation.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:logger/logger.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
@@ -21,80 +23,110 @@ class CreatePostPage extends StatefulWidget {
 
 class _CreatePostPageState extends State<CreatePostPage> {
   // File? editedFile;
-  TextEditingController _title = TextEditingController();
-  TextEditingController _des = TextEditingController();
-  TextEditingController _location = TextEditingController();
-  TextEditingController _tags = TextEditingController();
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _des = TextEditingController();
+  final TextEditingController _location = TextEditingController();
+  final TextEditingController _tags = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  Logger _logger = Logger();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _formKey,
         appBar: AppBar(
-          title: Text('Create Post'),
+          title: const Text('Create Post'),
           actions: [
             IconButton(
-              icon: Icon(Icons.share),
+              icon: const Icon(Icons.share),
               onPressed: () {},
             ),
           ],
         ),
-        // backgroundColor: Colors.black,
         body: Center(
           child: Responsive(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: SingleChildScrollView(
-                child: Consumer(builder: (context, ref, child) {
-                  final _post = ref.watch(postProvider);
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      15.heightBox,
-                      textFormField(_title,
-                          hintText: "Write a Title",
-                          icon: Icons.man_outlined,
-                          label: "Title",
-                          validator: (value) {}),
-                      15.heightBox,
-                      textFormField(_des,
-                          hintText: "Write a Description",
-                          icon: Icons.description,
-                          label: "Description",
-                          validator: (value) {}),
-                      15.heightBox,
-                      textFormField(_location,
+            child: SingleChildScrollView(
+              child: Consumer(builder: (context, ref, child) {
+                final post = ref.watch(postProvider);
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        15.heightBox,
+                        textFormField(_title,
+                            hintText: "Write a Title",
+                            icon: Icons.man_outlined,
+                            label: "Title", validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter The Empty";
+                          } else {
+                            return null;
+                          }
+                        }),
+                        15.heightBox,
+                        textFormField(_des,
+                            hintText: "Write a Description",
+                            icon: Icons.description,
+                            label: "Description", validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter The Empty";
+                          } else {
+                            return null;
+                          }
+                        }),
+                        15.heightBox,
+                        textFormField(
+                          _location,
                           hintText: "Write a location",
                           icon: Icons.share_location_rounded,
                           label: "Location",
-                          validator: (value) {}),
-                      15.heightBox,
-                      textFormField(_title,
+                          validator: (value) {},
+                        ),
+                        15.heightBox,
+                        textFormField(
+                          _tags,
                           hintText: "Write a #tag",
                           icon: Icons.tag_rounded,
                           label: "#tag",
-                          validator: (value) {}),
-                      CustomButton(
-                        child: Text("Create a Post"),
-                        onTap: () async {
-                          User? user = FirebaseAuth.instance.currentUser;
-                          final post = Post(
+                          validator: (value) {},
+                        ),
+                        30.heightBox,
+                        CustomButton(
+                          child: const Text("Create a Post"),
+                          onTap: () async {
+                            User? user = FirebaseAuth.instance.currentUser;
+                            final _post = Post(
                               postText: _des.text,
-                              id: Uuid().v4(),
+                              id: const Uuid().v4(),
                               ownerId: user!.uid,
                               usernameName: "udesh",
                               location: "Hello World",
                               mediaUrl: "",
                               createdAt: DateTime.now().toIso8601String(),
-                              likes: 0,);
-                          // _post.;
-// postProvider.
-// Provider.autoDispose.call((ref) => null).
-                        },
-                      ),
-                    ],
-                  );
-                }),
-              ),
+                              likes: 0,
+                              tags: _tags.text.split(" "),
+                            );
+
+                            _logger.i(_post.toJson());
+                            // if (_formKey.currentState?.validate() == true) {
+                            await post.createPost(_post).then((value) {
+                              context.navigateBack();
+                            }).onError((error, stackTrace) {
+                              print(error);
+                              print(stackTrace);
+                            });
+                            // }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
         ));

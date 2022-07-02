@@ -18,6 +18,7 @@ class Post {
     required this.location,
     required this.mediaUrl,
     required this.createdAt,
+    required this.tags,
     required this.likes,
   }) {
     _$assertPost(this);
@@ -32,6 +33,8 @@ class Post {
   final String location;
   final String mediaUrl;
   final String createdAt;
+  final List<String> tags;
+
 
   @Min(0)
   final int likes;

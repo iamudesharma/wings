@@ -38,7 +38,7 @@ class _PostsListPageState extends State<PostsListPage> {
         if (snapshot.hasError) return const Text('Something went wrong!');
         if (!snapshot.hasData) return const Text('Loading users...');
 
-        PostQuerySnapshot querySnapshot = snapshot.data!;
+        PostQuerySnapshot postquerySnapshot = snapshot.data!;
 
         return Scaffold(
           // backgroundColor: Colors.white,
@@ -64,7 +64,12 @@ class _PostsListPageState extends State<PostsListPage> {
             ],
           ),
           body: ResponsiveLatout(
-            mobileBody: PostCardWidget(),
+            mobileBody: ListView.builder(
+              itemCount:postquerySnapshot.docs.length ,
+              itemBuilder: (BuildContext context, int index) {
+                return  PostCardWidget(post: postquerySnapshot.docs[index].data,) ;
+              },
+            ),
             desktopBody: Container(),
           ),
         );
