@@ -19,7 +19,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-// final _sharedPreference =  sharedPreferenceProvider;
 
   sharedPreferenceProvider = await SharedPreferences.getInstance();
 

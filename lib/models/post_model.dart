@@ -19,6 +19,7 @@ class Post {
     required this.mediaUrl,
     required this.createdAt,
     required this.tags,
+    this.comments,
     required this.likes,
   }) {
     _$assertPost(this);
@@ -34,7 +35,7 @@ class Post {
   final String mediaUrl;
   final String createdAt;
   final List<String> tags;
-
+  final List<Comment>? comments;
 
   @Min(0)
   final int likes;
@@ -43,7 +44,30 @@ class Post {
 }
 
 @Collection<Post>('posts')
+@Collection<Comment>('posts/*/comments', name: "comments")
 final postRef = PostCollectionReference();
+
+@JsonSerializable(explicitToJson: true)
+class Comment {
+  final String username;
+  final String comment;
+  // Timestamp timestamp;
+  final String userDp;
+  final String userId;
+
+  factory Comment.fromJson(Map<String, Object?> json) =>
+      _$CommentFromJson(json);
+
+  Comment({
+    required this.username,
+    required this.comment,
+    required this.userDp,
+    required this.userId,
+  });
+  Map<String, Object?> toJson() => _$CommentToJson(this);
+}
+
+// final commentsRef = CommentCollectionReference();
 
 class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
   const TimestampConverter();

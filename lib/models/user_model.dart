@@ -14,7 +14,6 @@ class User {
     required this.country,
     required this.bio,
     required this.id,
-    // this.isOnline = false,
     required this.name,
     required this.age,
     required this.dob,
@@ -38,7 +37,7 @@ class User {
   @Min(13)
   final int age;
 
-   Map<String, Object?> toJson() => _$UserToJson(this);
+  Map<String, Object?> toJson() => _$UserToJson(this);
 }
 
 @Collection<User>('users')

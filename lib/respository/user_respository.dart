@@ -9,9 +9,7 @@ abstract class UserRepository {
   Future<List<User>> getUsers();
 
   Future<User?> getUserDetails();
-  // "edit user"
 
-  // -> Method 'editUser'
   Future<void> updateUserProfile(User user);
 
   Future<User> getUserByUid(String uid);
