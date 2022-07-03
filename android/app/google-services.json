@@ -40,6 +40,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727523993205:android:cad76034ce9a82ab1eba3c",
+        "android_client_info": {
+          "package_name": "com.wings.wings.udesh.wings"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727523993205-rmkt681ohgpieg64369n36kl172hv9re.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEf1AsNAijFXEn8ttxlzdjg7PdFQEPcRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727523993205-rmkt681ohgpieg64369n36kl172hv9re.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727523993205-8k02l5fn502sfpfevjkn6vvc11b5qatn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wings.wings"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

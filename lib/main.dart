@@ -11,7 +11,6 @@ import "package:wings/routes/routes.gr.dart";
 late SharedPreferences sharedPreferenceProvider;
 
 final navigatorKey = new GlobalKey<NavigatorState>();
-// FutureProvider((ref) async => await ¸.getInstance());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,10 +55,7 @@ class MyApp extends ConsumerWidget {
         // brightness: Brightness.dark,
       ),
       routeInformationParser: _routes.defaultRouteParser(),
-      routerDelegate: _routes.delegate(
-          // initialDeepLink: "udesharma.in",
-          ),
-      // useInheritedMediaQuery: ,
+      routerDelegate: _routes.delegate(),
     );
   }
 }
