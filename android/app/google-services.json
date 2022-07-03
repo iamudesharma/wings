@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:727523993205:android:855c704ff0b192c71eba3c",
+        "mobilesdk_app_id": "1:727523993205:android:a6eb9a712b343f6c1eba3c",
         "android_client_info": {
-          "package_name": "com.wings.wings"
+          "package_name": "com.wings.wings.udesh"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "727523993205-rmkt681ohgpieg64369n36kl172hv9re.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "727523993205-8k02l5fn502sfpfevjkn6vvc11b5qatn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wings.wings"
+              }
             }
           ]
         }

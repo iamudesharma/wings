@@ -45,17 +45,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyAVLalOkCi-Zs0CRzo5pH8J06z6X7V2hAI',
-    appId: '1:727523993205:web:5b8c2fccf2f4f6091eba3c',
+    appId: '1:727523993205:web:45aeab26ccecb5731eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     authDomain: 'wings-18365.firebaseapp.com',
     storageBucket: 'wings-18365.appspot.com',
-    measurementId: 'G-BRZ8FXZZ5D',
+    measurementId: 'G-EEMK3R60V7',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCEf1AsNAijFXEn8ttxlzdjg7PdFQEPcRQ',
-    appId: '1:727523993205:android:855c704ff0b192c71eba3c',
+    appId: '1:727523993205:android:a6eb9a712b343f6c1eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     storageBucket: 'wings-18365.appspot.com',
@@ -63,21 +63,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBKQ8ZM_LEsy3RhzCcEF3sWNpoNvwrgaFw',
-    appId: '1:727523993205:ios:dbf27cea1f29ca6c1eba3c',
+    appId: '1:727523993205:ios:2a46b10e568c44f91eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     storageBucket: 'wings-18365.appspot.com',
-    iosClientId: '727523993205-8k02l5fn502sfpfevjkn6vvc11b5qatn.apps.googleusercontent.com',
-    iosBundleId: 'com.wings.wings',
+    iosClientId: '727523993205-oearcb3gb7iv40r6vrjofj245nt8qa4a.apps.googleusercontent.com',
+    iosBundleId: 'com.wings.wings.udesh',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBKQ8ZM_LEsy3RhzCcEF3sWNpoNvwrgaFw',
-    appId: '1:727523993205:ios:dbf27cea1f29ca6c1eba3c',
+    appId: '1:727523993205:ios:2a46b10e568c44f91eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     storageBucket: 'wings-18365.appspot.com',
-    iosClientId: '727523993205-8k02l5fn502sfpfevjkn6vvc11b5qatn.apps.googleusercontent.com',
-    iosBundleId: 'com.wings.wings',
+    iosClientId: '727523993205-oearcb3gb7iv40r6vrjofj245nt8qa4a.apps.googleusercontent.com',
+    iosBundleId: 'com.wings.wings.udesh',
   );
 }
