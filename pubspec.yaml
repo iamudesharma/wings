@@ -57,6 +57,7 @@ dependencies:
   get: ^4.6.5
   hashtagable: ^2.1.0
   riverpod: ^1.0.3
+  # image_picker_for_web: ^2.1.8
   # story_creator: ^1.0.1
 
 dev_dependencies:

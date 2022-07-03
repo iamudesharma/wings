@@ -8,6 +8,7 @@ import 'package:riverpod/riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wings/models/post_model.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/post_provider/post_provider.dart';
 // import 'package:stories_editor/stories_editor.dart';
 import 'package:wings/widgets/widgets.dart';
@@ -98,21 +99,21 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         CustomButton(
                           child: const Text("Create a Post"),
                           onTap: () async {
-                            User? user = FirebaseAuth.instance.currentUser;
                             final _post = Post(
                               postText: _des.text,
                               id: const Uuid().v4(),
-                              ownerId: user!.uid,
-                              usernameName: "udesh",
+                              ownerId: SharedPref.getUid()!,
+                              usernameName: SharedPref.getUsername()!,
                               location: "Hello World",
                               mediaUrl: "",
                               createdAt: DateTime.now().toIso8601String(),
                               likes: 0,
                               tags: _tags.text.split(" "),
+                              comments: [],
                             );
 
                             _logger.i(_post.toJson());
-                            // if (_formKey.currentState?.validate() == true) {
+
                             await post.createPost(_post).then((value) {
                               context.navigateBack();
                             }).onError((error, stackTrace) {

@@ -10,7 +10,6 @@ part 'post_model.g.dart';
 )
 class Post {
   Post({
-    // this.timestampConverter,
     required this.postText,
     required this.id,
     required this.ownerId,

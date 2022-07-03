@@ -99,17 +99,17 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<User?> getUserDetails() async {
-    final user = await usersRef.doc("sN9BqubAq0YbMSGsrQd2PvdV7k02").get();
+    final user = await usersRef.doc(await SharedPref.getUid()).get();
 
     _logger.i("User ${user.data?.age}");
     if (user.exists) {
       return user.data as User;
     }
   }
-  
+
   @override
-  Future<File?> pickImageMacos() async{
-  try {
+  Future<File?> pickImageMacos() async {
+    try {
       final image = await pickerImageMacos();
 
       if (image != null) {

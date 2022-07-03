@@ -107,7 +107,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       height: 50,
                     ),
                     CustomButton(
-                      
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
                           if (_auth.isLoading) {
@@ -138,7 +137,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            context.router.navigate(const RegisterRoute());
+                            context.router.push(const RegisterRoute());
                           },
                           child: const Text(
                             'Register',

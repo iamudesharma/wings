@@ -33,7 +33,7 @@ class _UserAccountPageState extends State<UserAccountPage>
     super.initState();
   }
 
-  Logger _logger = Logger();
+  final Logger _logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +201,8 @@ class UserAccountDetails extends ConsumerWidget {
                               "https://picsum.photos/200/300"))
                       : CircleAvatar(
                           radius: 40,
-                          backgroundImage: FileImage(_userProvider.image!),
+                          backgroundImage: MemoryImage(
+                              _userProvider.image!.readAsBytesSync()),
                         ),
                 ),
               ),
@@ -225,6 +226,7 @@ class UserAccountDetails extends ConsumerWidget {
             "username",
             style: Theme.of(context).textTheme.headline6,
           ),
+          Text(user!.username),
           const SizedBox(
             height: 10,
           ),
@@ -232,6 +234,7 @@ class UserAccountDetails extends ConsumerWidget {
             "Name",
             style: Theme.of(context).textTheme.headline6,
           ),
+          Text(user!.name),
           const SizedBox(
             height: 10,
           ),
@@ -241,7 +244,7 @@ class UserAccountDetails extends ConsumerWidget {
             height: 10,
           ),
           const Text("phone"),
-          const Text("950694827"),
+          Text(user?.phone.toString() ?? ""),
           const SizedBox(
             height: 10,
           ),

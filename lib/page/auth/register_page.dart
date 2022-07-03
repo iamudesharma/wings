@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wings/models/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/utils/get_age.dart';
 import 'package:wings/widgets/widgets.dart';
@@ -27,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   TextEditingController datetimeController = TextEditingController();
 
@@ -155,6 +157,25 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
                     textFormField(
+                      phoneController,
+                      validator: (value) {
+                        //Email RegExp
+                        if (value!.isEmpty) {
+                          return 'Please Enter The Phone Number';
+                        } else {
+                          return null;
+                        }
+                      },
+                      hintText: 'Enter The  Phone No.',
+                      icon: Icons.phone,
+                      label: 'Phone',
+                      isPassword: false,
+                      textInputAction: TextInputAction.next,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    textFormField(
                       passwordController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -166,6 +187,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       hintText: 'Enter The  Password',
                       icon: Icons.password,
+                      textInputType: TextInputType.numberWithOptions(
+                        decimal: false,
+                      ),
                       label: 'Password',
                       isPassword: true,
                       textInputAction: TextInputAction.go,
@@ -193,7 +217,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 50,
                     ),
                     CustomButton(
-                      
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
                           if (_auth.isLoadingSignUp) {
@@ -209,6 +232,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               id: "",
                               // isOnline: false,
                               photoUrl: "",
+                              phone: int.parse(phoneController.text.trim()),
+                              tags: [],
                               username: usernameController.text,
                             );
                             await _auth.signUp(
@@ -216,6 +241,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               password: passwordController.text,
                               user: _user,
                             );
+
+                            await SharedPref.name(nameController.text);
+                            await SharedPref.name(usernameController.text);
 
                             context.router.navigate(const HomeRoute());
                           }

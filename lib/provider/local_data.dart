@@ -17,13 +17,13 @@ class SharedPref {
   }
 
 
-  static Future<String?> getUid() async {
+  static String? getUid()  {
     return sharedPreferenceProvider.getString("uid");
   }
 
-  static Future<String?> getName() async {
+  static String? getName()  {
     return sharedPreferenceProvider.getString("name");
-  }static Future<String?> getUsername() async {
+  }static String? getUsername()  {
     return sharedPreferenceProvider.getString("username");
   }
 
