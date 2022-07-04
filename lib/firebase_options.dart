@@ -45,17 +45,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyAVLalOkCi-Zs0CRzo5pH8J06z6X7V2hAI',
-    appId: '1:727523993205:web:45aeab26ccecb5731eba3c',
+    appId: '1:727523993205:web:eb91a059df57ecce1eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     authDomain: 'wings-18365.firebaseapp.com',
     storageBucket: 'wings-18365.appspot.com',
-    measurementId: 'G-EEMK3R60V7',
+    measurementId: 'G-G4BEMX6WT3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCEf1AsNAijFXEn8ttxlzdjg7PdFQEPcRQ',
-    appId: '1:727523993205:android:cad76034ce9a82ab1eba3c',
+    appId: '1:727523993205:android:4cba211caa1ecfe31eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     storageBucket: 'wings-18365.appspot.com',
@@ -63,17 +63,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBKQ8ZM_LEsy3RhzCcEF3sWNpoNvwrgaFw',
-    appId: '1:727523993205:ios:d9e8196c511d7e021eba3c',
+    appId: '1:727523993205:ios:bbd857ab949f19951eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     storageBucket: 'wings-18365.appspot.com',
-    iosClientId: '727523993205-fe2k198sqjg80t2ajgrco5vsjtvngfvm.apps.googleusercontent.com',
-    iosBundleId: 'com.wings.wings.udesh.wings',
+    iosClientId: '727523993205-oearcb3gb7iv40r6vrjofj245nt8qa4a.apps.googleusercontent.com',
+    iosBundleId: 'com.wings.wings.udesh',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBKQ8ZM_LEsy3RhzCcEF3sWNpoNvwrgaFw',
-    appId: '1:727523993205:ios:2a46b10e568c44f91eba3c',
+    appId: '1:727523993205:ios:bbd857ab949f19951eba3c',
     messagingSenderId: '727523993205',
     projectId: 'wings-18365',
     storageBucket: 'wings-18365.appspot.com',

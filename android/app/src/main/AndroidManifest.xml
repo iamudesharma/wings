@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wings.wings.udesh.wings">
+    package="com.wings.wings.udesh">
    <application
         android:label="wings"
         android:name="${applicationName}"

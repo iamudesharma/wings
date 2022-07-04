@@ -110,7 +110,7 @@ class _UserAccountPageState extends State<UserAccountPage>
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: CustomTabBarView(children: [
+              child: TabBarView(children: [
                 UserAccountDetails(
                   user: _user,
                 ),
