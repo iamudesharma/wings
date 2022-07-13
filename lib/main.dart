@@ -10,7 +10,7 @@ import "package:wings/routes/routes.gr.dart";
 
 late SharedPreferences sharedPreferenceProvider;
 
-final navigatorKey = new GlobalKey<NavigatorState>();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
 import 'package:wings/widgets/widgets.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 
 // import '../../widgets/textfield_widget.dart';
 
@@ -46,6 +47,13 @@ class LoginPageState extends ConsumerState<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    GoogleAuthButton(
+                      // darkMode: true,
+                      themeMode: ThemeMode.dark,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     RichText(
                       text: TextSpan(
                           text: 'W',
