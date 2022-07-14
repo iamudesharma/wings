@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:wings/provider/local_data.dart';
 import '../models/user_model.dart' as userModel;
@@ -119,5 +120,47 @@ class AuthRespositoryImpl extends AuthRespository {
       String name, String email, String photoUrl, String uid) {
     // TODO: implement updateUserData
     throw UnimplementedError();
+  }
+
+  @override
+  Future<User?> googleSignIn() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    final user = await FirebaseAuth.instance.signInWithCredential(credential);
+    SharedPref.saveUserUid(user.user!.uid);
+    return user.user;
+  }
+
+  @override
+  Future<void> userAdditionalDetails(
+    userModel.User? user,
+  ) async {
+    final _user = FirebaseAuth.instance.currentUser;
+
+    await _firestore.collection('users').doc(_user!.uid).set({
+      'username': user!.username,
+      'email': _user.email,
+      'id': _user.uid,
+      "createdAt": FieldValue.serverTimestamp(),
+      "dob": user.dob,
+      "name": user.name,
+      "image": "",
+      "bio": "",
+      "country": "India",
+      "age": user.age,
+    }).then((value) {
+      print("User addded");
+    });
   }
 }

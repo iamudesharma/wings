@@ -28,7 +28,12 @@ void main() async {
   );
 }
 
-final routesProvider = Provider((ref) => AppRouter(authGuard: AuthGuard()));
+final routesProvider = Provider(
+  (ref) => AppRouter(
+    authGuard: AuthGuard(),
+    authUserDetailsGuard: AuthUserDetailsGuard(),
+  ),
+);
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);

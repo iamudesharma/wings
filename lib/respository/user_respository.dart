@@ -12,7 +12,7 @@ abstract class UserRepository {
 
   Future<void> updateUserProfile(User user);
 
-  Future<User> getUserByUid(String uid);
+  Future<User?> getUserByUid(String uid);
 
   Future<User> getUserByUsername(String username);
 

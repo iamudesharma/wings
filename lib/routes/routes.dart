@@ -1,5 +1,7 @@
 import 'package:auto_route/annotations.dart' show AutoRoute, MaterialAutoRouter;
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wings/page/auth/auth_user_detalis.dart';
 import 'package:wings/page/auth/login_page.dart';
 import 'package:wings/page/auth/register_page.dart';
 import 'package:wings/page/home_page.dart';
@@ -7,8 +9,8 @@ import 'package:wings/page/page.dart';
 import 'package:wings/page/users/user_account_page.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
+import 'package:wings/respositoryImpl/user_respository_impl.dart';
 import 'package:wings/routes/routes.gr.dart';
-
 
 // @CupertinoAutoRouter()
 @MaterialAutoRouter(
@@ -17,12 +19,12 @@ import 'package:wings/routes/routes.gr.dart';
 
   routes: <AutoRoute>[
     AutoRoute(page: HomePage, initial: true, guards: [
-      AuthGuard
+      AuthGuard,
+      AuthUserDetailsGuard,
     ], children: [
       AutoRoute(
         page: PostsListPage,
       ),
-      
       AutoRoute(
         page: UserAccountPage,
       ),
@@ -37,25 +39,45 @@ import 'package:wings/routes/routes.gr.dart';
       page: UserEditPage,
     ),
     AutoRoute(
-        page: CreatePostPage,
-      ),
+      page: CreatePostPage,
+    ),
+    AutoRoute(
+      page: AuthUserDetailsPage,
+    )
   ],
 )
 class $AppRouter {}
 
 class AuthGuard extends AutoRouteGuard {
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
     // the navigation is paused until resolver.next() is called with either
     // true to resume/continue navigation or false to abort navigation
-    AuthProvider authProvider = AuthProvider(AuthRespositoryImpl());
+    AuthProvider authProvider =
+        AuthProvider(AuthRespositoryImpl(), UserRepositoryImpl());
 
     if (authProvider.isLoggedIn() == true) {
       // if user is authenticated we continue
-      resolver.next(true);
     } else {
       // we redirect the user to our login page
-      router.push(const LoginRoute());
+      router.navigate(const LoginRoute());
     }
+  }
+}
+
+class AuthUserDetailsGuard extends AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    // the navigation is paused until resolver.next() is called with either
+    // true to resume/continue navigation or false to abort navigation
+    AuthProvider authProvider =
+        AuthProvider(AuthRespositoryImpl(), UserRepositoryImpl());
+
+    if (await authProvider.checkUserExists()) {
+      router.navigate(const AuthUserDetailsRoute());
+    } else {
+      resolver.next(true);
+    }
+    // if user is authenticated we continue
   }
 }

@@ -12,13 +12,13 @@ import 'package:wings/utils/image_picker.dart';
 import '../utils/mac_os_imaage_picker.dart';
 
 class UserRepositoryImpl extends UserRepository {
-  final Ref reader;
+  final Ref? reader;
 
   FirebaseFirestore store = FirebaseFirestore.instance;
 
   Logger _logger = Logger();
 
-  UserRepositoryImpl({required this.reader});
+  UserRepositoryImpl({this.reader});
   @override
   Future<List<User>> getUsers() async {
     List<User> user = [];
@@ -41,10 +41,14 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<User> getUserByUid(String uid) async {
-    final _users = await usersRef.whereId(isEqualTo: uid).get();
-
-    return _users.docs.first.data;
+  Future<User?> getUserByUid(String uid) async {
+    final _users = await usersRef.doc(uid).get();
+    if (_users.exists) {
+      return _users.data;
+    } else {
+      return null;
+    }
+    // return _users.docs.first.data;
   }
 
   @override

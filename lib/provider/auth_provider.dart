@@ -1,7 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:wings/models/user_model.dart';
+import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/respository/auth_respository.dart';
+import 'package:wings/respository/user_respository.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
 import 'package:wings/widgets/toast_widget.dart';
 
@@ -12,24 +16,41 @@ final authRepositoryProvider = Provider(
 
 final authProvider = ChangeNotifierProvider.autoDispose(
   (ref) => AuthProvider(
-    ref.read(
-      authRepositoryProvider,
-    ),
-  ),
+      ref.read(
+        authRepositoryProvider,
+      ),
+      ref.read(userRepository)),
 );
 
 class AuthProvider extends ChangeNotifier {
   final AuthRespository authRespositoryImpl;
+  final UserRepository userRepositoryImpl;
 
   bool isLoading = false;
   bool isLoadingSignUp = false;
 
-  AuthProvider(this.authRespositoryImpl);
+  AuthProvider(
+    this.authRespositoryImpl,
+    this.userRepositoryImpl,
+  );
 
   bool isLoggedIn() {
     if (authRespositoryImpl.getCurrentUser() != null) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  Future<bool> checkUserExists() async {
+    if (await userRepositoryImpl
+            .getUserByUid(authRespositoryImpl.getCurrentUser()!.uid) !=
+        null) {
+      print("User is exists true");
+      return true;
+    } else {
+      print("User is not exists false");
+
       return false;
     }
   }
@@ -60,9 +81,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signUp(
       {required String email,
       required String password,
-     required User user
-
-      }) async {
+      required User user}) async {
     try {
       isLoadingSignUp = true;
       notifyListeners();

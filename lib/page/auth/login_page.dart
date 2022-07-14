@@ -48,6 +48,19 @@ class LoginPageState extends ConsumerState<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GoogleAuthButton(
+                      onPressed: () async {
+                        await ref
+                            .read(authRepositoryProvider)
+                            .googleSignIn()
+                            .then((value) => context.navigateTo(
+                                  HomeRoute(),
+                                ))
+                            .onError(
+                              (error, stackTrace) => print(
+                                error.toString(),
+                              ),
+                            );
+                      },
                       // darkMode: true,
                       themeMode: ThemeMode.dark,
                     ),
