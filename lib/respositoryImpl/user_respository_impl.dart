@@ -35,8 +35,6 @@ class UserRepositoryImpl extends UserRepository {
       print(e);
 
       return user;
-
-      // TODO
     }
   }
 

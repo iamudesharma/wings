@@ -7,6 +7,7 @@ import 'package:wings/page/auth/register_page.dart';
 import 'package:wings/page/home_page.dart';
 import 'package:wings/page/page.dart';
 import 'package:wings/page/users/user_account_page.dart';
+import 'package:wings/page/users/users_list_page.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/respositoryImpl/auth_respository_impl.dart';
 import 'package:wings/respositoryImpl/user_respository_impl.dart';
@@ -26,8 +27,12 @@ import 'package:wings/routes/routes.gr.dart';
         page: PostsListPage,
       ),
       AutoRoute(
+      page: UsersListPage,
+    ),
+      AutoRoute(
         page: UserAccountPage,
       ),
+      
     ]),
     AutoRoute(
       page: LoginPage,
@@ -43,7 +48,8 @@ import 'package:wings/routes/routes.gr.dart';
     ),
     AutoRoute(
       page: AuthUserDetailsPage,
-    )
+    ),
+    
   ],
 )
 class $AppRouter {}

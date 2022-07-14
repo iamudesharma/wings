@@ -14,6 +14,14 @@ final userDetails = FutureProvider((ref) {
   return userRep.getUserDetails();
 });
 
+final getusersListProvider = FutureProvider((ref) {
+  final userRep = ref.read(userRepository);
+
+  return userRep.getUsers();
+});
+
+
+
 final userRepository =
     Provider<UserRepository>((ref) => UserRepositoryImpl(reader: ref));
 

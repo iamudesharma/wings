@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     return AutoTabsScaffold(
       routes: const [
         PostsListRoute(),
+        UsersListRoute(),
         UserAccountRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
@@ -31,10 +32,16 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.home),
               label: 'Home',
             ),
+             BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               label: 'Account',
             ),
+
+
           ],
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
