@@ -1,19 +1,26 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:wings/page/posts/post_list_page.dart';
 import 'package:wings/routes/routes.gr.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: const [
         PostsListRoute(),
-        // CreatePostRoute(),
         UserAccountRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
@@ -31,6 +38,8 @@ class HomePage extends StatelessWidget {
           ],
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
+          type: BottomNavigationBarType.shifting,
+          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
         );
       },
     );

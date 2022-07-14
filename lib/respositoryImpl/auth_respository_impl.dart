@@ -151,6 +151,7 @@ class AuthRespositoryImpl extends AuthRespository {
     await _firestore.collection('users').doc(_user!.uid).set({
       'username': user!.username,
       'email': _user.email,
+      "phone": user.phone,
       'id': _user.uid,
       "createdAt": FieldValue.serverTimestamp(),
       "dob": user.dob,

@@ -9,15 +9,6 @@ import 'package:auto_route/auto_route.dart';
 import '../../utils/get_age.dart';
 import '../../widgets/textfield_widget.dart';
 
-// class AuthUserDetailsPage extends ConsumerWidget {
-//   const AuthUserDetailsPage({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-
-//     return Container();
-//   }
-// }
 
 class AuthUserDetailsPage extends ConsumerStatefulWidget {
   const AuthUserDetailsPage({Key? key}) : super(key: key);
@@ -144,8 +135,7 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
               height: 50,
             ),
             CustomButton(
-                // final con=context;
-                child: Text("Add"),
+                child: const Text("Add"),
                 onTap: () async {
                   // final _context = context;
                   final user = User(
@@ -158,12 +148,13 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
                     name: nameController.text,
                     age: age!,
                     dob: datetimeController.text,
+                    phone: int.parse(phoneController.text),
                   );
 
                   await ref
                       .read(authRepositoryProvider)
                       .userAdditionalDetails(user);
-                  //if (!mounted) {}
+                  if (!mounted) {}
 
                   context.navigateTo(const HomeRoute());
                 })

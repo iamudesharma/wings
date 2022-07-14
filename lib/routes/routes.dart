@@ -57,6 +57,8 @@ class AuthGuard extends AutoRouteGuard {
         AuthProvider(AuthRespositoryImpl(), UserRepositoryImpl());
 
     if (authProvider.isLoggedIn() == true) {
+      resolver.next(true);
+
       // if user is authenticated we continue
     } else {
       // we redirect the user to our login page
@@ -73,10 +75,10 @@ class AuthUserDetailsGuard extends AutoRouteGuard {
     AuthProvider authProvider =
         AuthProvider(AuthRespositoryImpl(), UserRepositoryImpl());
 
-    if (await authProvider.checkUserExists()) {
-      router.navigate(const AuthUserDetailsRoute());
-    } else {
+    if (await authProvider.checkUserExists() == true) {
       resolver.next(true);
+    } else {
+      router.navigate(const AuthUserDetailsRoute());
     }
     // if user is authenticated we continue
   }
