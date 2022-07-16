@@ -4,7 +4,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 
-class SearchWidget extends SearchDelegate<User> {
+class SearchWidget extends SearchDelegate<UserModel> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [];

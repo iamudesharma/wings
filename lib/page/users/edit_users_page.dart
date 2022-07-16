@@ -5,7 +5,7 @@ import 'package:wings/widgets/resposive.dart';
 import 'package:wings/widgets/textfield_widget.dart';
 
 class UserEditPage extends ConsumerStatefulWidget {
-  final User? user;
+  final UserModel? user;
   const UserEditPage({Key? key, required this.user}) : super(key: key);
 
   @override

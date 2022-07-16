@@ -18,76 +18,78 @@ const _sentinel = _Sentinel();
 /// A collection reference object can be used for adding documents,
 /// getting document references, and querying for documents
 /// (using the methods inherited from Query).
-abstract class UserCollectionReference
-    implements UserQuery, FirestoreCollectionReference<UserQuerySnapshot> {
-  factory UserCollectionReference([
+abstract class UserModelCollectionReference
+    implements
+        UserModelQuery,
+        FirestoreCollectionReference<UserModelQuerySnapshot> {
+  factory UserModelCollectionReference([
     FirebaseFirestore? firestore,
-  ]) = _$UserCollectionReference;
+  ]) = _$UserModelCollectionReference;
 
-  static User fromFirestore(
+  static UserModel fromFirestore(
     DocumentSnapshot<Map<String, Object?>> snapshot,
     SnapshotOptions? options,
   ) {
-    return User.fromJson(snapshot.data()!);
+    return UserModel.fromJson(snapshot.data()!);
   }
 
   static Map<String, Object?> toFirestore(
-    User value,
+    UserModel value,
     SetOptions? options,
   ) {
     return value.toJson();
   }
 
   @override
-  UserDocumentReference doc([String? id]);
+  UserModelDocumentReference doc([String? id]);
 
   /// Add a new document to this collection with the specified data,
   /// assigning it a document ID automatically.
-  Future<UserDocumentReference> add(User value);
+  Future<UserModelDocumentReference> add(UserModel value);
 }
 
-class _$UserCollectionReference extends _$UserQuery
-    implements UserCollectionReference {
-  factory _$UserCollectionReference([FirebaseFirestore? firestore]) {
+class _$UserModelCollectionReference extends _$UserModelQuery
+    implements UserModelCollectionReference {
+  factory _$UserModelCollectionReference([FirebaseFirestore? firestore]) {
     firestore ??= FirebaseFirestore.instance;
 
-    return _$UserCollectionReference._(
+    return _$UserModelCollectionReference._(
       firestore.collection('users').withConverter(
-            fromFirestore: UserCollectionReference.fromFirestore,
-            toFirestore: UserCollectionReference.toFirestore,
+            fromFirestore: UserModelCollectionReference.fromFirestore,
+            toFirestore: UserModelCollectionReference.toFirestore,
           ),
     );
   }
 
-  _$UserCollectionReference._(
-    CollectionReference<User> reference,
+  _$UserModelCollectionReference._(
+    CollectionReference<UserModel> reference,
   ) : super(reference, reference);
 
   String get path => reference.path;
 
   @override
-  CollectionReference<User> get reference =>
-      super.reference as CollectionReference<User>;
+  CollectionReference<UserModel> get reference =>
+      super.reference as CollectionReference<UserModel>;
 
   @override
-  UserDocumentReference doc([String? id]) {
+  UserModelDocumentReference doc([String? id]) {
     assert(
       id == null || id.split('/').length == 1,
       'The document ID cannot be from a different collection',
     );
-    return UserDocumentReference(
+    return UserModelDocumentReference(
       reference.doc(id),
     );
   }
 
   @override
-  Future<UserDocumentReference> add(User value) {
-    return reference.add(value).then((ref) => UserDocumentReference(ref));
+  Future<UserModelDocumentReference> add(UserModel value) {
+    return reference.add(value).then((ref) => UserModelDocumentReference(ref));
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _$UserCollectionReference &&
+    return other is _$UserModelCollectionReference &&
         other.runtimeType == runtimeType &&
         other.reference == reference;
   }
@@ -96,23 +98,23 @@ class _$UserCollectionReference extends _$UserQuery
   int get hashCode => Object.hash(runtimeType, reference);
 }
 
-abstract class UserDocumentReference
-    extends FirestoreDocumentReference<UserDocumentSnapshot> {
-  factory UserDocumentReference(DocumentReference<User> reference) =
-      _$UserDocumentReference;
+abstract class UserModelDocumentReference
+    extends FirestoreDocumentReference<UserModelDocumentSnapshot> {
+  factory UserModelDocumentReference(DocumentReference<UserModel> reference) =
+      _$UserModelDocumentReference;
 
-  DocumentReference<User> get reference;
+  DocumentReference<UserModel> get reference;
 
-  /// A reference to the [UserCollectionReference] containing this document.
-  UserCollectionReference get parent {
-    return _$UserCollectionReference(reference.firestore);
+  /// A reference to the [UserModelCollectionReference] containing this document.
+  UserModelCollectionReference get parent {
+    return _$UserModelCollectionReference(reference.firestore);
   }
 
   @override
-  Stream<UserDocumentSnapshot> snapshots();
+  Stream<UserModelDocumentSnapshot> snapshots();
 
   @override
-  Future<UserDocumentSnapshot> get([GetOptions? options]);
+  Future<UserModelDocumentSnapshot> get([GetOptions? options]);
 
   @override
   Future<void> delete();
@@ -131,26 +133,26 @@ abstract class UserDocumentReference
     int age,
   });
 
-  Future<void> set(User value);
+  Future<void> set(UserModel value);
 }
 
-class _$UserDocumentReference
-    extends FirestoreDocumentReference<UserDocumentSnapshot>
-    implements UserDocumentReference {
-  _$UserDocumentReference(this.reference);
+class _$UserModelDocumentReference
+    extends FirestoreDocumentReference<UserModelDocumentSnapshot>
+    implements UserModelDocumentReference {
+  _$UserModelDocumentReference(this.reference);
 
   @override
-  final DocumentReference<User> reference;
+  final DocumentReference<UserModel> reference;
 
-  /// A reference to the [UserCollectionReference] containing this document.
-  UserCollectionReference get parent {
-    return _$UserCollectionReference(reference.firestore);
+  /// A reference to the [UserModelCollectionReference] containing this document.
+  UserModelCollectionReference get parent {
+    return _$UserModelCollectionReference(reference.firestore);
   }
 
   @override
-  Stream<UserDocumentSnapshot> snapshots() {
+  Stream<UserModelDocumentSnapshot> snapshots() {
     return reference.snapshots().map((snapshot) {
-      return UserDocumentSnapshot._(
+      return UserModelDocumentSnapshot._(
         snapshot,
         snapshot.data(),
       );
@@ -158,9 +160,9 @@ class _$UserDocumentReference
   }
 
   @override
-  Future<UserDocumentSnapshot> get([GetOptions? options]) {
+  Future<UserModelDocumentSnapshot> get([GetOptions? options]) {
     return reference.get(options).then((snapshot) {
-      return UserDocumentSnapshot._(
+      return UserModelDocumentSnapshot._(
         snapshot,
         snapshot.data(),
       );
@@ -202,13 +204,13 @@ class _$UserDocumentReference
     return reference.update(json);
   }
 
-  Future<void> set(User value) {
+  Future<void> set(UserModel value) {
     return reference.set(value);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is UserDocumentReference &&
+    return other is UserModelDocumentReference &&
         other.runtimeType == runtimeType &&
         other.parent == parent &&
         other.id == id;
@@ -218,34 +220,35 @@ class _$UserDocumentReference
   int get hashCode => Object.hash(runtimeType, parent, id);
 }
 
-class UserDocumentSnapshot extends FirestoreDocumentSnapshot {
-  UserDocumentSnapshot._(
+class UserModelDocumentSnapshot extends FirestoreDocumentSnapshot {
+  UserModelDocumentSnapshot._(
     this.snapshot,
     this.data,
   );
 
   @override
-  final DocumentSnapshot<User> snapshot;
+  final DocumentSnapshot<UserModel> snapshot;
 
   @override
-  UserDocumentReference get reference {
-    return UserDocumentReference(
+  UserModelDocumentReference get reference {
+    return UserModelDocumentReference(
       snapshot.reference,
     );
   }
 
   @override
-  final User? data;
+  final UserModel? data;
 }
 
-abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
+abstract class UserModelQuery
+    implements QueryReference<UserModelQuerySnapshot> {
   @override
-  UserQuery limit(int limit);
+  UserModelQuery limit(int limit);
 
   @override
-  UserQuery limitToLast(int limit);
+  UserModelQuery limitToLast(int limit);
 
-  UserQuery whereDocumentId({
+  UserModelQuery whereDocumentId({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -256,7 +259,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  UserQuery whereUsername({
+  UserModelQuery whereUsername({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -267,7 +270,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  UserQuery whereEmail({
+  UserModelQuery whereEmail({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -278,7 +281,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  UserQuery wherePhotoUrl({
+  UserModelQuery wherePhotoUrl({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -289,7 +292,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   });
-  UserQuery whereCountry({
+  UserModelQuery whereCountry({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -300,7 +303,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   });
-  UserQuery whereBio({
+  UserModelQuery whereBio({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -311,7 +314,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   });
-  UserQuery whereId({
+  UserModelQuery whereId({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -322,7 +325,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  UserQuery whereTags({
+  UserModelQuery whereTags({
     List<String>? isEqualTo,
     List<String>? isNotEqualTo,
     List<String>? isLessThan,
@@ -332,7 +335,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     bool? isNull,
     List<String>? arrayContainsAny,
   });
-  UserQuery whereName({
+  UserModelQuery whereName({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -343,7 +346,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String>? whereIn,
     List<String>? whereNotIn,
   });
-  UserQuery whereDob({
+  UserModelQuery whereDob({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -354,7 +357,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   });
-  UserQuery wherePhone({
+  UserModelQuery wherePhone({
     int? isEqualTo,
     int? isNotEqualTo,
     int? isLessThan,
@@ -365,7 +368,7 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<int?>? whereIn,
     List<int?>? whereNotIn,
   });
-  UserQuery whereAge({
+  UserModelQuery whereAge({
     int? isEqualTo,
     int? isNotEqualTo,
     int? isLessThan,
@@ -377,154 +380,154 @@ abstract class UserQuery implements QueryReference<UserQuerySnapshot> {
     List<int>? whereNotIn,
   });
 
-  UserQuery orderByDocumentId({
+  UserModelQuery orderByDocumentId({
     bool descending = false,
     String startAt,
     String startAfter,
     String endAt,
     String endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByUsername({
+  UserModelQuery orderByUsername({
     bool descending = false,
     String startAt,
     String startAfter,
     String endAt,
     String endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByEmail({
+  UserModelQuery orderByEmail({
     bool descending = false,
     String startAt,
     String startAfter,
     String endAt,
     String endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByPhotoUrl({
+  UserModelQuery orderByPhotoUrl({
     bool descending = false,
     String? startAt,
     String? startAfter,
     String? endAt,
     String? endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByCountry({
+  UserModelQuery orderByCountry({
     bool descending = false,
     String? startAt,
     String? startAfter,
     String? endAt,
     String? endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByBio({
+  UserModelQuery orderByBio({
     bool descending = false,
     String? startAt,
     String? startAfter,
     String? endAt,
     String? endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderById({
+  UserModelQuery orderById({
     bool descending = false,
     String startAt,
     String startAfter,
     String endAt,
     String endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByTags({
+  UserModelQuery orderByTags({
     bool descending = false,
     List<String>? startAt,
     List<String>? startAfter,
     List<String>? endAt,
     List<String>? endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByName({
+  UserModelQuery orderByName({
     bool descending = false,
     String startAt,
     String startAfter,
     String endAt,
     String endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByDob({
+  UserModelQuery orderByDob({
     bool descending = false,
     String? startAt,
     String? startAfter,
     String? endAt,
     String? endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByPhone({
+  UserModelQuery orderByPhone({
     bool descending = false,
     int? startAt,
     int? startAfter,
     int? endAt,
     int? endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByAge({
+  UserModelQuery orderByAge({
     bool descending = false,
     int startAt,
     int startAfter,
     int endAt,
     int endBefore,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   });
 }
 
-class _$UserQuery extends QueryReference<UserQuerySnapshot>
-    implements UserQuery {
-  _$UserQuery(
+class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
+    implements UserModelQuery {
+  _$UserModelQuery(
     this.reference,
     this._collection,
   );
@@ -532,25 +535,25 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   final CollectionReference<Object?> _collection;
 
   @override
-  final Query<User> reference;
+  final Query<UserModel> reference;
 
-  UserQuerySnapshot _decodeSnapshot(
-    QuerySnapshot<User> snapshot,
+  UserModelQuerySnapshot _decodeSnapshot(
+    QuerySnapshot<UserModel> snapshot,
   ) {
     final docs = snapshot.docs.map((e) {
-      return UserQueryDocumentSnapshot._(e, e.data());
+      return UserModelQueryDocumentSnapshot._(e, e.data());
     }).toList();
 
     final docChanges = snapshot.docChanges.map((change) {
-      return FirestoreDocumentChange<UserDocumentSnapshot>(
+      return FirestoreDocumentChange<UserModelDocumentSnapshot>(
         type: change.type,
         oldIndex: change.oldIndex,
         newIndex: change.newIndex,
-        doc: UserDocumentSnapshot._(change.doc, change.doc.data()),
+        doc: UserModelDocumentSnapshot._(change.doc, change.doc.data()),
       );
     }).toList();
 
-    return UserQuerySnapshot._(
+    return UserModelQuerySnapshot._(
       snapshot,
       docs,
       docChanges,
@@ -558,32 +561,32 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   }
 
   @override
-  Stream<UserQuerySnapshot> snapshots([SnapshotOptions? options]) {
+  Stream<UserModelQuerySnapshot> snapshots([SnapshotOptions? options]) {
     return reference.snapshots().map(_decodeSnapshot);
   }
 
   @override
-  Future<UserQuerySnapshot> get([GetOptions? options]) {
+  Future<UserModelQuerySnapshot> get([GetOptions? options]) {
     return reference.get(options).then(_decodeSnapshot);
   }
 
   @override
-  UserQuery limit(int limit) {
-    return _$UserQuery(
+  UserModelQuery limit(int limit) {
+    return _$UserModelQuery(
       reference.limit(limit),
       _collection,
     );
   }
 
   @override
-  UserQuery limitToLast(int limit) {
-    return _$UserQuery(
+  UserModelQuery limitToLast(int limit) {
+    return _$UserModelQuery(
       reference.limitToLast(limit),
       _collection,
     );
   }
 
-  UserQuery whereDocumentId({
+  UserModelQuery whereDocumentId({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -594,7 +597,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String>? whereIn,
     List<String>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         FieldPath.documentId,
         isEqualTo: isEqualTo,
@@ -611,7 +614,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereUsername({
+  UserModelQuery whereUsername({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -622,7 +625,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String>? whereIn,
     List<String>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "username",
         isEqualTo: isEqualTo,
@@ -639,7 +642,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereEmail({
+  UserModelQuery whereEmail({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -650,7 +653,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String>? whereIn,
     List<String>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "email",
         isEqualTo: isEqualTo,
@@ -667,7 +670,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery wherePhotoUrl({
+  UserModelQuery wherePhotoUrl({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -678,7 +681,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "photoUrl",
         isEqualTo: isEqualTo,
@@ -695,7 +698,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereCountry({
+  UserModelQuery whereCountry({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -706,7 +709,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "country",
         isEqualTo: isEqualTo,
@@ -723,7 +726,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereBio({
+  UserModelQuery whereBio({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -734,7 +737,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "bio",
         isEqualTo: isEqualTo,
@@ -751,7 +754,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereId({
+  UserModelQuery whereId({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -762,7 +765,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String>? whereIn,
     List<String>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "id",
         isEqualTo: isEqualTo,
@@ -779,7 +782,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereTags({
+  UserModelQuery whereTags({
     List<String>? isEqualTo,
     List<String>? isNotEqualTo,
     List<String>? isLessThan,
@@ -789,7 +792,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     bool? isNull,
     List<String>? arrayContainsAny,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "tags",
         isEqualTo: isEqualTo,
@@ -805,7 +808,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereName({
+  UserModelQuery whereName({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -816,7 +819,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String>? whereIn,
     List<String>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "name",
         isEqualTo: isEqualTo,
@@ -833,7 +836,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereDob({
+  UserModelQuery whereDob({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -844,7 +847,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<String?>? whereIn,
     List<String?>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "dob",
         isEqualTo: isEqualTo,
@@ -861,7 +864,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery wherePhone({
+  UserModelQuery wherePhone({
     int? isEqualTo,
     int? isNotEqualTo,
     int? isLessThan,
@@ -872,7 +875,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<int?>? whereIn,
     List<int?>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "phone",
         isEqualTo: isEqualTo,
@@ -889,7 +892,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery whereAge({
+  UserModelQuery whereAge({
     int? isEqualTo,
     int? isNotEqualTo,
     int? isLessThan,
@@ -900,7 +903,7 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     List<int>? whereIn,
     List<int>? whereNotIn,
   }) {
-    return _$UserQuery(
+    return _$UserModelQuery(
       reference.where(
         "age",
         isEqualTo: isEqualTo,
@@ -917,16 +920,16 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
     );
   }
 
-  UserQuery orderByDocumentId({
+  UserModelQuery orderByDocumentId({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy(FieldPath.documentId, descending: descending);
 
@@ -956,19 +959,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByUsername({
+  UserModelQuery orderByUsername({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("username", descending: descending);
 
@@ -998,19 +1001,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByEmail({
+  UserModelQuery orderByEmail({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("email", descending: descending);
 
@@ -1040,19 +1043,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByPhotoUrl({
+  UserModelQuery orderByPhotoUrl({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("photoUrl", descending: descending);
 
@@ -1082,19 +1085,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByCountry({
+  UserModelQuery orderByCountry({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("country", descending: descending);
 
@@ -1124,19 +1127,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByBio({
+  UserModelQuery orderByBio({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("bio", descending: descending);
 
@@ -1166,19 +1169,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderById({
+  UserModelQuery orderById({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("id", descending: descending);
 
@@ -1208,19 +1211,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByTags({
+  UserModelQuery orderByTags({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("tags", descending: descending);
 
@@ -1250,19 +1253,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByName({
+  UserModelQuery orderByName({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("name", descending: descending);
 
@@ -1292,19 +1295,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByDob({
+  UserModelQuery orderByDob({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("dob", descending: descending);
 
@@ -1334,19 +1337,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByPhone({
+  UserModelQuery orderByPhone({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("phone", descending: descending);
 
@@ -1376,19 +1379,19 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
-  UserQuery orderByAge({
+  UserModelQuery orderByAge({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
     Object? endAt = _sentinel,
     Object? endBefore = _sentinel,
-    UserDocumentSnapshot? startAtDocument,
-    UserDocumentSnapshot? endAtDocument,
-    UserDocumentSnapshot? endBeforeDocument,
-    UserDocumentSnapshot? startAfterDocument,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
   }) {
     var query = reference.orderBy("age", descending: descending);
 
@@ -1418,12 +1421,12 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
       query = query.endBefore([endBefore]);
     }
 
-    return _$UserQuery(query, _collection);
+    return _$UserModelQuery(query, _collection);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _$UserQuery &&
+    return other is _$UserModelQuery &&
         other.runtimeType == runtimeType &&
         other.reference == reference;
   }
@@ -1432,44 +1435,44 @@ class _$UserQuery extends QueryReference<UserQuerySnapshot>
   int get hashCode => Object.hash(runtimeType, reference);
 }
 
-class UserQuerySnapshot
-    extends FirestoreQuerySnapshot<UserQueryDocumentSnapshot> {
-  UserQuerySnapshot._(
+class UserModelQuerySnapshot
+    extends FirestoreQuerySnapshot<UserModelQueryDocumentSnapshot> {
+  UserModelQuerySnapshot._(
     this.snapshot,
     this.docs,
     this.docChanges,
   );
 
-  final QuerySnapshot<User> snapshot;
+  final QuerySnapshot<UserModel> snapshot;
 
   @override
-  final List<UserQueryDocumentSnapshot> docs;
+  final List<UserModelQueryDocumentSnapshot> docs;
 
   @override
-  final List<FirestoreDocumentChange<UserDocumentSnapshot>> docChanges;
+  final List<FirestoreDocumentChange<UserModelDocumentSnapshot>> docChanges;
 }
 
-class UserQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
-    implements UserDocumentSnapshot {
-  UserQueryDocumentSnapshot._(this.snapshot, this.data);
+class UserModelQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
+    implements UserModelDocumentSnapshot {
+  UserModelQueryDocumentSnapshot._(this.snapshot, this.data);
 
   @override
-  final QueryDocumentSnapshot<User> snapshot;
+  final QueryDocumentSnapshot<UserModel> snapshot;
 
   @override
-  UserDocumentReference get reference {
-    return UserDocumentReference(snapshot.reference);
+  UserModelDocumentReference get reference {
+    return UserModelDocumentReference(snapshot.reference);
   }
 
   @override
-  final User data;
+  final UserModel data;
 }
 
 // **************************************************************************
 // ValidatorGenerator
 // **************************************************************************
 
-_$assertUser(User instance) {
+_$assertUserModel(UserModel instance) {
   const Min(13).validate(instance.age, "age");
 }
 
@@ -1477,7 +1480,7 @@ _$assertUser(User instance) {
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       username: json['username'] as String,
       email: json['email'] as String,
       photoUrl: json['photoUrl'] as String?,
@@ -1493,7 +1496,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       phone: json['phone'] as int?,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'username': instance.username,
       'email': instance.email,
       'photoUrl': instance.photoUrl,

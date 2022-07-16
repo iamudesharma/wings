@@ -81,7 +81,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signUp(
       {required String email,
       required String password,
-      required User user}) async {
+      required UserModel user}) async {
     try {
       isLoadingSignUp = true;
       notifyListeners();

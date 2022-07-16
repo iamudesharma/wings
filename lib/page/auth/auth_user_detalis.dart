@@ -138,7 +138,7 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
                 child: const Text("Add"),
                 onTap: () async {
                   // final _context = context;
-                  final user = User(
+                  final user = UserModel(
                     username: usernameController.text,
                     email: "",
                     photoUrl: "",

@@ -222,7 +222,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (_auth.isLoadingSignUp) {
                             return;
                           } else {
-                            User _user = User(
+                            UserModel _user = UserModel(
                               name: nameController.text,
                               email: emailController.text,
                               age: age!,

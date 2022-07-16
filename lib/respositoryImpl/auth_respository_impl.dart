@@ -86,7 +86,7 @@ class AuthRespositoryImpl extends AuthRespository {
   Future<User?> signUp(
     String email,
     String password,
-    userModel.User user,
+    userModel.UserModel user,
   ) async {
     try {
       _logger.i('signUp');
@@ -144,7 +144,7 @@ class AuthRespositoryImpl extends AuthRespository {
 
   @override
   Future<void> userAdditionalDetails(
-    userModel.User? user,
+    userModel.UserModel? user,
   ) async {
     final _user = FirebaseAuth.instance.currentUser;
 

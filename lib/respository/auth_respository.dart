@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/users/user_model.dart' as userModel;
+import '../models/users/user_model.dart' ;
 
 abstract class AuthRespository {
   Future<User?> login(String email, String password);
-  Future<User?> signUp(String email, String password, userModel.User user);
+  Future<User?> signUp(String email, String password, UserModel user);
   User? getCurrentUser();
   Future<void> signOut();
   Future<void> sendPasswordResetEmail(String email);
@@ -13,7 +13,7 @@ abstract class AuthRespository {
       String name, String email, String photoUrl, String uid);
 
   Future<User?> googleSignIn();
-  Future<void> userAdditionalDetails(userModel.User? user,);
+  Future<void> userAdditionalDetails(UserModel? user,);
 
 
 }

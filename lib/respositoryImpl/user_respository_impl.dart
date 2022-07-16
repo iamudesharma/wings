@@ -20,8 +20,8 @@ class UserRepositoryImpl extends UserRepository {
 
   UserRepositoryImpl({this.reader});
   @override
-  Future<List<User>> getUsers() async {
-    List<User> user = [];
+  Future<List<UserModel>> getUsers() async {
+    List<UserModel> user = [];
 
     try {
       final _users = await usersRef.get();
@@ -39,7 +39,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<User?> getUserByUid(String uid) async {
+  Future<UserModel?> getUserByUid(String uid) async {
     final _users = await usersRef.doc(uid).get();
     if (_users.exists) {
       return _users.data;
@@ -50,16 +50,16 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<List<User>> getUserByUsername(String username) async {
+  Future<List<UserModel>> getUserByUsername(String username) async {
     final _users = await usersRef.whereUsername(isEqualTo: username).get();
 
-    final List<User> users = _users.docs.map((doc) => doc.data).toList();
+    final List<UserModel> users = _users.docs.map((doc) => doc.data).toList();
 
     return users;
   }
 
   @override
-  Future<void> updateUserProfile(User user) {
+  Future<void> updateUserProfile(UserModel user) {
     // TODO: implement updateUserProfile
     throw UnimplementedError();
   }
@@ -79,7 +79,7 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<void> editUserDetails(
-    User user,
+    UserModel user,
   ) async {
     await usersRef.reference.doc(await SharedPref.getUid()).update({
       'name': user.name,
@@ -103,12 +103,12 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<User?> getUserDetails() async {
+  Future<UserModel?> getUserDetails() async {
     final user = await usersRef.doc(await SharedPref.getUid()).get();
 
     _logger.i("User ${user.data?.age}");
     if (user.exists) {
-      return user.data as User;
+      return user.data as UserModel;
     }
   }
 
@@ -139,18 +139,18 @@ class UserRepositoryImpl extends UserRepository {
 }
 
 @override
-Future<User> getUserByUid(String uid) {
+Future<UserModel> getUserByUid(String uid) {
   // TODO: implement getUserByUid
   throw UnimplementedError();
 }
 
 @override
-Future<User> getUserByUsername(String username) {
+Future<UserModel> getUserByUsername(String username) {
   // TODO: implement getUserByUsername
   throw UnimplementedError();
 }
 
 @override
-Future<void> updateUserProfile(User user) {
+Future<void> updateUserProfile(UserModel user) {
   throw UnimplementedError();
 }

@@ -6,21 +6,21 @@ import '../models/users/user_model.dart';
 
 abstract class UserRepository {
   // -> Method 'getUser'
-  Future<List<User>> getUsers();
+  Future<List<UserModel>> getUsers();
 
-  Future<User?> getUserDetails();
+  Future<UserModel?> getUserDetails();
 
-  Future<void> updateUserProfile(User user);
+  Future<void> updateUserProfile(UserModel user);
 
-  Future<User?> getUserByUid(String uid);
+  Future<UserModel?> getUserByUid(String uid);
 
-  Future<List<User>> getUserByUsername(String username);
+  Future<List<UserModel>> getUserByUsername(String username);
 
   Future<File?> pickImage(ImageSource source);
   Future<File?> pickImageMacos();
 
 
-  Future<void> editUserDetails(User user);
+  Future<void> editUserDetails(UserModel user);
 
   Future<bool> checkUsernameExists(String username);
 }

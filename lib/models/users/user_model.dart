@@ -6,8 +6,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class User {
-  User({
+class UserModel {
+  UserModel({
     required this.username,
     required this.email,
     required this.photoUrl,
@@ -21,7 +21,8 @@ class User {
     this.phone,
   });
 
-  factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);
+  factory UserModel.fromJson(Map<String, Object?> json) =>
+      _$UserModelFromJson(json);
 
   final String username;
   final String email;
@@ -37,8 +38,8 @@ class User {
   @Min(13)
   final int age;
 
-  Map<String, Object?> toJson() => _$UserToJson(this);
+  Map<String, Object?> toJson() => _$UserModelToJson(this);
 }
 
-@Collection<User>('users')
-final usersRef = UserCollectionReference();
+@Collection<UserModel>('users')
+final usersRef = UserModelCollectionReference();

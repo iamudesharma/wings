@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:wings/models/users/user_model.dart' as userModel;
+import 'package:wings/models/users/user_model.dart';
 import 'package:wings/respositoryImpl/user_respository_impl.dart';
 
 import '../../respository/user_respository.dart';
 // import 'package:wings/respository/user_respository.dart';
 
 final userDetails =
-    FutureProvider.family<userModel.User?, String>((ref, id) async {
+    FutureProvider.family<UserModel?, String>((ref, id) async {
   final userRep = ref.read(userRepository);
 
   return await userRep.getUserByUid(id);
@@ -23,7 +23,7 @@ final getusersListProvider = FutureProvider((ref) {
 });
 
 final searchusersListProvider = FutureProvider.autoDispose
-    .family<List<userModel.User>, String>((ref, username) {
+    .family<List<UserModel>, String>((ref, username) {
   final userRep = ref.read(userRepository);
 
   return userRep.getUserByUsername(username);

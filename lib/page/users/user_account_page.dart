@@ -88,7 +88,7 @@ class _UserAccountPageState extends State<UserAccountPage>
                           );
                         },
                         icon: const Icon(Icons.more_vert_outlined))
-                    : SizedBox.shrink()
+                    : const SizedBox.shrink()
               ],
               // collapsedHeight: 50,
               title: Text(_user?.username ?? ""),
@@ -135,7 +135,7 @@ class _UserAccountPageState extends State<UserAccountPage>
                       itemCount: 10,
                     ),
                     desktopBody: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1.0,
                         crossAxisSpacing: 10,
@@ -162,7 +162,7 @@ class _UserAccountPageState extends State<UserAccountPage>
 }
 
 class UserAccountDetails extends ConsumerWidget {
-  final User? user;
+  final UserModel? user;
   const UserAccountDetails({
     this.user,
   });
@@ -194,7 +194,7 @@ class UserAccountDetails extends ConsumerWidget {
                   actions: [
                     CupertinoContextMenuAction(
                       trailingIcon: Icons.camera,
-                      child: Text('Camera'),
+                      child: const Text('Camera'),
                       onPressed: () async {
                         _userProvider.pickImage(ImageSource.camera);
 
@@ -372,7 +372,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
                           );
                         },
                         icon: const Icon(Icons.more_vert_outlined))
-                    : SizedBox.shrink()
+                    : const SizedBox.shrink()
               ],
               // collapsedHeight: 50,
               title: Text(_user?.username ?? ""),
@@ -382,7 +382,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 collapseMode: CollapseMode.parallax,
-                stretchModes: [
+                stretchModes: const [
                   StretchMode.blurBackground,
                   StretchMode.zoomBackground
                 ],
@@ -392,13 +392,13 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
                 ),
               ),
               stretch: true,
-              bottom: TabBar(controller: controller, tabs: [
-                const Tab(
-                  icon: const Icon(Icons.person),
+              bottom: TabBar(controller: controller, tabs: const [
+                 Tab(
+                  icon: Icon(Icons.person),
                   text: 'Profile',
                 ),
-                const Tab(
-                  icon: const Icon(
+                 Tab(
+                  icon:  Icon(
                     Icons.post_add,
                   ),
                   text: 'Posts',
@@ -409,7 +409,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: TabBarView(children: [
+                child: TabBarView(controller: controller, children: [
                   UserAccountDetails(
                     user: _user,
                   ),
@@ -419,7 +419,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
                       itemCount: 10,
                     ),
                     desktopBody: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1.0,
                         crossAxisSpacing: 10,
@@ -429,7 +429,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
                       itemCount: 10,
                     ),
                   )
-                ], controller: controller),
+                ]),
               ),
             ),
           ]);
@@ -446,7 +446,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
 }
 
 class OtherUserAccountDetails extends ConsumerWidget {
-  final User? user;
+  final UserModel? user;
   const OtherUserAccountDetails({
     this.user,
   });
@@ -478,7 +478,7 @@ class OtherUserAccountDetails extends ConsumerWidget {
                   actions: [
                     CupertinoContextMenuAction(
                       trailingIcon: Icons.camera,
-                      child: Text('Camera'),
+                      child: const Text('Camera'),
                       onPressed: () async {
                         _userProvider.pickImage(ImageSource.camera);
 
