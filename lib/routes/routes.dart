@@ -27,12 +27,11 @@ import 'package:wings/routes/routes.gr.dart';
         page: PostsListPage,
       ),
       AutoRoute(
-      page: UsersListPage,
-    ),
+        page: UsersListPage,
+      ),
       AutoRoute(
         page: UserAccountPage,
       ),
-      
     ]),
     AutoRoute(
       page: LoginPage,
@@ -49,7 +48,9 @@ import 'package:wings/routes/routes.gr.dart';
     AutoRoute(
       page: AuthUserDetailsPage,
     ),
-    
+    AutoRoute(
+      page: OtherUserAccountPage,
+    ),
   ],
 )
 class $AppRouter {}

@@ -42,7 +42,7 @@ packages:
       name: auto_route
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1"
   auto_route_generator:
     dependency: "direct dev"
     description:
@@ -54,6 +54,13 @@ packages:
     dependency: "direct main"
     description:
       name: auto_size_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
+  auto_size_text_pk:
+    dependency: transitive
+    description:
+      name: auto_size_text_pk
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
@@ -1078,6 +1085,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  velocity_x:
+    dependency: "direct main"
+    description:
+      name: velocity_x
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.5.1"
+  vxstate:
+    dependency: transitive
+    description:
+      name: vxstate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
   watcher:
     dependency: transitive
     description:
