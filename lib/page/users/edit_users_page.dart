@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wings/models/user_model.dart';
+import 'package:wings/models/users/user_model.dart';
 import 'package:wings/widgets/resposive.dart';
 import 'package:wings/widgets/textfield_widget.dart';
 

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wings/models/post_model.dart';
+import 'package:wings/models/posts/post_model.dart';
 
 import '../../routes/routes.gr.dart';
 import '../../widgets/widgets.dart';

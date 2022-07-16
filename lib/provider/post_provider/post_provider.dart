@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/respository/respository.dart';
 import 'package:wings/respositoryImpl/post_responsitory_impl.dart';
 
-import '../../models/post_model.dart';
+import '../../models/posts/post_model.dart';
 
 final postsResponsitory =
     Provider<PostsRepository>((ref) => PostsRepositoryImpl());

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wings/models/post_model.dart';
+import 'package:wings/models/posts/post_model.dart';
 import 'package:wings/provider/local_data.dart';
 // import 'package:wings/models/post_model.g.dart';
 

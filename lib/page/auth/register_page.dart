@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:wings/models/user_model.dart';
+import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker_platform_interface/src/types/image_source.dart';
 import 'package:logger/logger.dart';
-import 'package:wings/models/user_model.dart';
+import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/respository/user_respository.dart';
 import 'package:wings/utils/image_picker.dart';
@@ -50,9 +50,12 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<User> getUserByUsername(String username) {
-    // TODO: implement getUserByUsername
-    throw UnimplementedError();
+  Future<List<User>> getUserByUsername(String username) async {
+    final _users = await usersRef.whereUsername(isEqualTo: username).get();
+
+    final List<User> users = _users.docs.map((doc) => doc.data).toList();
+
+    return users;
   }
 
   @override

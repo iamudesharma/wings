@@ -1,4 +1,4 @@
- import 'package:wings/models/post_model.dart';
+ import 'package:wings/models/posts/post_model.dart';
 
 abstract class PostsRepository {
  

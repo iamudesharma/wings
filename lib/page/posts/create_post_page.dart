@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
-import 'package:wings/models/post_model.dart';
+import 'package:wings/models/posts/post_model.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/post_provider/post_provider.dart';
 // import 'package:stories_editor/stories_editor.dart';

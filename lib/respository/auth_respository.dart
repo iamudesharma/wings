@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/user_model.dart' as userModel;
+import '../models/users/user_model.dart' as userModel;
 
 abstract class AuthRespository {
   Future<User?> login(String email, String password);

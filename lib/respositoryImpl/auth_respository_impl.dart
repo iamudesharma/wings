@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:wings/provider/local_data.dart';
-import '../models/user_model.dart' as userModel;
+import '../models/users/user_model.dart' as userModel;
 // import 'package:sharedpreference/sharedpreference.dart';
 
 import '../respository/auth_respository.dart';

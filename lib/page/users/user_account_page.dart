@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 
-import 'package:wings/models/user_model.dart';
+import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
