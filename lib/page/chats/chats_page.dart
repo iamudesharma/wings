@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:wings/models/users/user_model.dart';
 
 class ChatPage extends StatelessWidget {
@@ -13,6 +14,37 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 20,
+          left: 10,
+          right: 10,
+        ),
+        child: TextFormField(
+          decoration: InputDecoration(
+            enabled: true,
+            prefixIcon: Icon(
+              Icons.emoji_emotions,
+            ),
+            suffix: Icon(
+              Icons.file_present,
+            ),
+            suffixIcon: Icon(
+              Icons.send,
+            ),
+            border: OutlineInputBorder(),
+          ),
+          autocorrect: true,
+          autofocus: true,
+          enableSuggestions: true,
+          enabled: true,
+          textInputAction: TextInputAction.newline,
+          keyboardType: TextInputType.text,
+          // textCapitalization: ,
+          onSaved: ((newValue) {}),
+          // expands: true,
+        ),
+      ),
       appBar: AppBar(
         // backwardsCompatibility: true,
         leading: CircleAvatar(
