@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    name: "wings",
+    // name: "wings",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 

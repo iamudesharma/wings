@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 
 import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
 import 'package:wings/widgets/widgets.dart';
@@ -135,7 +136,8 @@ class _UserAccountPageState extends State<UserAccountPage>
                       itemCount: 10,
                     ),
                     desktopBody: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1.0,
                         crossAxisSpacing: 10,
@@ -393,12 +395,12 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
               ),
               stretch: true,
               bottom: TabBar(controller: controller, tabs: const [
-                 Tab(
+                Tab(
                   icon: Icon(Icons.person),
                   text: 'Profile',
                 ),
-                 Tab(
-                  icon:  Icon(
+                Tab(
+                  icon: Icon(
                     Icons.post_add,
                   ),
                   text: 'Posts',
@@ -410,7 +412,7 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: TabBarView(controller: controller, children: [
-                  UserAccountDetails(
+                  OtherUserAccountDetails(
                     user: _user,
                   ),
                   ResponsiveLatout(
@@ -419,7 +421,8 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
                       itemCount: 10,
                     ),
                     desktopBody: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1.0,
                         crossAxisSpacing: 10,
@@ -507,15 +510,15 @@ class OtherUserAccountDetails extends ConsumerWidget {
                 ),
               ),
               IconWithTextWidget(
-                iconData: Icons.edit,
+                iconData: Icons.message,
                 onTap: () {
                   AutoRouter.of(context).push(
-                    UserEditRoute(
-                      user: user,
+                    ChatRoute(
+                      userModel: user!,
                     ),
                   );
                 },
-                title: "Edit",
+                title: "Message",
               )
             ],
           ),

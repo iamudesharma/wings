@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>727523993205-oearcb3gb7iv40r6vrjofj245nt8qa4a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.727523993205-oearcb3gb7iv40r6vrjofj245nt8qa4a</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>727523993205-c29s4td0e99rfafqst5gqngf6sfimk2g.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBKQ8ZM_LEsy3RhzCcEF3sWNpoNvwrgaFw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>727523993205</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wings.wings.udesh</string>
+	<key>PROJECT_ID</key>
+	<string>wings-18365</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wings-18365.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:727523993205:ios:bbd857ab949f19951eba3c</string>
+</dict>
+</plist>
