@@ -104,11 +104,14 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<UserModel?> getUserDetails() async {
-    final user = await usersRef.doc(await SharedPref.getUid()).get();
+    final user = await usersRef.doc(SharedPref.getUid()).get();
 
     _logger.i("User ${user.data?.age}");
     if (user.exists) {
-      return user.data as UserModel;
+      print(user.exists);
+      print(user.data);
+
+      return user.data;
     }
   }
 

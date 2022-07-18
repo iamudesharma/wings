@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +13,7 @@ import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
+import 'package:wings/respositoryImpl/chat_repository.dart';
 import 'package:wings/routes/routes.gr.dart';
 import 'package:wings/widgets/widgets.dart';
 
@@ -511,8 +514,10 @@ class OtherUserAccountDetails extends ConsumerWidget {
               ),
               IconWithTextWidget(
                 iconData: Icons.message,
-                onTap: () {
-                  AutoRouter.of(context).push(
+                onTap: () async {
+                  final autoRoutes = AutoRouter.of(context);
+
+                  autoRoutes.push(
                     ChatRoute(
                       userModel: user!,
                     ),
