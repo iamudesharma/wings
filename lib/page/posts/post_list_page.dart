@@ -94,7 +94,7 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                   AutoRouter.of(
                     context,
                   ).push(
-                    const CreatePostRoute(),
+                    const ChatsListRoute(),
                   );
                 },
               ),

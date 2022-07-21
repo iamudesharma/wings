@@ -517,11 +517,11 @@ class OtherUserAccountDetails extends ConsumerWidget {
                 onTap: () async {
                   final autoRoutes = AutoRouter.of(context);
 
-                  autoRoutes.push(
-                    ChatRoute(
-                      userModel: user!,
-                    ),
-                  );
+                  // // autoRoutes.push(
+                  // //   ChatRoute(
+                  // //     // userModel: user!,
+                  // //   ),
+                  // );
                 },
                 title: "Message",
               )
