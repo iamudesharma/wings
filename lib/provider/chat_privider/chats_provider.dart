@@ -9,3 +9,7 @@ final chatRepositoryProvider = Provider<ChatRepository>(
     auth: FirebaseAuth.instance,
   ),
 );
+
+final chatListProvider = StreamProvider(
+  (ref) => ref.read(chatRepositoryProvider).getChatContacts(),
+);

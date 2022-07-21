@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wings/page/auth/auth_user_detalis.dart';
 import 'package:wings/page/auth/login_page.dart';
 import 'package:wings/page/auth/register_page.dart';
+import 'package:wings/page/chats/chat_list_page.dart';
 import 'package:wings/page/chats/chats_page.dart';
 import 'package:wings/page/home_page.dart';
 import 'package:wings/page/page.dart';
@@ -52,7 +53,9 @@ import 'package:wings/routes/routes.gr.dart';
     AutoRoute(
       page: OtherUserAccountPage,
     ),
-    AutoRoute(page: ChatPage)
+    AutoRoute(page: ChatPage),
+
+    AutoRoute(page: ChatsListPage),
   ],
 )
 class $AppRouter {}

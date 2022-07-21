@@ -89,7 +89,7 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
             title: const Text("Posts"),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(Icons.add),
+                icon: const Icon(Icons.chat_sharp),
                 onPressed: () {
                   AutoRouter.of(
                     context,

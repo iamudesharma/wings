@@ -56,7 +56,6 @@ class ChatRepository {
     });
   }
 
-  
   Stream<List<Message>> getChatStream(String recieverUserId) {
     return firestore
         .collection('users')
@@ -64,7 +63,7 @@ class ChatRepository {
         .collection('chats')
         .doc(recieverUserId)
         .collection('messages')
-        .orderBy('timeSent')
+        .orderBy('timeSent', descending: true)
         .snapshots()
         .map((event) {
       List<Message> messages = [];
@@ -108,7 +107,7 @@ class ChatRepository {
 // users -> reciever user id => chats -> current user id -> set data
       var recieverChatContact = ChatContact(
         name: senderUserData.name,
-        profilePic: senderUserData.photoUrl!,
+        profilePic: senderUserData.photoUrl ?? "",
         contactId: senderUserData.id,
         timeSent: timeSent,
         lastMessage: text,
@@ -124,7 +123,7 @@ class ChatRepository {
       // users -> current user id  => chats -> reciever user id -> set data
       var senderChatContact = ChatContact(
         name: recieverUserData!.name,
-        profilePic: recieverUserData.photoUrl!,
+        profilePic: recieverUserData.photoUrl ?? "",
         contactId: recieverUserData.id,
         timeSent: timeSent,
         lastMessage: text,

@@ -11,13 +11,14 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i5;
+import 'package:flutter/foundation.dart' as _i8;
 import 'package:flutter/material.dart' as _i6;
 
-import '../models/users/user_model.dart' as _i8;
+import '../models/users/user_model.dart' as _i9;
 import '../page/auth/register_page.dart' as _i2;
+import '../page/chats/chat_list_page.dart' as _i4;
 import '../page/chats/chats_page.dart' as _i3;
 import '../page/page.dart' as _i1;
-import '../page/users/users_list_page.dart' as _i4;
 import 'routes.dart' as _i7;
 
 class AppRouter extends _i5.RootStackRouter {
@@ -72,13 +73,17 @@ class AppRouter extends _i5.RootStackRouter {
           routeData: routeData,
           child: _i3.ChatPage(key: args.key, userModel: args.userModel));
     },
+    ChatsListRoute.name: (routeData) {
+      return _i5.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i4.ChatsListPage());
+    },
     PostsListRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i1.PostsListPage());
     },
     UsersListRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.UsersListPage());
+          routeData: routeData, child: const _i1.UsersListPage());
     },
     UserAccountRoute.name: (routeData) {
       final args = routeData.argsAs<UserAccountRouteArgs>();
@@ -110,7 +115,8 @@ class AppRouter extends _i5.RootStackRouter {
             path: '/auth-user-details-page'),
         _i5.RouteConfig(OtherUserAccountRoute.name,
             path: '/other-user-account-page'),
-        _i5.RouteConfig(ChatRoute.name, path: '/chat-page')
+        _i5.RouteConfig(ChatRoute.name, path: '/chat-page'),
+        _i5.RouteConfig(ChatsListRoute.name, path: '/chats-list-page')
       ];
 }
 
@@ -142,7 +148,7 @@ class RegisterRoute extends _i5.PageRouteInfo<void> {
 /// generated route for
 /// [_i1.UserEditPage]
 class UserEditRoute extends _i5.PageRouteInfo<UserEditRouteArgs> {
-  UserEditRoute({_i6.Key? key, required _i8.UserModel? user})
+  UserEditRoute({_i8.Key? key, required _i9.UserModel? user})
       : super(UserEditRoute.name,
             path: '/user-edit-page',
             args: UserEditRouteArgs(key: key, user: user));
@@ -153,9 +159,9 @@ class UserEditRoute extends _i5.PageRouteInfo<UserEditRouteArgs> {
 class UserEditRouteArgs {
   const UserEditRouteArgs({this.key, required this.user});
 
-  final _i6.Key? key;
+  final _i8.Key? key;
 
-  final _i8.UserModel? user;
+  final _i9.UserModel? user;
 
   @override
   String toString() {
@@ -186,7 +192,7 @@ class AuthUserDetailsRoute extends _i5.PageRouteInfo<void> {
 class OtherUserAccountRoute
     extends _i5.PageRouteInfo<OtherUserAccountRouteArgs> {
   OtherUserAccountRoute(
-      {_i6.Key? key, required String id, required bool isCurrentUser})
+      {_i8.Key? key, required String id, required bool isCurrentUser})
       : super(OtherUserAccountRoute.name,
             path: '/other-user-account-page',
             args: OtherUserAccountRouteArgs(
@@ -199,7 +205,7 @@ class OtherUserAccountRouteArgs {
   const OtherUserAccountRouteArgs(
       {this.key, required this.id, required this.isCurrentUser});
 
-  final _i6.Key? key;
+  final _i8.Key? key;
 
   final String id;
 
@@ -214,7 +220,7 @@ class OtherUserAccountRouteArgs {
 /// generated route for
 /// [_i3.ChatPage]
 class ChatRoute extends _i5.PageRouteInfo<ChatRouteArgs> {
-  ChatRoute({_i6.Key? key, required _i8.UserModel userModel})
+  ChatRoute({_i8.Key? key, required _i9.UserModel userModel})
       : super(ChatRoute.name,
             path: '/chat-page',
             args: ChatRouteArgs(key: key, userModel: userModel));
@@ -225,14 +231,22 @@ class ChatRoute extends _i5.PageRouteInfo<ChatRouteArgs> {
 class ChatRouteArgs {
   const ChatRouteArgs({this.key, required this.userModel});
 
-  final _i6.Key? key;
+  final _i8.Key? key;
 
-  final _i8.UserModel userModel;
+  final _i9.UserModel userModel;
 
   @override
   String toString() {
     return 'ChatRouteArgs{key: $key, userModel: $userModel}';
   }
+}
+
+/// generated route for
+/// [_i4.ChatsListPage]
+class ChatsListRoute extends _i5.PageRouteInfo<void> {
+  const ChatsListRoute() : super(ChatsListRoute.name, path: '/chats-list-page');
+
+  static const String name = 'ChatsListRoute';
 }
 
 /// generated route for
@@ -244,7 +258,7 @@ class PostsListRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.UsersListPage]
+/// [_i1.UsersListPage]
 class UsersListRoute extends _i5.PageRouteInfo<void> {
   const UsersListRoute() : super(UsersListRoute.name, path: 'users-list-page');
 
@@ -255,7 +269,7 @@ class UsersListRoute extends _i5.PageRouteInfo<void> {
 /// [_i1.UserAccountPage]
 class UserAccountRoute extends _i5.PageRouteInfo<UserAccountRouteArgs> {
   UserAccountRoute(
-      {_i6.Key? key, required String id, required bool isCurrentUser})
+      {_i8.Key? key, required String id, required bool isCurrentUser})
       : super(UserAccountRoute.name,
             path: 'user-account-page',
             args: UserAccountRouteArgs(
@@ -268,7 +282,7 @@ class UserAccountRouteArgs {
   const UserAccountRouteArgs(
       {this.key, required this.id, required this.isCurrentUser});
 
-  final _i6.Key? key;
+  final _i8.Key? key;
 
   final String id;
 
