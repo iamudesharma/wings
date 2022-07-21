@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/routes/routes.gr.dart';
 
+import '../provider/notification_provider.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -13,6 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    NotififcationClass.messageFire();
+
     // TODO: implement initState
     super.initState();
   }

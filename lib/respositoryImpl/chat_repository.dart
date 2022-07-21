@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wings/provider/firebase_storage_repository.dart';
+import 'package:wings/provider/local_data.dart';
 
 import '../models/chats/chats_contact_model.dart';
 import '../models/chats/message.dart';
@@ -29,7 +30,7 @@ class ChatRepository {
   Stream<List<ChatContact>> getChatContacts() {
     return firestore
         .collection('users')
-        .doc(auth.currentUser!.uid)
+        .doc(SharedPref.getUid())
         .collection('chats')
         .snapshots()
         .asyncMap((event) async {
@@ -45,7 +46,7 @@ class ChatRepository {
         contacts.add(
           ChatContact(
             name: user.name,
-            profilePic: user.photoUrl!,
+            profilePic: user.photoUrl ?? '',
             contactId: chatContact.contactId,
             timeSent: chatContact.timeSent,
             lastMessage: chatContact.lastMessage,
