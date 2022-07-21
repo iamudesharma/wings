@@ -50,6 +50,7 @@ class ChatRepository {
             contactId: chatContact.contactId,
             timeSent: chatContact.timeSent,
             lastMessage: chatContact.lastMessage,
+            fcm: chatContact.fcm,
           ),
         );
       }
@@ -107,6 +108,7 @@ class ChatRepository {
     } else {
 // users -> reciever user id => chats -> current user id -> set data
       var recieverChatContact = ChatContact(
+        fcm: senderUserData.fcmToken,
         name: senderUserData.name,
         profilePic: senderUserData.photoUrl ?? "",
         contactId: senderUserData.id,
@@ -128,6 +130,7 @@ class ChatRepository {
         contactId: recieverUserData.id,
         timeSent: timeSent,
         lastMessage: text,
+        fcm: recieverUserData.fcmToken,
       );
       await firestore
           .collection('users')

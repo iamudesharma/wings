@@ -1,6 +1,7 @@
 // import 'dart:js';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -218,6 +219,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     CustomButton(
                       onTap: () async {
+                  final fcmToken = await FirebaseMessaging.instance.getToken();
+
                         if (_formKey.currentState!.validate()) {
                           if (_auth.isLoadingSignUp) {
                             return;
@@ -225,6 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             UserModel _user = UserModel(
                               name: nameController.text,
                               email: emailController.text,
+                              fcmToken: fcmToken!,
                               age: age!,
                               bio: "",
                               country: "India",

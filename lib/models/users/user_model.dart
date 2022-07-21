@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:flutter/semantics.dart';
@@ -14,11 +15,12 @@ class UserModel {
     required this.country,
     required this.bio,
     required this.id,
-    required this.name,
-    required this.age,
-    required this.dob,
     this.tags = const [],
+    required this.name,
+    required this.dob,
     this.phone,
+    required this.fcmToken,
+    required this.age,
   });
 
   factory UserModel.fromJson(Map<String, Object?> json) =>
@@ -34,6 +36,7 @@ class UserModel {
   final String name;
   final String? dob;
   final int? phone;
+  final String fcmToken;
 
   @Min(13)
   final int age;

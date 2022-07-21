@@ -130,6 +130,7 @@ abstract class UserModelDocumentReference
     String name,
     String? dob,
     int? phone,
+    String fcmToken,
     int age,
   });
 
@@ -185,6 +186,7 @@ class _$UserModelDocumentReference
     Object? name = _sentinel,
     Object? dob = _sentinel,
     Object? phone = _sentinel,
+    Object? fcmToken = _sentinel,
     Object? age = _sentinel,
   }) async {
     final json = {
@@ -198,6 +200,7 @@ class _$UserModelDocumentReference
       if (name != _sentinel) "name": name as String,
       if (dob != _sentinel) "dob": dob as String?,
       if (phone != _sentinel) "phone": phone as int?,
+      if (fcmToken != _sentinel) "fcmToken": fcmToken as String,
       if (age != _sentinel) "age": age as int,
     };
 
@@ -368,6 +371,17 @@ abstract class UserModelQuery
     List<int?>? whereIn,
     List<int?>? whereNotIn,
   });
+  UserModelQuery whereFcmToken({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  });
   UserModelQuery whereAge({
     int? isEqualTo,
     int? isNotEqualTo,
@@ -506,6 +520,18 @@ abstract class UserModelQuery
     int? startAfter,
     int? endAt,
     int? endBefore,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
+  });
+
+  UserModelQuery orderByFcmToken({
+    bool descending = false,
+    String startAt,
+    String startAfter,
+    String endAt,
+    String endBefore,
     UserModelDocumentSnapshot? startAtDocument,
     UserModelDocumentSnapshot? endAtDocument,
     UserModelDocumentSnapshot? endBeforeDocument,
@@ -878,6 +904,34 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     return _$UserModelQuery(
       reference.where(
         "phone",
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  UserModelQuery whereFcmToken({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<String>? whereIn,
+    List<String>? whereNotIn,
+  }) {
+    return _$UserModelQuery(
+      reference.where(
+        "fcmToken",
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1382,6 +1436,48 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     return _$UserModelQuery(query, _collection);
   }
 
+  UserModelQuery orderByFcmToken({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy("fcmToken", descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$UserModelQuery(query, _collection);
+  }
+
   UserModelQuery orderByAge({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -1487,13 +1583,14 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       country: json['country'] as String?,
       bio: json['bio'] as String?,
       id: json['id'] as String,
-      name: json['name'] as String,
-      age: json['age'] as int,
-      dob: json['dob'] as String?,
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const [],
+      name: json['name'] as String,
+      dob: json['dob'] as String?,
       phone: json['phone'] as int?,
+      fcmToken: json['fcmToken'] as String,
+      age: json['age'] as int,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -1507,5 +1604,6 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'name': instance.name,
       'dob': instance.dob,
       'phone': instance.phone,
+      'fcmToken': instance.fcmToken,
       'age': instance.age,
     };

@@ -15,12 +15,12 @@ import 'package:flutter/material.dart' as _i8;
 
 import '../models/chats/chats_contact_model.dart' as _i11;
 import '../models/users/user_model.dart' as _i10;
-import '../page/auth/auth_user_detalis.dart' as _i4;
 import '../page/auth/login_page.dart' as _i2;
 import '../page/chats/chat_list_page.dart' as _i6;
 import '../page/chats/chats_page.dart' as _i5;
 import '../page/home_page.dart' as _i1;
 import '../page/page.dart' as _i3;
+import '../page/users/user_account_page.dart' as _i4;
 import 'routes.dart' as _i9;
 
 class AppRouter extends _i7.RootStackRouter {
@@ -60,13 +60,13 @@ class AppRouter extends _i7.RootStackRouter {
     },
     AuthUserDetailsRoute.name: (routeData) {
       return _i7.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.AuthUserDetailsPage());
+          routeData: routeData, child: const _i3.AuthUserDetailsPage());
     },
     OtherUserAccountRoute.name: (routeData) {
       final args = routeData.argsAs<OtherUserAccountRouteArgs>();
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i3.OtherUserAccountPage(
+          child: _i4.OtherUserAccountPage(
               key: args.key, id: args.id, isCurrentUser: args.isCurrentUser));
     },
     ChatRoute.name: (routeData) {
@@ -91,7 +91,7 @@ class AppRouter extends _i7.RootStackRouter {
       final args = routeData.argsAs<UserAccountRouteArgs>();
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i3.UserAccountPage(
+          child: _i4.UserAccountPage(
               key: args.key, id: args.id, isCurrentUser: args.isCurrentUser));
     }
   };
@@ -181,7 +181,7 @@ class CreatePostRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.AuthUserDetailsPage]
+/// [_i3.AuthUserDetailsPage]
 class AuthUserDetailsRoute extends _i7.PageRouteInfo<void> {
   const AuthUserDetailsRoute()
       : super(AuthUserDetailsRoute.name, path: '/auth-user-details-page');
@@ -190,7 +190,7 @@ class AuthUserDetailsRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.OtherUserAccountPage]
+/// [_i4.OtherUserAccountPage]
 class OtherUserAccountRoute
     extends _i7.PageRouteInfo<OtherUserAccountRouteArgs> {
   OtherUserAccountRoute(
@@ -268,7 +268,7 @@ class UsersListRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.UserAccountPage]
+/// [_i4.UserAccountPage]
 class UserAccountRoute extends _i7.PageRouteInfo<UserAccountRouteArgs> {
   UserAccountRoute(
       {_i8.Key? key, required String id, required bool isCurrentUser})

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -8,7 +9,6 @@ import 'package:wings/widgets/widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import '../../utils/get_age.dart';
 import '../../widgets/textfield_widget.dart';
-
 
 class AuthUserDetailsPage extends ConsumerStatefulWidget {
   const AuthUserDetailsPage({Key? key}) : super(key: key);
@@ -137,8 +137,10 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
             CustomButton(
                 child: const Text("Add"),
                 onTap: () async {
+                  final fcmToken = await FirebaseMessaging.instance.getToken();
                   // final _context = context;
                   final user = UserModel(
+                    fcmToken: fcmToken!,
                     username: usernameController.text,
                     email: "",
                     photoUrl: "",
@@ -148,7 +150,8 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
                     name: nameController.text,
                     age: age!,
                     dob: datetimeController.text,
-                    phone: int.parse(phoneController.text),
+                    phone: int.parse(phoneController.text,
+                    ),
                   );
 
                   await ref
