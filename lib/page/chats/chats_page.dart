@@ -6,10 +6,17 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:wings/models/chats/message.dart';
 import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/chat_privider/message_reply_provider.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/respositoryImpl/chat_repository.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
+final getChats = StreamProvider.family<List<Message>, String>((ref, id) {
+  return ref.read(chatRepositoryProvider).getChatStream(id);
+});
 // class ChatPage extends ConsumerWidget {
+
 //   final UserModel userModel;
 
 //   const ChatPage({
@@ -50,9 +57,24 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 
   @override
+  void initState() {
+    _scrollController.addListener(() {
+      setState(() {});
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
+  ScrollController _scrollController = ScrollController();
+
+  @override
   Widget build(BuildContext context) {
-    final chatrep = ref.watch(chatRepositoryProvider);
+    final chatrep = ref.read(chatRepositoryProvider);
+    final chats = ref.watch(getChats(widget.userModel.id));
     // final currentUser = ref.watch(userRepository);
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    // });
 
     // print("current user ${currentUser?.phone}");
     // print("user model ${currentUser?.name}");
@@ -82,6 +104,15 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                   messageReply: MessageReply("heoo", true, MessageEnum.text),
                   isGroupChat: false,
                 );
+
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _scrollController
+                      .jumpTo(_scrollController.position.maxScrollExtent);
+                });
+                // _scrollController.animateTo(
+                //     _scrollController.position.maxScrollExtent,
+                //     duration: Duration.zero,
+                //     curve: Curves.easeOut);
               },
               child: Icon(
                 Icons.send,
@@ -111,8 +142,51 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           widget.userModel.username,
         ),
       ),
-      body: const Center(
-        child: Text('Chat'),
+      body: chats.when(
+        data: (chats) {
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: ListView.builder(
+              padding: EdgeInsets.only(
+                bottom: 50,
+              ),
+              controller: _scrollController,
+              reverse: true,
+              shrinkWrap: true,
+              itemCount: chats.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      right: 10, left: 10, top: 3, bottom: 5),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        timeago.format(
+                          chats[index].timeSent,
+                          allowFromNow: true,
+                        ),
+                        style: TextStyle(
+                          fontSize: 8,
+                        ),
+                      ),
+                      BubbleSpecialOne(
+                        tail: true,
+                        isSender: chats[index].senderId == SharedPref.getUid()
+                            ? true
+                            : false,
+                        seen: chats[index].isSeen,
+                        text: chats[index].text,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        },
+        error: ((error, stackTrace) => Container()),
+        loading: () => CircularProgressIndicator(),
       ),
     );
   }
