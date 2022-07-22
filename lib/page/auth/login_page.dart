@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/routes/routes.gr.dart';
 import 'package:wings/widgets/widgets.dart';
 import 'package:auth_buttons/auth_buttons.dart';
@@ -129,6 +132,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     CustomButton(
                       onTap: () async {
+                        final playerId = await OneSignal().getDeviceState();
                         if (_formKey.currentState!.validate()) {
                           if (_auth.isLoading) {
                             return;
@@ -136,6 +140,10 @@ class LoginPageState extends ConsumerState<LoginPage> {
                             await _auth.login(
                                 email: emailController.text,
                                 password: passwordController.text);
+
+                            await usersRef.doc(SharedPref.getUid()).update(
+                                  fcmToken: playerId!.userId!,
+                                );
 
                             context.router.replace(const HomeRoute());
                           }

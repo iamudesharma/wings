@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    NotififcationClass.messageFire();
+    // NotififcationClass.messageFire();
 
     // TODO: implement initState
     super.initState();
