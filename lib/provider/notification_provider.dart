@@ -53,7 +53,9 @@ class NotififcationClass {
 
     return await OneSignal().postNotification(
       OSCreateNotification(
-        playerIds: [],
+        playerIds: [
+          playerId
+        ],
         content: userName,
         subtitle: title,
         additionalData: {},
