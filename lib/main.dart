@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:sharedpreference/sharedpreference.dart';
 import 'package:wings/firebase_options.dart';
@@ -20,6 +20,8 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   NotififcationClass.init();
+  NotififcationClass.onNotification();
+
   FirebaseFirestore.instance.settings = Settings(
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
@@ -48,7 +50,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final _routes = ref.watch(routesProvider);
 
-    return GetMaterialApp.router(
+    return MaterialApp.router(
       // useInheritedMediaQuery: ,
       key: navigatorKey,
       title: 'Wings',

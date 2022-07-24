@@ -105,6 +105,7 @@ class AuthRespositoryImpl extends AuthRespository {
         "image": "",
         "bio": "",
         "country": "India",
+        "fcmToken": user.fcmToken,
         "age": user.age,
       });
       await SharedPref.saveUserUid(_user.uid);

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:wings/models/chats/chats_contact_model.dart';
 
 import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
@@ -340,8 +341,8 @@ class _OtherUserAccountPage extends State<OtherUserAccountPage>
         final _userDetails = ref.watch(userDetails(widget.id));
 
         return _userDetails.when(data: (_user) {
-          _logger.i("User name ${_user?.name}");
-          _logger.i("User name ${_user?.username}");
+          // _logger.i("User name ${_user?.name}");
+          // _logger.i("User name ${_user?.username}");
 
           return CustomScrollView(slivers: [
             SliverAppBar(
@@ -517,11 +518,16 @@ class OtherUserAccountDetails extends ConsumerWidget {
                 onTap: () async {
                   final autoRoutes = AutoRouter.of(context);
 
-                  // // autoRoutes.push(
-                  // //   ChatRoute(
-                  // //     // userModel: user!,
-                  // //   ),
-                  // );
+                  autoRoutes.push(
+                    ChatRoute(
+                      userModel: ChatContact(
+                        name: user!.name,
+                        profilePic: user?.photoUrl ?? "",
+                        contactId: user!.id,
+                        fcm: user!.fcmToken,
+                      ),
+                    ),
+                  );
                 },
                 title: "Message",
               )

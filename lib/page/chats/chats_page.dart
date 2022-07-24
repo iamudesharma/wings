@@ -2,13 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+// import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:wings/models/chats/chats_contact_model.dart';
 
 import 'package:wings/models/chats/message.dart';
 import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/chat_privider/message_reply_provider.dart';
 import 'package:wings/provider/local_data.dart';
+import 'package:wings/provider/notification_provider.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/respositoryImpl/chat_repository.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
@@ -47,19 +48,14 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   late UserModel currentUser;
 
   @override
-  void didChangeDependencies() async {
-    await ref.read(userRepository).getUserDetails().then((value) {
+  void initState() {
+    ref.read(userRepository).getUserDetails().then((value) {
       setState(() {
         currentUser = value!;
       });
     });
 
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
+    textEditingController = TextEditingController();
     _scrollController.addListener(() {
       setState(() {});
     });
@@ -68,6 +64,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 
   ScrollController _scrollController = ScrollController();
+  late TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +85,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           right: 10,
         ),
         child: TextFormField(
+          controller: textEditingController,
           decoration: InputDecoration(
             enabled: true,
             prefixIcon: Icon(
@@ -98,9 +96,15 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             ),
             suffixIcon: InkWell(
               onTap: () async {
+                await NotififcationClass.sendNotification(
+                  playerId: widget.userModel.fcm ?? "",
+                  title: textEditingController.text,
+                  userName: "usrt",
+                );
+
                 chatrep.sendTextMessage(
                   context: context,
-                  text: "Hello",
+                  text: textEditingController.text,
                   recieverUserId: widget.userModel.contactId,
                   senderUser: currentUser,
                   messageReply: MessageReply("heoo", true, MessageEnum.text),
@@ -150,6 +154,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           });
+
           return Align(
             alignment: Alignment.bottomCenter,
             child: ListView.builder(
@@ -161,8 +166,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               shrinkWrap: true,
               itemCount: chats.length,
               itemBuilder: (BuildContext context, int index) {
-                ref.read(chatRepositoryProvider).setChatMessageSeen(context,
-                    widget.userModel.contactId, chats[index].messageId);
+                if (widget.userModel.contactId == SharedPref.getUid()) {
+                  ref.read(chatRepositoryProvider).setChatMessageSeen(context,
+                      widget.userModel.contactId, chats[index].messageId);
+                }
+
                 return Padding(
                   padding: const EdgeInsets.only(
                       right: 10, left: 10, top: 3, bottom: 5),

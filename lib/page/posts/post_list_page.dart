@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wings/models/posts/post_model.dart';
+import 'package:wings/provider/notification_provider.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 
 import '../../routes/routes.gr.dart';
@@ -62,6 +63,7 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
 
   @override
   void didChangeDependencies() async {
+    // await NotififcationClass.sendNotification();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }

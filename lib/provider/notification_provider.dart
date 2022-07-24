@@ -19,7 +19,7 @@ class NotififcationClass {
     });
   }
 
-  onNotification() {
+  static onNotification() {
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
         (OSNotificationReceivedEvent event) {
       // Will be called whenever a notification is received in foreground
@@ -42,12 +42,24 @@ class NotififcationClass {
       // Will be called whenever the subscription changes
       // (ie. user gets registered with OneSignal and gets a user ID)
     });
+  }
 
-    OneSignal.shared.setEmailSubscriptionObserver(
-        (OSEmailSubscriptionStateChanges emailChanges) {
-      // Will be called whenever then user's email subscription changes
-      // (ie. OneSignal.setEmail(email) is called and the user gets registered
-    });
+  static Future<Map<String, dynamic>> sendNotification(
+      {required String playerId,
+      required String title,
+      required String userName}) async {
+    print('playerId: $playerId');
+    print('playerId: $title');
+
+    return await OneSignal().postNotification(
+      OSCreateNotification(
+        playerIds: [],
+        content: userName,
+        subtitle: title,
+        additionalData: {},
+        sendAfter: DateTime.now(),
+      ),
+    );
   }
 }
 

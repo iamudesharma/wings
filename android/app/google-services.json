@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "727523993205-c29s4td0e99rfafqst5gqngf6sfimk2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.wings.udesh",
+            "certificate_hash": "aa372dedfbbb1d49ad2e109d02b18f8b3109f9e1"
+          }
+        },
+        {
           "client_id": "727523993205-rmkt681ohgpieg64369n36kl172hv9re.apps.googleusercontent.com",
           "client_type": 3
         }

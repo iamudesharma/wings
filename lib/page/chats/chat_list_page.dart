@@ -32,7 +32,7 @@ class ChatsListPage extends ConsumerWidget {
                       ),
                     ),
                     title: Text("${chatsList[index].name}"),
-                    subtitle: Text(chatsList[index].lastMessage),
+                    subtitle: Text(chatsList[index].lastMessage ?? ""),
                     onTap: () {
                       AutoRouter.of(context).push(ChatRoute(
                         userModel: chatsList[index],

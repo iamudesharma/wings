@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+// import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/routes/routes.gr.dart';
