@@ -166,11 +166,26 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               shrinkWrap: true,
               itemCount: chats.length,
               itemBuilder: (BuildContext context, int index) {
-                if (widget.userModel.contactId == SharedPref.getUid()) {
-                  ref.read(chatRepositoryProvider).setChatMessageSeen(context,
-                      widget.userModel.contactId, chats[index].messageId);
+                final messageData = chats[index];
+                // var timeSent = DateFormat.Hm().format(messageData.timeSent);
+
+                if (!messageData.isSeen &&
+                    messageData.recieverid == SharedPref.getUid()) {
+                  chatrep.setChatMessageSeen(
+                    context,
+                    widget.userModel.contactId,
+                    messageData.messageId,
+                  );
                 }
 
+                if (messageData.senderId == SharedPref.getUid()) {
+                  return BubbleSpecialOne(
+                    tail: true,
+                    isSender: true,
+                    seen: chats[index].isSeen,
+                    text: chats[index].text,
+                  );
+                }
                 return Padding(
                   padding: const EdgeInsets.only(
                       right: 10, left: 10, top: 3, bottom: 5),
@@ -182,27 +197,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                           chats[index].timeSent,
                           allowFromNow: true,
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 8,
                         ),
                       ),
-                      FutureBuilder(
-                          future: chatrep.setChatMessageSeen(
-                            context,
-                            widget.userModel.contactId,
-                            chats[index].messageId,
-                          ),
-                          builder: (context, snapshot) {
-                            return BubbleSpecialOne(
-                              tail: true,
-                              isSender:
-                                  chats[index].senderId == SharedPref.getUid()
-                                      ? true
-                                      : false,
-                              seen: chats[index].isSeen,
-                              text: chats[index].text,
-                            );
-                          }),
+                      BubbleSpecialOne(
+                        tail: true,
+                        isSender: false,
+                        seen: chats[index].isSeen,
+                        text: chats[index].text,
+                      )
                     ],
                   ),
                 );
