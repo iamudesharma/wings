@@ -44,18 +44,17 @@ class NotififcationClass {
     });
   }
 
-  static Future<Map<String, dynamic>> sendNotification(
-      {required String playerId,
-      required String title,
-      required String userName}) async {
+  static Future<Map<String, dynamic>> sendNotification({
+    required String playerId,
+    required String title,
+    required String userName,
+  }) async {
     print('playerId: $playerId');
     print('playerId: $title');
 
     return await OneSignal().postNotification(
       OSCreateNotification(
-        playerIds: [
-          playerId
-        ],
+        playerIds: [playerId],
         content: userName,
         subtitle: title,
         additionalData: {},

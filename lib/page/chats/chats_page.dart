@@ -186,14 +186,23 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                           fontSize: 8,
                         ),
                       ),
-                      BubbleSpecialOne(
-                        tail: true,
-                        isSender: chats[index].senderId == SharedPref.getUid()
-                            ? true
-                            : false,
-                        seen: chats[index].isSeen,
-                        text: chats[index].text,
-                      ),
+                      FutureBuilder(
+                          future: chatrep.setChatMessageSeen(
+                            context,
+                            widget.userModel.contactId,
+                            chats[index].messageId,
+                          ),
+                          builder: (context, snapshot) {
+                            return BubbleSpecialOne(
+                              tail: true,
+                              isSender:
+                                  chats[index].senderId == SharedPref.getUid()
+                                      ? true
+                                      : false,
+                              seen: chats[index].isSeen,
+                              text: chats[index].text,
+                            );
+                          }),
                     ],
                   ),
                 );

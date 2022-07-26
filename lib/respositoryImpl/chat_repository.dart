@@ -372,7 +372,7 @@ class ChatRepository {
     }
   }
 
-  void setChatMessageSeen(
+  Future<void> setChatMessageSeen(
     BuildContext context,
     String recieverUserId,
     String messageId,
@@ -387,14 +387,14 @@ class ChatRepository {
           .doc(messageId)
           .update({'isSeen': true});
 
-      await firestore
-          .collection('users')
-          .doc(recieverUserId)
-          .collection('chats')
-          .doc(auth.currentUser!.uid)
-          .collection('messages')
-          .doc(messageId)
-          .update({'isSeen': true});
+      // await firestore
+      //     .collection('users')
+      //     .doc(recieverUserId)
+      //     .collection('chats')
+      //     .doc(auth.currentUser!.uid)
+      //     .collection('messages')
+      //     .doc(messageId)
+      //     .update({'isSeen': true});
     } catch (e) {
       // showSnackBar(context: context, content: e.toString());
     }

@@ -53,118 +53,122 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            textFormField(
-              usernameController,
-              onChanged: (value) async {
-                if (value.length > 3) {}
-              },
-              validator: (value) {
-                //user RegExp
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                textFormField(
+                  usernameController,
+                  onChanged: (value) async {
+                    if (value.length > 3) {}
+                  },
+                  validator: (value) {
+                    //user RegExp
 
-                if (value!.isEmpty) {
-                  return 'Please enter a username';
-                } else {
-                  return null;
-                }
-              },
-              hintText: 'Enter The  Username',
-              icon: Icons.person,
-              label: 'Username',
-              isPassword: false,
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            textFormField(
-              nameController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a name';
-                } else {
-                  return null;
-                }
-              },
-              hintText: 'Enter The  Name',
-              icon: Icons.person,
-              label: 'Name',
-              isPassword: false,
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            textFormField(
-              phoneController,
-              validator: (value) {
-                //Email RegExp
-                if (value!.isEmpty) {
-                  return 'Please Enter The Phone Number';
-                } else {
-                  return null;
-                }
-              },
-              hintText: 'Enter The  Phone No.',
-              icon: Icons.phone,
-              label: 'Phone',
-              isPassword: false,
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            textFormField(
-              datetimeController,
-              readonly: true,
-              onTap: _DateTimePickers,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please Enter The Date Of Birth';
-                }
-                return null;
-              },
-              hintText: 'Enter  Date Of Birth',
-              icon: Icons.date_range_outlined,
-              label: 'Date Of Birth',
-              isPassword: false,
-              textInputAction: TextInputAction.go,
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            CustomButton(
-                child: const Text("Add"),
-                onTap: () async {
-                  final playerId = await OneSignal().getDeviceState();
-                  // final fcmToken = await FirebaseMessaging.instance.getToken();
-                  // final _context = context;
-                  final user = UserModel(
-                    fcmToken: playerId!.userId!,
-                    username: usernameController.text,
-                    email: "",
-                    photoUrl: "",
-                    country: "India",
-                    bio: "",
-                    id: "",
-                    name: nameController.text,
-                    age: age!,
-                    dob: datetimeController.text,
-                    phone: int.parse(
-                      phoneController.text,
-                    ),
-                  );
+                    if (value!.isEmpty) {
+                      return 'Please enter a username';
+                    } else {
+                      return null;
+                    }
+                  },
+                  hintText: 'Enter The  Username',
+                  icon: Icons.person,
+                  label: 'Username',
+                  isPassword: false,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                textFormField(
+                  nameController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a name';
+                    } else {
+                      return null;
+                    }
+                  },
+                  hintText: 'Enter The  Name',
+                  icon: Icons.person,
+                  label: 'Name',
+                  isPassword: false,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                textFormField(
+                  phoneController,
+                  validator: (value) {
+                    //Email RegExp
+                    if (value!.isEmpty) {
+                      return 'Please Enter The Phone Number';
+                    } else {
+                      return null;
+                    }
+                  },
+                  hintText: 'Enter The  Phone No.',
+                  icon: Icons.phone,
+                  label: 'Phone',
+                  isPassword: false,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                textFormField(
+                  datetimeController,
+                  readonly: true,
+                  onTap: _DateTimePickers,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please Enter The Date Of Birth';
+                    }
+                    return null;
+                  },
+                  hintText: 'Enter  Date Of Birth',
+                  icon: Icons.date_range_outlined,
+                  label: 'Date Of Birth',
+                  isPassword: false,
+                  textInputAction: TextInputAction.go,
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                CustomButton(
+                    child: const Text("Add"),
+                    onTap: () async {
+                      final playerId = await OneSignal().getDeviceState();
+                      // final fcmToken = await FirebaseMessaging.instance.getToken();
+                      // final _context = context;
+                      final user = UserModel(
+                        fcmToken: playerId!.userId!,
+                        username: usernameController.text,
+                        email: "",
+                        photoUrl: "",
+                        country: "India",
+                        bio: "",
+                        id: "",
+                        name: nameController.text,
+                        age: age!,
+                        dob: datetimeController.text,
+                        phone: int.parse(
+                          phoneController.text,
+                        ),
+                      );
 
-                  await ref
-                      .read(authRepositoryProvider)
-                      .userAdditionalDetails(user);
-                  if (!mounted) {}
+                      await ref
+                          .read(authRepositoryProvider)
+                          .userAdditionalDetails(user);
+                      if (!mounted) {}
 
-                  context.navigateTo(const HomeRoute());
-                })
-          ],
+                      context.navigateTo(const HomeRoute());
+                    })
+              ],
+            ),
+          ),
         ),
       ),
     );
