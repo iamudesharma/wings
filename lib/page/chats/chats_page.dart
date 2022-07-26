@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,65 +80,109 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     // print("current user ${currentUser?.phone}");
     // print("user model ${currentUser?.name}");
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          bottom: 20,
-          left: 10,
-          right: 10,
-        ),
-        child: TextFormField(
-          controller: textEditingController,
-          decoration: InputDecoration(
-            enabled: true,
-            prefixIcon: Icon(
-              Icons.emoji_emotions,
-            ),
-            suffix: Icon(
-              Icons.file_present,
-            ),
-            suffixIcon: InkWell(
-              onTap: () async {
-                await NotififcationClass.sendNotification(
-                  playerId: widget.userModel.fcm ?? "",
-                  title: textEditingController.text,
-                  userName: "usrt",
-                );
+      resizeToAvoidBottomInset: true,
 
-                chatrep.sendTextMessage(
-                  context: context,
-                  text: textEditingController.text,
-                  recieverUserId: widget.userModel.contactId,
-                  senderUser: currentUser,
-                  messageReply: MessageReply("heoo", true, MessageEnum.text),
-                  isGroupChat: false,
-                );
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.only(
+      //     bottom: 20,
+      //     left: 10,
+      //     right: 10,
+      //   ),
+      //   child: TextFormField(
+      //     onFieldSubmitted: ((value) async {
+      //       if (value.isNotEmpty) {
+      //         if (Platform.isAndroid) {
+      //           await NotififcationClass.sendNotification(
+      //             playerId: widget.userModel.fcm ?? "",
+      //             title: textEditingController.text,
+      //             userName: currentUser.username,
+      //           );
+      //           chatrep.sendTextMessage(
+      //             context: context,
+      //             text: textEditingController.text,
+      //             recieverUserId: widget.userModel.contactId,
+      //             senderUser: currentUser,
+      //             messageReply: MessageReply("heoo", true, MessageEnum.text),
+      //             isGroupChat: false,
+      //           );
+      //           textEditingController.clear();
+      //         } else {
+      //           chatrep.sendTextMessage(
+      //             context: context,
+      //             text: textEditingController.text,
+      //             recieverUserId: widget.userModel.contactId,
+      //             senderUser: currentUser,
+      //             messageReply: MessageReply("heoo", true, MessageEnum.text),
+      //             isGroupChat: false,
+      //           );
+      //           textEditingController.clear();
+      //         }
+      //       }
+      //     }),
+      //     controller: textEditingController,
+      //     decoration: InputDecoration(
+      //       enabled: true,
+      //       prefixIcon: Icon(
+      //         Icons.emoji_emotions,
+      //       ),
+      //       suffix: Icon(
+      //         Icons.file_present,
+      //       ),
+      //       suffixIcon: InkWell(
+      //         onTap: () async {
+      //           if (Platform.isAndroid) {
+      //             await NotififcationClass.sendNotification(
+      //               playerId: widget.userModel.fcm ?? "",
+      //               title: textEditingController.text,
+      //               userName: currentUser.username,
+      //             );
+      //             chatrep.sendTextMessage(
+      //               context: context,
+      //               text: textEditingController.text,
+      //               recieverUserId: widget.userModel.contactId,
+      //               senderUser: currentUser,
+      //               messageReply: MessageReply("heoo", true, MessageEnum.text),
+      //               isGroupChat: false,
+      //             );
+      //             textEditingController.clear();
+      //           } else {
+      //             chatrep.sendTextMessage(
+      //               context: context,
+      //               text: textEditingController.text,
+      //               recieverUserId: widget.userModel.contactId,
+      //               senderUser: currentUser,
+      //               messageReply: MessageReply("heoo", true, MessageEnum.text),
+      //               isGroupChat: false,
+      //             );
+      //             textEditingController.clear();
+      //           }
 
-                // WidgetsBinding.instance.addPostFrameCallback((_) {
-                //   _scrollController
-                //       .jumpTo(_scrollController.position.maxScrollExtent);
-                // });
-                // _scrollController.animateTo(
-                //     _scrollController.position.maxScrollExtent,
-                //     duration: Duration.zero,
-                //     curve: Curves.easeOut);
-              },
-              child: Icon(
-                Icons.send,
-              ),
-            ),
-            border: OutlineInputBorder(),
-          ),
-          autocorrect: true,
-          autofocus: true,
-          enableSuggestions: true,
-          enabled: true,
-          textInputAction: TextInputAction.newline,
-          keyboardType: TextInputType.text,
-          // textCapitalization: ,
-          onSaved: ((newValue) {}),
-          // expands: true,
-        ),
-      ),
+      //           // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //           //   _scrollController
+      //           //       .jumpTo(_scrollController.position.maxScrollExtent);
+      //           // });
+      //           // _scrollController.animateTo(
+      //           //     _scrollController.position.maxScrollExtent,
+      //           //     duration: Duration.zero,
+      //           //     curve: Curves.easeOut);
+      //         },
+      //         child: Icon(
+      //           Icons.send,
+      //         ),
+      //       ),
+      //       border: OutlineInputBorder(),
+      //     ),
+      //     autocorrect: true,
+      //     autofocus: true,
+      //     enableSuggestions: true,
+      //     enabled: true,
+      //     textInputAction: TextInputAction.newline,
+      //     keyboardType: TextInputType.text,
+      //     // textCapitalization: ,
+      //     onSaved: ((newValue) {}),
+      //     // expands: true,
+      //   ),
+      // ),
       appBar: AppBar(
         // backwardsCompatibility: true,
         leading: CircleAvatar(
@@ -155,63 +201,173 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 .jumpTo(_scrollController.position.maxScrollExtent);
           });
 
-          return Align(
-            alignment: Alignment.bottomCenter,
-            child: ListView.builder(
-              padding: EdgeInsets.only(
-                bottom: 50,
-              ),
-              controller: _scrollController,
-              reverse: true,
-              shrinkWrap: true,
-              itemCount: chats.length,
-              itemBuilder: (BuildContext context, int index) {
-                final messageData = chats[index];
-                // var timeSent = DateFormat.Hm().format(messageData.timeSent);
+          return Column(
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(
+                      bottom: 50,
+                    ),
+                    controller: _scrollController,
+                    reverse: true,
+                    shrinkWrap: true,
+                    itemCount: chats.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final messageData = chats[index];
+                      // var timeSent = DateFormat.Hm().format(messageData.timeSent);
 
-                if (!messageData.isSeen &&
-                    messageData.recieverid == SharedPref.getUid()) {
-                  chatrep.setChatMessageSeen(
-                    context,
-                    widget.userModel.contactId,
-                    messageData.messageId,
-                  );
-                }
+                      if (!messageData.isSeen &&
+                          messageData.recieverid == SharedPref.getUid()) {
+                        chatrep.setChatMessageSeen(
+                          context,
+                          widget.userModel.contactId,
+                          messageData.messageId,
+                        );
+                      }
 
-                if (messageData.senderId == SharedPref.getUid()) {
-                  return BubbleSpecialOne(
-                    tail: true,
-                    isSender: true,
-                    seen: chats[index].isSeen,
-                    text: chats[index].text,
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(
-                      right: 10, left: 10, top: 3, bottom: 5),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        timeago.format(
-                          chats[index].timeSent,
-                          allowFromNow: true,
+                      if (messageData.senderId == SharedPref.getUid()) {
+                        return BubbleSpecialOne(
+                          tail: true,
+                          isSender: true,
+                          seen: chats[index].isSeen,
+                          text: chats[index].text,
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10, left: 10, top: 3, bottom: 5),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              timeago.format(
+                                chats[index].timeSent,
+                                allowFromNow: true,
+                              ),
+                              style: const TextStyle(
+                                fontSize: 8,
+                              ),
+                            ),
+                            BubbleSpecialOne(
+                              tail: true,
+                              isSender: false,
+                              seen: chats[index].isSeen,
+                              text: chats[index].text,
+                            )
+                          ],
                         ),
-                        style: const TextStyle(
-                          fontSize: 8,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              SafeArea(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: TextFormField(
+                    onFieldSubmitted: ((value) async {
+                      if (value.isNotEmpty) {
+                        if (Platform.isAndroid) {
+                          await NotififcationClass.sendNotification(
+                            playerId: widget.userModel.fcm ?? "",
+                            title: textEditingController.text,
+                            userName: currentUser.username,
+                          );
+                          chatrep.sendTextMessage(
+                            context: context,
+                            text: textEditingController.text,
+                            recieverUserId: widget.userModel.contactId,
+                            senderUser: currentUser,
+                            messageReply:
+                                MessageReply("heoo", true, MessageEnum.text),
+                            isGroupChat: false,
+                          );
+                          textEditingController.clear();
+                        } else {
+                          chatrep.sendTextMessage(
+                            context: context,
+                            text: textEditingController.text,
+                            recieverUserId: widget.userModel.contactId,
+                            senderUser: currentUser,
+                            messageReply:
+                                MessageReply("heoo", true, MessageEnum.text),
+                            isGroupChat: false,
+                          );
+                          textEditingController.clear();
+                        }
+                      }
+                    }),
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                      enabled: true,
+                      prefixIcon: Icon(
+                        Icons.emoji_emotions,
+                      ),
+                      suffix: Icon(
+                        Icons.file_present,
+                      ),
+                      suffixIcon: InkWell(
+                        onTap: () async {
+                          if (Platform.isAndroid) {
+                            await NotififcationClass.sendNotification(
+                              playerId: widget.userModel.fcm ?? "",
+                              title: textEditingController.text,
+                              userName: currentUser.username,
+                            );
+                            chatrep.sendTextMessage(
+                              context: context,
+                              text: textEditingController.text,
+                              recieverUserId: widget.userModel.contactId,
+                              senderUser: currentUser,
+                              messageReply:
+                                  MessageReply("heoo", true, MessageEnum.text),
+                              isGroupChat: false,
+                            );
+                            textEditingController.clear();
+                          } else {
+                            chatrep.sendTextMessage(
+                              context: context,
+                              text: textEditingController.text,
+                              recieverUserId: widget.userModel.contactId,
+                              senderUser: currentUser,
+                              messageReply:
+                                  MessageReply("heoo", true, MessageEnum.text),
+                              isGroupChat: false,
+                            );
+                            textEditingController.clear();
+                          }
+
+                          // WidgetsBinding.instance.addPostFrameCallback((_) {
+                          //   _scrollController
+                          //       .jumpTo(_scrollController.position.maxScrollExtent);
+                          // });
+                          // _scrollController.animateTo(
+                          //     _scrollController.position.maxScrollExtent,
+                          //     duration: Duration.zero,
+                          //     curve: Curves.easeOut);
+                        },
+                        child: Icon(
+                          Icons.send,
                         ),
                       ),
-                      BubbleSpecialOne(
-                        tail: true,
-                        isSender: false,
-                        seen: chats[index].isSeen,
-                        text: chats[index].text,
-                      )
-                    ],
+                      border: OutlineInputBorder(),
+                    ),
+                    autocorrect: true,
+                    autofocus: true,
+                    enableSuggestions: true,
+                    enabled: true,
+                    textInputAction: TextInputAction.newline,
+                    keyboardType: TextInputType.text,
+                    // textCapitalization: ,
+                    onSaved: ((newValue) {}),
+                    // expands: true,
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           );
         },
         error: ((error, stackTrace) => Container()),
