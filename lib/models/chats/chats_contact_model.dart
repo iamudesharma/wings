@@ -7,14 +7,14 @@ class ChatContact {
   final String contactId;
   final DateTime? timeSent;
   final String? lastMessage;
-  final String? fcm;
+  final String fcm;
   ChatContact({
     required this.name,
     required this.profilePic,
     required this.contactId,
      this.timeSent,
      this.lastMessage,
-     this.fcm,
+    required this.fcm,
   });
 
   Map<String, dynamic> toMap() {
@@ -24,12 +24,13 @@ class ChatContact {
       'contactId': contactId,
       'timeSent': timeSent?.millisecondsSinceEpoch,
       'lastMessage': lastMessage,
+      "fcmToken": fcm,
     };
   }
 
   factory ChatContact.fromMap(Map<String, dynamic> map) {
     return ChatContact(
-      fcm: map['fcm_token'],
+      fcm: map['fcmToken'],
       name: map['name'] ?? '',
       profilePic: map['profilePic'] ?? '',
       contactId: map['contactId'] ?? '',

@@ -3,10 +3,23 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'package:flutter/rendering.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class NotififcationClass {
   NotififcationClass._();
+
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  static AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  static void _requestPermissions() {
+    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+  }
 
   static init() async {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
@@ -17,22 +30,56 @@ class NotififcationClass {
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
       print("Accepted permission: $accepted");
     });
+    _requestPermissions();
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+      // iOS: initializationSettingsIOS,
+      // macOS: initializationSettingsMacOS,
+      // linux: initializationSettingsLinux,
+    );
+
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String? payload) async {
+      if (payload != null) {
+        debugPrint('notification payload: $payload');
+      }
+      // selectedNotificationPayload = payload;
+      // selectNotificationSubject.add(payload);
+    });
   }
 
   static onNotification() {
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
-        (OSNotificationReceivedEvent event) {
+        (OSNotificationReceivedEvent event) async {
+      // OneSignal.shared.completeNotification(notificationId, shouldDisplay)
+      await flutterLocalNotificationsPlugin.show(
+          event.notification.androidNotificationId!,
+          event.notification.title,
+          event.notification.body,
+          NotificationDetails(
+              // android: AndroidNotificationDetails(event.notification., channelName)
+              ));
+      // event.notification
       // Will be called whenever a notification is received in foreground
       // Display Notification, pass null param for not displaying the notification
       event.complete(event.notification);
     });
 
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    OneSignal.shared.setNotificationOpenedHandler(
+        (OSNotificationOpenedResult result) async {
+      await flutterLocalNotificationsPlugin.show(
+          result.notification.androidNotificationId!,
+          result.notification.title,
+          result.notification.body,
+          NotificationDetails(
+              // android: AndroidNotificationDetails(event.notification., channelName)
+              ));
       // Will be called whenever a notification is opened/button pressed.
     });
 
     OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
+      // changes.from.status=OSNotificationPermission.authorized
       // Will be called whenever the permission changes
       // (ie. user taps Allow on the permission prompt in iOS)
     });
@@ -52,7 +99,8 @@ class NotififcationClass {
     print('playerId: $playerId');
     print('playerId: $title');
 
-    return await OneSignal().postNotification(
+    return await OneSignal()
+        .postNotification(
       OSCreateNotification(
         playerIds: [playerId],
         content: userName,
@@ -60,7 +108,11 @@ class NotififcationClass {
         additionalData: {},
         sendAfter: DateTime.now(),
       ),
-    );
+    )
+        .then((value) {
+      print('value: $value');
+      return value;
+    });
   }
 }
 
@@ -152,4 +204,6 @@ class NotififcationClass {
 //       },
 //     });
 //   }
+
 // }
+

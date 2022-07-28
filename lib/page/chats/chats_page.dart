@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,7 @@ import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/respositoryImpl/chat_repository.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:wings/widgets/widgets.dart';
 
 final getChats = StreamProvider.family<List<Message>, String>((ref, id) {
   return ref.read(chatRepositoryProvider).getChatStream(id);
@@ -34,6 +36,8 @@ final getChats = StreamProvider.family<List<Message>, String>((ref, id) {
 
 //   }
 // }
+
+final isemojiShowingProvider = StateProvider<bool>((_) => true);
 
 class ChatPage extends ConsumerStatefulWidget {
   final ChatContact userModel;
@@ -72,6 +76,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   Widget build(BuildContext context) {
     final chatrep = ref.read(chatRepositoryProvider);
     final chats = ref.watch(getChats(widget.userModel.contactId));
+    final isemoji = ref.watch(isemojiShowingProvider.state);
     // final currentUser = ref.watch(userRepository);
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
@@ -267,103 +272,236 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    onFieldSubmitted: ((value) async {
-                      if (value.isNotEmpty) {
-                        if (Platform.isAndroid) {
-                          await NotififcationClass.sendNotification(
-                            playerId: widget.userModel.fcm ?? "",
-                            title: textEditingController.text,
-                            userName: currentUser.username,
-                          );
-                          chatrep.sendTextMessage(
-                            context: context,
-                            text: textEditingController.text,
-                            recieverUserId: widget.userModel.contactId,
-                            senderUser: currentUser,
-                            messageReply:
-                                MessageReply("heoo", true, MessageEnum.text),
-                            isGroupChat: false,
-                          );
-                          textEditingController.clear();
-                        } else {
-                          chatrep.sendTextMessage(
-                            context: context,
-                            text: textEditingController.text,
-                            recieverUserId: widget.userModel.contactId,
-                            senderUser: currentUser,
-                            messageReply:
-                                MessageReply("heoo", true, MessageEnum.text),
-                            isGroupChat: false,
-                          );
-                          textEditingController.clear();
-                        }
-                      }
-                    }),
-                    controller: textEditingController,
-                    decoration: InputDecoration(
-                      enabled: true,
-                      prefixIcon: Icon(
-                        Icons.emoji_emotions,
-                      ),
-                      suffix: Icon(
-                        Icons.file_present,
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () async {
-                          if (Platform.isAndroid) {
-                            await NotififcationClass.sendNotification(
-                              playerId: widget.userModel.fcm ?? "",
-                              title: textEditingController.text,
-                              userName: currentUser.username,
-                            );
-                            chatrep.sendTextMessage(
-                              context: context,
-                              text: textEditingController.text,
-                              recieverUserId: widget.userModel.contactId,
-                              senderUser: currentUser,
-                              messageReply:
-                                  MessageReply("heoo", true, MessageEnum.text),
-                              isGroupChat: false,
-                            );
-                            textEditingController.clear();
-                          } else {
-                            chatrep.sendTextMessage(
-                              context: context,
-                              text: textEditingController.text,
-                              recieverUserId: widget.userModel.contactId,
-                              senderUser: currentUser,
-                              messageReply:
-                                  MessageReply("heoo", true, MessageEnum.text),
-                              isGroupChat: false,
-                            );
-                            textEditingController.clear();
-                          }
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                isemoji.update((state) {
+                                  if (state == true) {
+                                    FocusScope.of(context).unfocus();
+                                    return false;
+                                  } else {
+                                    // FocusScope.of(context).nextFocus();
 
-                          // WidgetsBinding.instance.addPostFrameCallback((_) {
-                          //   _scrollController
-                          //       .jumpTo(_scrollController.position.maxScrollExtent);
-                          // });
-                          // _scrollController.animateTo(
-                          //     _scrollController.position.maxScrollExtent,
-                          //     duration: Duration.zero,
-                          //     curve: Curves.easeOut);
-                        },
-                        child: Icon(
-                          Icons.send,
+                                    return true;
+                                  }
+                                });
+                                // EmojiPicker(
+                                //     onEmojiSelected: ((category, emoji) {}));
+                              },
+                              child: Icon(
+                                Icons.emoji_emotions,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              onFieldSubmitted: ((value) async {
+                                if (value.isNotEmpty) {
+                                  if (Platform.isMacOS) {
+                                    chatrep.sendTextMessage(
+                                      context: context,
+                                      text: textEditingController.text,
+                                      recieverUserId:
+                                          widget.userModel.contactId,
+                                      senderUser: currentUser,
+                                      messageReply: MessageReply(
+                                          "heoo", true, MessageEnum.text),
+                                      isGroupChat: false,
+                                    );
+                                    textEditingController.clear();
+                                  } else {
+                                    await NotififcationClass.sendNotification(
+                                      playerId: widget.userModel.fcm ?? "",
+                                      title: textEditingController.text,
+                                      userName: currentUser.username,
+                                    );
+                                    chatrep.sendTextMessage(
+                                      context: context,
+                                      text: textEditingController.text,
+                                      recieverUserId:
+                                          widget.userModel.contactId,
+                                      senderUser: currentUser,
+                                      messageReply: MessageReply(
+                                          "heoo", true, MessageEnum.text),
+                                      isGroupChat: false,
+                                    );
+                                    textEditingController.clear();
+                                  }
+                                }
+                              }),
+                              controller: textEditingController,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 7),
+                                // enabled: true,
+                                suffixIcon: InkWell(
+                                  onTap: () async {
+                                    if (Platform.isAndroid) {
+                                      debugPrint(
+                                          widget.userModel.fcm.toString());
+                                      await NotififcationClass.sendNotification(
+                                        playerId: widget.userModel.fcm,
+                                        title: textEditingController.text,
+                                        userName: currentUser.username,
+                                      );
+                                      chatrep.sendTextMessage(
+                                        context: context,
+                                        text: textEditingController.text,
+                                        recieverUserId:
+                                            widget.userModel.contactId,
+                                        senderUser: currentUser,
+                                        messageReply: MessageReply(
+                                            "heoo", true, MessageEnum.text),
+                                        isGroupChat: false,
+                                      );
+                                      textEditingController.clear();
+                                    } else {
+                                      chatrep.sendTextMessage(
+                                        context: context,
+                                        text: textEditingController.text,
+                                        recieverUserId:
+                                            widget.userModel.contactId,
+                                        senderUser: currentUser,
+                                        messageReply: MessageReply(
+                                            "heoo", true, MessageEnum.text),
+                                        isGroupChat: false,
+                                      );
+                                      textEditingController.clear();
+                                    }
+
+                                    // WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    //   _scrollController
+                                    //       .jumpTo(_scrollController.position.maxScrollExtent);
+                                    // });
+                                    // _scrollController.animateTo(
+                                    //     _scrollController.position.maxScrollExtent,
+                                    //     duration: Duration.zero,
+                                    //     curve: Curves.easeOut);
+                                  },
+                                  child: Icon(
+                                    Icons.send,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              autocorrect: true,
+                              autofocus: true,
+                              enableSuggestions: true,
+                              enabled: true,
+                              textInputAction: TextInputAction.newline,
+                              keyboardType: TextInputType.text,
+                              // textCapitalization: ,
+                              onSaved: ((newValue) {}),
+                              // expands: true,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  builder: (context) {
+                                    return Container(
+                                      height: 100,
+                                      width: double.infinity,
+                                      child: Center(
+                                        child: Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          spacing: 10,
+
+                                          alignment: WrapAlignment.spaceEvenly,
+                                          runSpacing: 10,
+                                          //  runAlignment: ,/
+                                          children: [
+                                            IconWithTextWidget(
+                                                onTap: () {},
+                                                iconData: Icons.camera,
+                                                title: "Camera"),
+                                            IconWithTextWidget(
+                                                onTap: () {},
+                                                iconData: Icons.photo_album,
+                                                title: "Photo Album"),
+                                            IconWithTextWidget(
+                                                onTap: () {},
+                                                iconData: Icons.video_call,
+                                                title: "Video Call"),
+                                            IconWithTextWidget(
+                                                onTap: () {},
+                                                iconData:
+                                                    Icons.document_scanner,
+                                                title: "Document"),
+                                            // IconWithTextWidget(onTap: (){}, iconData: Icons.camera, title: "Camera"),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.file_present,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Offstage(
+                        offstage: isemoji.state,
+                        child: SizedBox(
+                          height: 250,
+                          child: EmojiPicker(
+                              onEmojiSelected:
+                                  (Category category, Emoji emoji) {
+                                // _onEmojiSelected(emoji);
+                              },
+                              // onBackspacePressed: _onBackspacePressed,
+                              config: Config(
+                                  columns: 7,
+                                  // Issue: https://github.com/flutter/flutter/issues/28894
+                                  emojiSizeMax:
+                                      32 * (Platform.isIOS ? 1.30 : 1.0),
+                                  verticalSpacing: 0,
+                                  horizontalSpacing: 0,
+                                  gridPadding: EdgeInsets.zero,
+                                  initCategory: Category.RECENT,
+                                  bgColor: const Color(0xFFF2F2F2),
+                                  indicatorColor: Colors.blue,
+                                  iconColor: Colors.grey,
+                                  iconColorSelected: Colors.blue,
+                                  progressIndicatorColor: Colors.blue,
+                                  backspaceColor: Colors.blue,
+                                  skinToneDialogBgColor: Colors.white,
+                                  skinToneIndicatorColor: Colors.grey,
+                                  enableSkinTones: true,
+                                  showRecentsTab: true,
+                                  recentsLimit: 28,
+                                  replaceEmojiOnLimitExceed: false,
+                                  noRecents: const Text(
+                                    'No Recents',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black26),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  tabIndicatorAnimDuration: kTabScrollDuration,
+                                  categoryIcons: const CategoryIcons(),
+                                  buttonMode: ButtonMode.MATERIAL)),
                         ),
                       ),
-                      border: OutlineInputBorder(),
-                    ),
-                    autocorrect: true,
-                    autofocus: true,
-                    enableSuggestions: true,
-                    enabled: true,
-                    textInputAction: TextInputAction.newline,
-                    keyboardType: TextInputType.text,
-                    // textCapitalization: ,
-                    onSaved: ((newValue) {}),
-                    // expands: true,
+                    ],
                   ),
                 ),
               ),
