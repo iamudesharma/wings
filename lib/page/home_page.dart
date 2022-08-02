@@ -52,7 +52,9 @@ class _HomePageState extends State<HomePage> {
           ],
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
-          type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.fixed,
+          
+          enableFeedback: true,
           landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
         );
       },

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,23 +53,24 @@ class LoginPageState extends ConsumerState<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      GoogleAuthButton(
-                        onPressed: () async {
-                          await ref
-                              .read(authRepositoryProvider)
-                              .googleSignIn()
-                              .then((value) => context.navigateTo(
-                                    HomeRoute(),
-                                  ))
-                              .onError(
-                                (error, stackTrace) => print(
-                                  error.toString(),
-                                ),
-                              );
-                        },
-                        // darkMode: true,
-                        themeMode: ThemeMode.dark,
-                      ),
+                      if (!Platform.isMacOS)
+                        GoogleAuthButton(
+                          onPressed: () async {
+                            await ref
+                                .read(authRepositoryProvider)
+                                .googleSignIn()
+                                .then((value) => context.navigateTo(
+                                      HomeRoute(),
+                                    ))
+                                .onError(
+                                  (error, stackTrace) => print(
+                                    error.toString(),
+                                  ),
+                                );
+                          },
+                          // darkMode: true,
+                          themeMode: ThemeMode.dark,
+                        ),
                       SizedBox(
                         height: 20,
                       ),
