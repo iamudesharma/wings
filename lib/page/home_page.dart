@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
           selectedItemColor: Colors.green.shade300,
+          unselectedItemColor: Colors.white,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
