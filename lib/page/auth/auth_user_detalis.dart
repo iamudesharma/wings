@@ -28,6 +28,7 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
 
   int? age;
 
+  // ignore: non_constant_identifier_names
   void _DateTimePickers() async {
     final data = await showDatePicker(
       context: context,
@@ -141,8 +142,7 @@ class _AuthUserDetailsPageState extends ConsumerState<AuthUserDetailsPage> {
                     child: const Text("Add"),
                     onTap: () async {
                       final playerId = await OneSignal().getDeviceState();
-                      // final fcmToken = await FirebaseMessaging.instance.getToken();
-                      // final _context = context;
+
                       final user = UserModel(
                         fcmToken: playerId!.userId!,
                         username: usernameController.text,

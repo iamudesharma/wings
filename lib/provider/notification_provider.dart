@@ -15,6 +15,11 @@ class NotififcationClass {
 
   static AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
+  static IOSInitializationSettings iosInitializationSettings =
+      IOSInitializationSettings();
+
+  static MacOSInitializationSettings macOSInitializationSettings =
+      MacOSInitializationSettings();
 
   static void _requestPermissions() {
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
@@ -33,11 +38,13 @@ class NotififcationClass {
     _requestPermissions();
     final InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      // iOS: initializationSettingsIOS,
-      // macOS: initializationSettingsMacOS,
-      // linux: initializationSettingsLinux,
-    );
+            android: initializationSettingsAndroid,
+            iOS: iosInitializationSettings,
+            macOS: macOSInitializationSettings
+            // iOS: initializationSettingsIOS,
+            // macOS: initializationSettingsMacOS,
+            // linux: initializationSettingsLinux,
+            );
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {

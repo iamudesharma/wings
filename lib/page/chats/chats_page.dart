@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+// import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,18 +10,16 @@ import 'package:wings/models/chats/chats_contact_model.dart';
 
 import 'package:wings/models/chats/message.dart';
 import 'package:wings/models/users/user_model.dart';
-import 'package:wings/provider/chat_privider/message_reply_provider.dart';
+// import 'package:wings/provider/chat_privider/message_reply_provider.dart';
 import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/notification_provider.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
-import 'package:wings/respositoryImpl/chat_repository.dart';
+// import 'package:wings/respositoryImpl/chat_repository.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:wings/widgets/widgets.dart';
 
-final getChats = StreamProvider.family<List<Message>, String>((ref, id) {
-  return ref.read(chatRepositoryProvider).getChatStream(id);
-});
+import '../../provider/chat_privider/chat_privider.dart';
 
 final isemojiShowingProvider = StateProvider<bool>((_) => true);
 
@@ -30,7 +28,7 @@ class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({
     Key? key,
     required this.userModel,
-  }) : super();
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatPageState();
@@ -356,15 +354,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                       );
                                       textEditingController.clear();
                                     }
-
-                                    // WidgetsBinding.instance.addPostFrameCallback((_) {
-                                    //   _scrollController
-                                    //       .jumpTo(_scrollController.position.maxScrollExtent);
-                                    // });
-                                    // _scrollController.animateTo(
-                                    //     _scrollController.position.maxScrollExtent,
-                                    //     duration: Duration.zero,
-                                    //     curve: Curves.easeOut);
                                   },
                                   child: const Icon(
                                     Icons.send,
@@ -394,41 +383,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   builder: (context) {
-                                    return Container(
-                                      height: 100,
-                                      width: double.infinity,
-                                      child: Center(
-                                        child: Wrap(
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.center,
-                                          spacing: 10,
-
-                                          alignment: WrapAlignment.spaceEvenly,
-                                          runSpacing: 10,
-                                          //  runAlignment: ,/
-                                          children: [
-                                            IconWithTextWidget(
-                                                onTap: () {},
-                                                iconData: Icons.camera,
-                                                title: "Camera"),
-                                            IconWithTextWidget(
-                                                onTap: () {},
-                                                iconData: Icons.photo_album,
-                                                title: "Photo Album"),
-                                            IconWithTextWidget(
-                                                onTap: () {},
-                                                iconData: Icons.video_call,
-                                                title: "Video Call"),
-                                            IconWithTextWidget(
-                                                onTap: () {},
-                                                iconData:
-                                                    Icons.document_scanner,
-                                                title: "Document"),
-                                            // IconWithTextWidget(onTap: (){}, iconData: Icons.camera, title: "Camera"),
-                                          ],
-                                        ),
-                                      ),
-                                    );
+                                    return ExtraBottomSheetItems();
                                   });
                             },
                             child: const Padding(
@@ -441,48 +396,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                           ),
                         ],
                       ),
-                      Offstage(
-                        offstage: isemoji.state,
-                        child: SizedBox(
-                          height: 250,
-                          child: EmojiPicker(
-                              onEmojiSelected:
-                                  (Category category, Emoji emoji) {
-                                // _onEmojiSelected(emoji);
-                              },
-                              // onBackspacePressed: _onBackspacePressed,
-                              config: Config(
-                                  columns: 7,
-                                  // Issue: https://github.com/flutter/flutter/issues/28894
-                                  emojiSizeMax:
-                                      32 * (Platform.isIOS ? 1.30 : 1.0),
-                                  verticalSpacing: 0,
-                                  horizontalSpacing: 0,
-                                  gridPadding: EdgeInsets.zero,
-                                  initCategory: Category.RECENT,
-                                  bgColor: const Color(0xFFF2F2F2),
-                                  indicatorColor: Colors.blue,
-                                  iconColor: Colors.grey,
-                                  iconColorSelected: Colors.blue,
-                                  progressIndicatorColor: Colors.blue,
-                                  backspaceColor: Colors.blue,
-                                  skinToneDialogBgColor: Colors.white,
-                                  skinToneIndicatorColor: Colors.grey,
-                                  enableSkinTones: true,
-                                  showRecentsTab: true,
-                                  recentsLimit: 28,
-                                  replaceEmojiOnLimitExceed: false,
-                                  noRecents: const Text(
-                                    'No Recents',
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.black26),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  tabIndicatorAnimDuration: kTabScrollDuration,
-                                  categoryIcons: const CategoryIcons(),
-                                  buttonMode: ButtonMode.MATERIAL)),
-                        ),
-                      ),
+                      EmojiPickerWidget(
+                          isemoji: isemoji,
+                          textEditingController: textEditingController),
                     ],
                   ),
                 ),
@@ -492,6 +408,45 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         },
         error: ((error, stackTrace) => Container()),
         loading: () => const CircularProgressIndicator(),
+      ),
+    );
+  }
+}
+
+class ExtraBottomSheetItems extends StatelessWidget {
+  const ExtraBottomSheetItems({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: double.infinity,
+      child: Center(
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 10,
+
+          alignment: WrapAlignment.spaceEvenly,
+          runSpacing: 10,
+          //  runAlignment: ,/
+          children: [
+            IconWithTextWidget(
+                onTap: () {}, iconData: Icons.camera, title: "Camera"),
+            IconWithTextWidget(
+                onTap: () {},
+                iconData: Icons.photo_album,
+                title: "Photo Album"),
+            IconWithTextWidget(
+                onTap: () {}, iconData: Icons.video_call, title: "Video Call"),
+            IconWithTextWidget(
+                onTap: () {},
+                iconData: Icons.document_scanner,
+                title: "Document"),
+            // IconWithTextWidget(onTap: (){}, iconData: Icons.camera, title: "Camera"),
+          ],
+        ),
       ),
     );
   }
