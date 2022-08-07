@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wings/models/users/user_model.dart';
-import 'package:wings/provider/user_provider/user_provider.dart';
+
+import '../provider/user_provider/user_provider.dart';
+// import 'package:wings/provider/user_provider/user_provider.dart';
 
 class SearchWidget extends SearchDelegate<UserModel> {
   @override

@@ -10,3 +10,17 @@ Future<XFile?> pickerImageMacos() async {
 
   return file;
 }
+
+
+
+Future<XFile?> videoPickerMacos() async {
+  final XTypeGroup typeGroup = XTypeGroup(
+    label: 'images',
+    extensions: <String>['mp4', 'avi'],
+  );
+  final XFile? file =
+      await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+
+  return file;
+}
+

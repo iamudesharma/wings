@@ -9,10 +9,11 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:wings/models/users/user_model.dart';
 import 'package:wings/provider/auth_provider.dart';
 import 'package:wings/provider/local_data.dart';
-import 'package:wings/provider/user_provider/user_provider.dart';
+// import 'package:wings/provider/user_provider/user_provider.dart';
 import 'package:wings/utils/get_age.dart';
 import 'package:wings/widgets/widgets.dart';
 
+import '../../provider/user_provider/user_provider.dart';
 import '../../routes/routes.gr.dart';
 import '../../widgets/textfield_widget.dart';
 import 'package:intl/intl.dart';

@@ -1,25 +1,52 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-// import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:chat_bubbles/bubbles/bubble_normal.dart';
+import 'package:chat_bubbles/bubbles/bubble_normal_audio.dart';
+import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+// import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:wings/models/chats/chats_contact_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:timeago/timeago.dart';
 
-import 'package:wings/models/chats/message.dart';
-import 'package:wings/models/users/user_model.dart';
+import 'package:wings/provider/chat_privider/chats_provider.dart';
+
+import '../../models/chats/chats_contact_model.dart';
+import '../../models/chats/message.dart';
+import '../../models/users/user_model.dart';
+import '../../provider/chat_privider/message_reply_provider.dart';
+import '../../provider/local_data.dart';
+import '../../provider/notification_provider.dart';
+import '../../provider/user_provider/user_provider.dart';
+import '../../utils/image_picker.dart';
+import '../../utils/mac_os_imaage_picker.dart';
+import '../../widgets/emoji_picker_widget.dart';
+import '../../widgets/icon_with_text_widget.dart';
+
+// import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/scheduler.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:image_picker/image_picker.dart';
+// // import 'package:get/get_connect/http/src/utils/utils.dart';
+// import 'package:wings/models/chats/chats_contact_model.dart';
+
+// import 'package:wings/models/chats/message.dart';
+// import 'package:wings/models/users/user_model.dart';
 // import 'package:wings/provider/chat_privider/message_reply_provider.dart';
-import 'package:wings/provider/local_data.dart';
-import 'package:wings/provider/notification_provider.dart';
-import 'package:wings/provider/user_provider/user_provider.dart';
+// import 'package:wings/provider/local_data.dart';
+// import 'package:wings/provider/notification_provider.dart';
+// // import 'package:wings/provider/user_provider/user_provider.dart';
 // import 'package:wings/respositoryImpl/chat_repository.dart';
-import 'package:chat_bubbles/chat_bubbles.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'package:wings/widgets/widgets.dart';
+// import 'package:chat_bubbles/chat_bubbles.dart';
+// import 'package:timeago/timeago.dart' as timeago;
+// import 'package:wings/widgets/widgets.dart';
 
-import '../../provider/chat_privider/chat_privider.dart';
+// // import '../../provider/chat_privider/chat_privider.dart';
+// import '../../provider/chat_privider/chats_provider.dart';
+// import '../../utils/utils.dart';
 
 final isemojiShowingProvider = StateProvider<bool>((_) => true);
 
@@ -61,117 +88,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     final chatrep = ref.read(chatRepositoryProvider);
     final chats = ref.watch(getChats(widget.userModel.contactId));
     final isemoji = ref.watch(isemojiShowingProvider.state);
-    // final currentUser = ref.watch(userRepository);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    // });
 
-    // print("current user ${currentUser?.phone}");
-    // print("user model ${currentUser?.name}");
     return Scaffold(
       resizeToAvoidBottomInset: true,
-
-      // bottomNavigationBar: Padding(
-      //   padding: const EdgeInsets.only(
-      //     bottom: 20,
-      //     left: 10,
-      //     right: 10,
-      //   ),
-      //   child: TextFormField(
-      //     onFieldSubmitted: ((value) async {
-      //       if (value.isNotEmpty) {
-      //         if (Platform.isAndroid) {
-      //           await NotififcationClass.sendNotification(
-      //             playerId: widget.userModel.fcm ?? "",
-      //             title: textEditingController.text,
-      //             userName: currentUser.username,
-      //           );
-      //           chatrep.sendTextMessage(
-      //             context: context,
-      //             text: textEditingController.text,
-      //             recieverUserId: widget.userModel.contactId,
-      //             senderUser: currentUser,
-      //             messageReply: MessageReply("heoo", true, MessageEnum.text),
-      //             isGroupChat: false,
-      //           );
-      //           textEditingController.clear();
-      //         } else {
-      //           chatrep.sendTextMessage(
-      //             context: context,
-      //             text: textEditingController.text,
-      //             recieverUserId: widget.userModel.contactId,
-      //             senderUser: currentUser,
-      //             messageReply: MessageReply("heoo", true, MessageEnum.text),
-      //             isGroupChat: false,
-      //           );
-      //           textEditingController.clear();
-      //         }
-      //       }
-      //     }),
-      //     controller: textEditingController,
-      //     decoration: InputDecoration(
-      //       enabled: true,
-      //       prefixIcon: Icon(
-      //         Icons.emoji_emotions,
-      //       ),
-      //       suffix: Icon(
-      //         Icons.file_present,
-      //       ),
-      //       suffixIcon: InkWell(
-      //         onTap: () async {
-      //           if (Platform.isAndroid) {
-      //             await NotififcationClass.sendNotification(
-      //               playerId: widget.userModel.fcm ?? "",
-      //               title: textEditingController.text,
-      //               userName: currentUser.username,
-      //             );
-      //             chatrep.sendTextMessage(
-      //               context: context,
-      //               text: textEditingController.text,
-      //               recieverUserId: widget.userModel.contactId,
-      //               senderUser: currentUser,
-      //               messageReply: MessageReply("heoo", true, MessageEnum.text),
-      //               isGroupChat: false,
-      //             );
-      //             textEditingController.clear();
-      //           } else {
-      //             chatrep.sendTextMessage(
-      //               context: context,
-      //               text: textEditingController.text,
-      //               recieverUserId: widget.userModel.contactId,
-      //               senderUser: currentUser,
-      //               messageReply: MessageReply("heoo", true, MessageEnum.text),
-      //               isGroupChat: false,
-      //             );
-      //             textEditingController.clear();
-      //           }
-
-      //           // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //           //   _scrollController
-      //           //       .jumpTo(_scrollController.position.maxScrollExtent);
-      //           // });
-      //           // _scrollController.animateTo(
-      //           //     _scrollController.position.maxScrollExtent,
-      //           //     duration: Duration.zero,
-      //           //     curve: Curves.easeOut);
-      //         },
-      //         child: Icon(
-      //           Icons.send,
-      //         ),
-      //       ),
-      //       border: OutlineInputBorder(),
-      //     ),
-      //     autocorrect: true,
-      //     autofocus: true,
-      //     enableSuggestions: true,
-      //     enabled: true,
-      //     textInputAction: TextInputAction.newline,
-      //     keyboardType: TextInputType.text,
-      //     // textCapitalization: ,
-      //     onSaved: ((newValue) {}),
-      //     // expands: true,
-      //   ),
-      // ),
       appBar: AppBar(
         // backwardsCompatibility: true,
         leading: const CircleAvatar(
@@ -229,7 +148,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              timeago.format(
+                              format(
                                 chats[index].timeSent,
                                 allowFromNow: true,
                               ),
@@ -383,12 +302,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   builder: (context) {
-                                    return ExtraBottomSheetItems();
+                                    return ExtraBottomSheetItems(
+                                      currentUser: currentUser,
+                                      recieverUserId:
+                                          widget.userModel.contactId,
+                                    );
                                   });
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.file_present,
                                 size: 30,
                               ),
@@ -413,13 +336,19 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 }
 
-class ExtraBottomSheetItems extends StatelessWidget {
+class ExtraBottomSheetItems extends ConsumerWidget {
   const ExtraBottomSheetItems({
     Key? key,
+    required this.recieverUserId,
+    required this.currentUser,
   }) : super(key: key);
 
+  final String recieverUserId;
+  final UserModel currentUser;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final chatrep = ref.read(chatRepositoryProvider);
     return Container(
       height: 100,
       width: double.infinity,
@@ -433,7 +362,27 @@ class ExtraBottomSheetItems extends StatelessWidget {
           //  runAlignment: ,/
           children: [
             IconWithTextWidget(
-                onTap: () {}, iconData: Icons.camera, title: "Camera"),
+                onTap: () async {
+                  var image;
+                  if (Platform.isMacOS) {
+                    image = await pickerImageMacos();
+                  } else {
+                    image = await pickerImage(ImageSource.camera);
+                  }
+
+                  chatrep.sendFileMessage(
+                      context: context,
+                      file: image,
+                      recieverUserId: recieverUserId,
+                      senderUserData: currentUser,
+                      messageEnum: MessageEnum.image,
+                      messageReply:
+                          MessageReply("heoo", false, MessageEnum.image),
+                      isGroupChat: false,
+                      ref: ref);
+                },
+                iconData: Icons.camera,
+                title: "Camera"),
             IconWithTextWidget(
                 onTap: () {},
                 iconData: Icons.photo_album,
@@ -449,5 +398,28 @@ class ExtraBottomSheetItems extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+widgetType({required Message message}) {
+  var type = message.type;
+  switch (type) {
+    case MessageEnum.image:
+      return AspectRatio(
+        aspectRatio: 9 / 16,
+        child: Image.network(message.text),
+      );
+
+    case MessageEnum.audio:
+      return BubbleNormalAudio(
+        onSeekChanged: ((value) => {}),
+        onPlayPauseButtonClick: () {},
+      );
+
+    case MessageEnum.video:
+      return Container();
+
+    default:
+      return BubbleNormal(text: "");
   }
 }

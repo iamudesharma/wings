@@ -6,9 +6,11 @@ import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wings/models/posts/post_model.dart';
 import 'package:wings/provider/local_data.dart';
-import 'package:wings/provider/post_provider/post_provider.dart';
+// import 'package:wings/provider/post_provider/post_provider.dart';
 // import 'package:stories_editor/stories_editor.dart';
 import 'package:wings/widgets/widgets.dart';
+
+import '../../provider/post_provider/posts_provider.dart';
 
 class CreatePostPage extends StatefulWidget {
   const CreatePostPage({Key? key}) : super(key: key);

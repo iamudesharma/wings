@@ -259,7 +259,7 @@ class ChatRepository {
     required File file,
     required String recieverUserId,
     required UserModel senderUserData,
-    required ProviderRef ref,
+    required WidgetRef ref,
     required MessageEnum messageEnum,
     required MessageReply? messageReply,
     required bool isGroupChat,

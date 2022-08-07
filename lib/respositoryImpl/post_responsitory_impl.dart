@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wings/models/posts/post_model.dart';
 import 'package:wings/provider/local_data.dart';
+
+import '../respository/post_respository.dart';
 // import 'package:wings/models/post_model.g.dart';
 
-import 'package:wings/respository/respository.dart';
+// import 'package:wings/respository/respository.dart';
 
 class PostsRepositoryImpl extends PostsRepository {
   @override
