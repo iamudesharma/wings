@@ -21,7 +21,7 @@ const _sentinel = _Sentinel();
 abstract class UserModelCollectionReference
     implements
         UserModelQuery,
-        FirestoreCollectionReference<UserModelQuerySnapshot> {
+        FirestoreCollectionReference<UserModel, UserModelQuerySnapshot> {
   factory UserModelCollectionReference([
     FirebaseFirestore? firestore,
   ]) = _$UserModelCollectionReference;
@@ -39,6 +39,9 @@ abstract class UserModelCollectionReference
   ) {
     return value.toJson();
   }
+
+  @override
+  CollectionReference<UserModel> get reference;
 
   @override
   UserModelDocumentReference doc([String? id]);
@@ -99,7 +102,7 @@ class _$UserModelCollectionReference extends _$UserModelQuery
 }
 
 abstract class UserModelDocumentReference
-    extends FirestoreDocumentReference<UserModelDocumentSnapshot> {
+    extends FirestoreDocumentReference<UserModel, UserModelDocumentSnapshot> {
   factory UserModelDocumentReference(DocumentReference<UserModel> reference) =
       _$UserModelDocumentReference;
 
@@ -138,7 +141,7 @@ abstract class UserModelDocumentReference
 }
 
 class _$UserModelDocumentReference
-    extends FirestoreDocumentReference<UserModelDocumentSnapshot>
+    extends FirestoreDocumentReference<UserModel, UserModelDocumentSnapshot>
     implements UserModelDocumentReference {
   _$UserModelDocumentReference(this.reference);
 
@@ -223,7 +226,7 @@ class _$UserModelDocumentReference
   int get hashCode => Object.hash(runtimeType, parent, id);
 }
 
-class UserModelDocumentSnapshot extends FirestoreDocumentSnapshot {
+class UserModelDocumentSnapshot extends FirestoreDocumentSnapshot<UserModel> {
   UserModelDocumentSnapshot._(
     this.snapshot,
     this.data,
@@ -244,12 +247,77 @@ class UserModelDocumentSnapshot extends FirestoreDocumentSnapshot {
 }
 
 abstract class UserModelQuery
-    implements QueryReference<UserModelQuerySnapshot> {
+    implements QueryReference<UserModel, UserModelQuerySnapshot> {
   @override
   UserModelQuery limit(int limit);
 
   @override
   UserModelQuery limitToLast(int limit);
+
+  /// Perform an order query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of order queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.orderByFieldPath(
+  ///   FieldPath.fromString('title'),
+  ///   startAt: 'title',
+  /// );
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.orderByTitle(startAt: 'title');
+  /// ```
+  UserModelQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt,
+    Object? startAfter,
+    Object? endAt,
+    Object? endBefore,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
+  });
+
+  /// Perform a where query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of where queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.whereFieldPath(FieldPath.fromString('title'), isEqualTo: 'title');
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.whereTitle(isEqualTo: 'title');
+  /// ```
+  UserModelQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  });
 
   UserModelQuery whereDocumentId({
     String? isEqualTo,
@@ -336,6 +404,7 @@ abstract class UserModelQuery
     List<String>? isGreaterThan,
     List<String>? isGreaterThanOrEqualTo,
     bool? isNull,
+    String? arrayContains,
     List<String>? arrayContainsAny,
   });
   UserModelQuery whereName({
@@ -551,7 +620,7 @@ abstract class UserModelQuery
   });
 }
 
-class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
+class _$UserModelQuery extends QueryReference<UserModel, UserModelQuerySnapshot>
     implements UserModelQuery {
   _$UserModelQuery(
     this.reference,
@@ -612,6 +681,82 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     );
   }
 
+  UserModelQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserModelDocumentSnapshot? startAtDocument,
+    UserModelDocumentSnapshot? endAtDocument,
+    UserModelDocumentSnapshot? endBeforeDocument,
+    UserModelDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(fieldPath, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$UserModelQuery(query, _collection);
+  }
+
+  UserModelQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$UserModelQuery(
+      reference.where(
+        fieldPath,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        arrayContains: arrayContains,
+        arrayContainsAny: arrayContainsAny,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+        isNull: isNull,
+      ),
+      _collection,
+    );
+  }
+
   UserModelQuery whereDocumentId({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -653,7 +798,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "username",
+        _$UserModelFieldMap["username"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -681,7 +826,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "email",
+        _$UserModelFieldMap["email"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -709,7 +854,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "photoUrl",
+        _$UserModelFieldMap["photoUrl"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -737,7 +882,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "country",
+        _$UserModelFieldMap["country"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -765,7 +910,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "bio",
+        _$UserModelFieldMap["bio"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -793,7 +938,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "id",
+        _$UserModelFieldMap["id"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -816,11 +961,12 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     List<String>? isGreaterThan,
     List<String>? isGreaterThanOrEqualTo,
     bool? isNull,
+    String? arrayContains,
     List<String>? arrayContainsAny,
   }) {
     return _$UserModelQuery(
       reference.where(
-        "tags",
+        _$UserModelFieldMap["tags"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -828,6 +974,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
         isGreaterThan: isGreaterThan,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
         isNull: isNull,
+        arrayContains: arrayContains,
         arrayContainsAny: arrayContainsAny,
       ),
       _collection,
@@ -847,7 +994,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "name",
+        _$UserModelFieldMap["name"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -875,7 +1022,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "dob",
+        _$UserModelFieldMap["dob"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -903,7 +1050,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "phone",
+        _$UserModelFieldMap["phone"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -931,7 +1078,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "fcmToken",
+        _$UserModelFieldMap["fcmToken"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -959,7 +1106,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
   }) {
     return _$UserModelQuery(
       reference.where(
-        "age",
+        _$UserModelFieldMap["age"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1027,7 +1174,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("username", descending: descending);
+    var query = reference.orderBy(_$UserModelFieldMap["username"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1069,7 +1217,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("email", descending: descending);
+    var query = reference.orderBy(_$UserModelFieldMap["email"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1111,7 +1260,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("photoUrl", descending: descending);
+    var query = reference.orderBy(_$UserModelFieldMap["photoUrl"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1153,7 +1303,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("country", descending: descending);
+    var query = reference.orderBy(_$UserModelFieldMap["country"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1195,7 +1346,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("bio", descending: descending);
+    var query =
+        reference.orderBy(_$UserModelFieldMap["bio"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1237,7 +1389,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("id", descending: descending);
+    var query =
+        reference.orderBy(_$UserModelFieldMap["id"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1279,7 +1432,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("tags", descending: descending);
+    var query =
+        reference.orderBy(_$UserModelFieldMap["tags"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1321,7 +1475,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("name", descending: descending);
+    var query =
+        reference.orderBy(_$UserModelFieldMap["name"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1363,7 +1518,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("dob", descending: descending);
+    var query =
+        reference.orderBy(_$UserModelFieldMap["dob"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1405,7 +1561,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("phone", descending: descending);
+    var query = reference.orderBy(_$UserModelFieldMap["phone"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1447,7 +1604,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("fcmToken", descending: descending);
+    var query = reference.orderBy(_$UserModelFieldMap["fcmToken"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1489,7 +1647,8 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
     UserModelDocumentSnapshot? endBeforeDocument,
     UserModelDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("age", descending: descending);
+    var query =
+        reference.orderBy(_$UserModelFieldMap["age"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1532,7 +1691,7 @@ class _$UserModelQuery extends QueryReference<UserModelQuerySnapshot>
 }
 
 class UserModelQuerySnapshot
-    extends FirestoreQuerySnapshot<UserModelQueryDocumentSnapshot> {
+    extends FirestoreQuerySnapshot<UserModel, UserModelQueryDocumentSnapshot> {
   UserModelQuerySnapshot._(
     this.snapshot,
     this.docs,
@@ -1548,7 +1707,8 @@ class UserModelQuerySnapshot
   final List<FirestoreDocumentChange<UserModelDocumentSnapshot>> docChanges;
 }
 
-class UserModelQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
+class UserModelQueryDocumentSnapshot
+    extends FirestoreQueryDocumentSnapshot<UserModel>
     implements UserModelDocumentSnapshot {
   UserModelQueryDocumentSnapshot._(this.snapshot, this.data);
 
@@ -1568,7 +1728,7 @@ class UserModelQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
 // ValidatorGenerator
 // **************************************************************************
 
-_$assertUserModel(UserModel instance) {
+void _$assertUserModel(UserModel instance) {
   const Min(13).validate(instance.age, "age");
 }
 
@@ -1592,6 +1752,21 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       fcmToken: json['fcmToken'] as String,
       age: json['age'] as int,
     );
+
+const _$UserModelFieldMap = <String, String>{
+  'username': 'username',
+  'email': 'email',
+  'photoUrl': 'photoUrl',
+  'country': 'country',
+  'bio': 'bio',
+  'id': 'id',
+  'tags': 'tags',
+  'name': 'name',
+  'dob': 'dob',
+  'phone': 'phone',
+  'fcmToken': 'fcmToken',
+  'age': 'age',
+};
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'username': instance.username,

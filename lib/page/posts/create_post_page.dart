@@ -1,9 +1,11 @@
 // import 'package:flutter/foundation.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
+import 'package:wings/models/chats/message.dart';
 import 'package:wings/models/posts/post_model.dart';
 import 'package:wings/provider/local_data.dart';
 // import 'package:wings/provider/post_provider/post_provider.dart';
@@ -97,13 +99,14 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           child: const Text("Create a Post"),
                           onTap: () async {
                             final _post = Post(
+                              messageEnum: MessageEnum.text,
                               postText: _des.text,
                               id: const Uuid().v4(),
                               ownerId: SharedPref.getUid()!,
                               usernameName: SharedPref.getUsername()!,
                               location: "Hello World",
                               mediaUrl: "",
-                              createdAt: DateTime.now().toIso8601String(),
+                              createdAt: Timestamp.now(),
                               likes: 0,
                               tags: _tags.text.split(" "),
                               comments: [],

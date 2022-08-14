@@ -6,7 +6,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+const firestoreSerializable = JsonSerializable(
+  converters: firestoreJsonConverters,
+  // The following values could alternatively be set inside your `build.yaml`
+  explicitToJson: true,
+  createFieldMap: true,
+);
+
+
+@firestoreSerializable
+// @JsonSerializable(explicitToJson: true)
 class UserModel {
   UserModel({
     required this.username,

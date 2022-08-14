@@ -19,7 +19,9 @@ const _sentinel = _Sentinel();
 /// getting document references, and querying for documents
 /// (using the methods inherited from Query).
 abstract class PostCollectionReference
-    implements PostQuery, FirestoreCollectionReference<PostQuerySnapshot> {
+    implements
+        PostQuery,
+        FirestoreCollectionReference<Post, PostQuerySnapshot> {
   factory PostCollectionReference([
     FirebaseFirestore? firestore,
   ]) = _$PostCollectionReference;
@@ -37,6 +39,9 @@ abstract class PostCollectionReference
   ) {
     return value.toJson();
   }
+
+  @override
+  CollectionReference<Post> get reference;
 
   @override
   PostDocumentReference doc([String? id]);
@@ -97,7 +102,7 @@ class _$PostCollectionReference extends _$PostQuery
 }
 
 abstract class PostDocumentReference
-    extends FirestoreDocumentReference<PostDocumentSnapshot> {
+    extends FirestoreDocumentReference<Post, PostDocumentSnapshot> {
   factory PostDocumentReference(DocumentReference<Post> reference) =
       _$PostDocumentReference;
 
@@ -128,16 +133,17 @@ abstract class PostDocumentReference
     String usernameName,
     String location,
     String mediaUrl,
-    String createdAt,
+    Timestamp createdAt,
     List<String> tags,
     int likes,
+    int hashCode,
   });
 
   Future<void> set(Post value);
 }
 
 class _$PostDocumentReference
-    extends FirestoreDocumentReference<PostDocumentSnapshot>
+    extends FirestoreDocumentReference<Post, PostDocumentSnapshot>
     implements PostDocumentReference {
   _$PostDocumentReference(this.reference);
 
@@ -188,6 +194,7 @@ class _$PostDocumentReference
     Object? createdAt = _sentinel,
     Object? tags = _sentinel,
     Object? likes = _sentinel,
+    Object? hashCode = _sentinel,
   }) async {
     final json = {
       if (postText != _sentinel) "postText": postText as String,
@@ -196,9 +203,10 @@ class _$PostDocumentReference
       if (usernameName != _sentinel) "usernameName": usernameName as String,
       if (location != _sentinel) "location": location as String,
       if (mediaUrl != _sentinel) "mediaUrl": mediaUrl as String,
-      if (createdAt != _sentinel) "createdAt": createdAt as String,
+      if (createdAt != _sentinel) "createdAt": createdAt as Timestamp,
       if (tags != _sentinel) "tags": tags as List<String>,
       if (likes != _sentinel) "likes": likes as int,
+      if (hashCode != _sentinel) "hashCode": hashCode as int,
     };
 
     return reference.update(json);
@@ -220,7 +228,7 @@ class _$PostDocumentReference
   int get hashCode => Object.hash(runtimeType, parent, id);
 }
 
-class PostDocumentSnapshot extends FirestoreDocumentSnapshot {
+class PostDocumentSnapshot extends FirestoreDocumentSnapshot<Post> {
   PostDocumentSnapshot._(
     this.snapshot,
     this.data,
@@ -240,12 +248,77 @@ class PostDocumentSnapshot extends FirestoreDocumentSnapshot {
   final Post? data;
 }
 
-abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
+abstract class PostQuery implements QueryReference<Post, PostQuerySnapshot> {
   @override
   PostQuery limit(int limit);
 
   @override
   PostQuery limitToLast(int limit);
+
+  /// Perform an order query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of order queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.orderByFieldPath(
+  ///   FieldPath.fromString('title'),
+  ///   startAt: 'title',
+  /// );
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.orderByTitle(startAt: 'title');
+  /// ```
+  PostQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt,
+    Object? startAfter,
+    Object? endAt,
+    Object? endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
+
+  /// Perform a where query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of where queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.whereFieldPath(FieldPath.fromString('title'), isEqualTo: 'title');
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.whereTitle(isEqualTo: 'title');
+  /// ```
+  PostQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  });
 
   PostQuery whereDocumentId({
     String? isEqualTo,
@@ -325,15 +398,15 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     List<String>? whereNotIn,
   });
   PostQuery whereCreatedAt({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
+    Timestamp? isEqualTo,
+    Timestamp? isNotEqualTo,
+    Timestamp? isLessThan,
+    Timestamp? isLessThanOrEqualTo,
+    Timestamp? isGreaterThan,
+    Timestamp? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<Timestamp>? whereIn,
+    List<Timestamp>? whereNotIn,
   });
   PostQuery whereTags({
     List<String>? isEqualTo,
@@ -343,9 +416,21 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     List<String>? isGreaterThan,
     List<String>? isGreaterThanOrEqualTo,
     bool? isNull,
+    String? arrayContains,
     List<String>? arrayContainsAny,
   });
   PostQuery whereLikes({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int>? whereIn,
+    List<int>? whereNotIn,
+  });
+  PostQuery whereHashCode({
     int? isEqualTo,
     int? isNotEqualTo,
     int? isLessThan,
@@ -443,10 +528,10 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
 
   PostQuery orderByCreatedAt({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    Timestamp startAt,
+    Timestamp startAfter,
+    Timestamp endAt,
+    Timestamp endBefore,
     PostDocumentSnapshot? startAtDocument,
     PostDocumentSnapshot? endAtDocument,
     PostDocumentSnapshot? endBeforeDocument,
@@ -476,9 +561,21 @@ abstract class PostQuery implements QueryReference<PostQuerySnapshot> {
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   });
+
+  PostQuery orderByHashCode({
+    bool descending = false,
+    int startAt,
+    int startAfter,
+    int endAt,
+    int endBefore,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  });
 }
 
-class _$PostQuery extends QueryReference<PostQuerySnapshot>
+class _$PostQuery extends QueryReference<Post, PostQuerySnapshot>
     implements PostQuery {
   _$PostQuery(
     this.reference,
@@ -539,6 +636,82 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     );
   }
 
+  PostQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(fieldPath, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        fieldPath,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        arrayContains: arrayContains,
+        arrayContainsAny: arrayContainsAny,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+        isNull: isNull,
+      ),
+      _collection,
+    );
+  }
+
   PostQuery whereDocumentId({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -580,7 +753,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "postText",
+        _$PostFieldMap["postText"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -608,7 +781,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "id",
+        _$PostFieldMap["id"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -636,7 +809,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "ownerId",
+        _$PostFieldMap["ownerId"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -664,7 +837,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "usernameName",
+        _$PostFieldMap["usernameName"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -692,7 +865,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "location",
+        _$PostFieldMap["location"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -720,7 +893,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "mediaUrl",
+        _$PostFieldMap["mediaUrl"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -736,19 +909,19 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }
 
   PostQuery whereCreatedAt({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
+    Timestamp? isEqualTo,
+    Timestamp? isNotEqualTo,
+    Timestamp? isLessThan,
+    Timestamp? isLessThanOrEqualTo,
+    Timestamp? isGreaterThan,
+    Timestamp? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<Timestamp>? whereIn,
+    List<Timestamp>? whereNotIn,
   }) {
     return _$PostQuery(
       reference.where(
-        "createdAt",
+        _$PostFieldMap["createdAt"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -771,11 +944,12 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     List<String>? isGreaterThan,
     List<String>? isGreaterThanOrEqualTo,
     bool? isNull,
+    String? arrayContains,
     List<String>? arrayContainsAny,
   }) {
     return _$PostQuery(
       reference.where(
-        "tags",
+        _$PostFieldMap["tags"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -783,6 +957,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
         isGreaterThan: isGreaterThan,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
         isNull: isNull,
+        arrayContains: arrayContains,
         arrayContainsAny: arrayContainsAny,
       ),
       _collection,
@@ -802,7 +977,35 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
   }) {
     return _$PostQuery(
       reference.where(
-        "likes",
+        _$PostFieldMap["likes"]!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  PostQuery whereHashCode({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int>? whereIn,
+    List<int>? whereNotIn,
+  }) {
+    return _$PostQuery(
+      reference.where(
+        _$PostFieldMap["hashCode"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -870,7 +1073,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("postText", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["postText"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -912,7 +1116,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("id", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["id"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -954,7 +1159,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("ownerId", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["ownerId"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -996,7 +1202,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("usernameName", descending: descending);
+    var query = reference.orderBy(_$PostFieldMap["usernameName"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1038,7 +1245,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("location", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["location"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1080,7 +1288,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("mediaUrl", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["mediaUrl"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1122,7 +1331,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("createdAt", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["createdAt"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1164,7 +1374,8 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("tags", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["tags"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1206,7 +1417,51 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
     PostDocumentSnapshot? endBeforeDocument,
     PostDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("likes", descending: descending);
+    var query =
+        reference.orderBy(_$PostFieldMap["likes"]!, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$PostQuery(query, _collection);
+  }
+
+  PostQuery orderByHashCode({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    PostDocumentSnapshot? startAtDocument,
+    PostDocumentSnapshot? endAtDocument,
+    PostDocumentSnapshot? endBeforeDocument,
+    PostDocumentSnapshot? startAfterDocument,
+  }) {
+    var query =
+        reference.orderBy(_$PostFieldMap["hashCode"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1249,7 +1504,7 @@ class _$PostQuery extends QueryReference<PostQuerySnapshot>
 }
 
 class PostQuerySnapshot
-    extends FirestoreQuerySnapshot<PostQueryDocumentSnapshot> {
+    extends FirestoreQuerySnapshot<Post, PostQueryDocumentSnapshot> {
   PostQuerySnapshot._(
     this.snapshot,
     this.docs,
@@ -1265,7 +1520,7 @@ class PostQuerySnapshot
   final List<FirestoreDocumentChange<PostDocumentSnapshot>> docChanges;
 }
 
-class PostQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
+class PostQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot<Post>
     implements PostDocumentSnapshot {
   PostQueryDocumentSnapshot._(this.snapshot, this.data);
 
@@ -1287,7 +1542,7 @@ class PostQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
 abstract class CommentCollectionReference
     implements
         CommentQuery,
-        FirestoreCollectionReference<CommentQuerySnapshot> {
+        FirestoreCollectionReference<Comment, CommentQuerySnapshot> {
   factory CommentCollectionReference(
     DocumentReference<Post> parent,
   ) = _$CommentCollectionReference;
@@ -1305,6 +1560,9 @@ abstract class CommentCollectionReference
   ) {
     return value.toJson();
   }
+
+  @override
+  CollectionReference<Comment> get reference;
 
   /// A reference to the containing [PostDocumentReference] if this is a subcollection.
   PostDocumentReference get parent;
@@ -1373,7 +1631,7 @@ class _$CommentCollectionReference extends _$CommentQuery
 }
 
 abstract class CommentDocumentReference
-    extends FirestoreDocumentReference<CommentDocumentSnapshot> {
+    extends FirestoreDocumentReference<Comment, CommentDocumentSnapshot> {
   factory CommentDocumentReference(DocumentReference<Comment> reference) =
       _$CommentDocumentReference;
 
@@ -1403,13 +1661,14 @@ abstract class CommentDocumentReference
     String comment,
     String userDp,
     String userId,
+    int hashCode,
   });
 
   Future<void> set(Comment value);
 }
 
 class _$CommentDocumentReference
-    extends FirestoreDocumentReference<CommentDocumentSnapshot>
+    extends FirestoreDocumentReference<Comment, CommentDocumentSnapshot>
     implements CommentDocumentReference {
   _$CommentDocumentReference(this.reference);
 
@@ -1456,12 +1715,14 @@ class _$CommentDocumentReference
     Object? comment = _sentinel,
     Object? userDp = _sentinel,
     Object? userId = _sentinel,
+    Object? hashCode = _sentinel,
   }) async {
     final json = {
       if (username != _sentinel) "username": username as String,
       if (comment != _sentinel) "comment": comment as String,
       if (userDp != _sentinel) "userDp": userDp as String,
       if (userId != _sentinel) "userId": userId as String,
+      if (hashCode != _sentinel) "hashCode": hashCode as int,
     };
 
     return reference.update(json);
@@ -1483,7 +1744,7 @@ class _$CommentDocumentReference
   int get hashCode => Object.hash(runtimeType, parent, id);
 }
 
-class CommentDocumentSnapshot extends FirestoreDocumentSnapshot {
+class CommentDocumentSnapshot extends FirestoreDocumentSnapshot<Comment> {
   CommentDocumentSnapshot._(
     this.snapshot,
     this.data,
@@ -1503,12 +1764,78 @@ class CommentDocumentSnapshot extends FirestoreDocumentSnapshot {
   final Comment? data;
 }
 
-abstract class CommentQuery implements QueryReference<CommentQuerySnapshot> {
+abstract class CommentQuery
+    implements QueryReference<Comment, CommentQuerySnapshot> {
   @override
   CommentQuery limit(int limit);
 
   @override
   CommentQuery limitToLast(int limit);
+
+  /// Perform an order query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of order queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.orderByFieldPath(
+  ///   FieldPath.fromString('title'),
+  ///   startAt: 'title',
+  /// );
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.orderByTitle(startAt: 'title');
+  /// ```
+  CommentQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt,
+    Object? startAfter,
+    Object? endAt,
+    Object? endBefore,
+    CommentDocumentSnapshot? startAtDocument,
+    CommentDocumentSnapshot? endAtDocument,
+    CommentDocumentSnapshot? endBeforeDocument,
+    CommentDocumentSnapshot? startAfterDocument,
+  });
+
+  /// Perform a where query based on a [FieldPath].
+  ///
+  /// This method is considered unsafe as it does check that the field path
+  /// maps to a valid property or that parameters such as [isEqualTo] receive
+  /// a value of the correct type.
+  ///
+  /// If possible, instead use the more explicit variant of where queries:
+  ///
+  /// **AVOID**:
+  /// ```dart
+  /// collection.whereFieldPath(FieldPath.fromString('title'), isEqualTo: 'title');
+  /// ```
+  ///
+  /// **PREFER**:
+  /// ```dart
+  /// collection.whereTitle(isEqualTo: 'title');
+  /// ```
+  CommentQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  });
 
   CommentQuery whereDocumentId({
     String? isEqualTo,
@@ -1564,6 +1891,17 @@ abstract class CommentQuery implements QueryReference<CommentQuerySnapshot> {
     bool? isNull,
     List<String>? whereIn,
     List<String>? whereNotIn,
+  });
+  CommentQuery whereHashCode({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int>? whereIn,
+    List<int>? whereNotIn,
   });
 
   CommentQuery orderByDocumentId({
@@ -1625,9 +1963,21 @@ abstract class CommentQuery implements QueryReference<CommentQuerySnapshot> {
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   });
+
+  CommentQuery orderByHashCode({
+    bool descending = false,
+    int startAt,
+    int startAfter,
+    int endAt,
+    int endBefore,
+    CommentDocumentSnapshot? startAtDocument,
+    CommentDocumentSnapshot? endAtDocument,
+    CommentDocumentSnapshot? endBeforeDocument,
+    CommentDocumentSnapshot? startAfterDocument,
+  });
 }
 
-class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
+class _$CommentQuery extends QueryReference<Comment, CommentQuerySnapshot>
     implements CommentQuery {
   _$CommentQuery(
     this.reference,
@@ -1688,6 +2038,82 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     );
   }
 
+  CommentQuery orderByFieldPath(
+    FieldPath fieldPath, {
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    CommentDocumentSnapshot? startAtDocument,
+    CommentDocumentSnapshot? endAtDocument,
+    CommentDocumentSnapshot? endBeforeDocument,
+    CommentDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(fieldPath, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$CommentQuery(query, _collection);
+  }
+
+  CommentQuery whereFieldPath(
+    FieldPath fieldPath, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<Object?>? arrayContainsAny,
+    List<Object?>? whereIn,
+    List<Object?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$CommentQuery(
+      reference.where(
+        fieldPath,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        arrayContains: arrayContains,
+        arrayContainsAny: arrayContainsAny,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+        isNull: isNull,
+      ),
+      _collection,
+    );
+  }
+
   CommentQuery whereDocumentId({
     String? isEqualTo,
     String? isNotEqualTo,
@@ -1729,7 +2155,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        "username",
+        _$CommentFieldMap["username"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1757,7 +2183,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        "comment",
+        _$CommentFieldMap["comment"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1785,7 +2211,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        "userDp",
+        _$CommentFieldMap["userDp"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1813,7 +2239,35 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
   }) {
     return _$CommentQuery(
       reference.where(
-        "userId",
+        _$CommentFieldMap["userId"]!,
+        isEqualTo: isEqualTo,
+        isNotEqualTo: isNotEqualTo,
+        isLessThan: isLessThan,
+        isLessThanOrEqualTo: isLessThanOrEqualTo,
+        isGreaterThan: isGreaterThan,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+        isNull: isNull,
+        whereIn: whereIn,
+        whereNotIn: whereNotIn,
+      ),
+      _collection,
+    );
+  }
+
+  CommentQuery whereHashCode({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    bool? isNull,
+    List<int>? whereIn,
+    List<int>? whereNotIn,
+  }) {
+    return _$CommentQuery(
+      reference.where(
+        _$CommentFieldMap["hashCode"]!,
         isEqualTo: isEqualTo,
         isNotEqualTo: isNotEqualTo,
         isLessThan: isLessThan,
@@ -1881,7 +2335,8 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("username", descending: descending);
+    var query = reference.orderBy(_$CommentFieldMap["username"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1923,7 +2378,8 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("comment", descending: descending);
+    var query = reference.orderBy(_$CommentFieldMap["comment"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -1965,7 +2421,8 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("userDp", descending: descending);
+    var query =
+        reference.orderBy(_$CommentFieldMap["userDp"]!, descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -2007,7 +2464,51 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
     CommentDocumentSnapshot? endBeforeDocument,
     CommentDocumentSnapshot? startAfterDocument,
   }) {
-    var query = reference.orderBy("userId", descending: descending);
+    var query =
+        reference.orderBy(_$CommentFieldMap["userId"]!, descending: descending);
+
+    if (startAtDocument != null) {
+      query = query.startAtDocument(startAtDocument.snapshot);
+    }
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument.snapshot);
+    }
+    if (endAtDocument != null) {
+      query = query.endAtDocument(endAtDocument.snapshot);
+    }
+    if (endBeforeDocument != null) {
+      query = query.endBeforeDocument(endBeforeDocument.snapshot);
+    }
+
+    if (startAt != _sentinel) {
+      query = query.startAt([startAt]);
+    }
+    if (startAfter != _sentinel) {
+      query = query.startAfter([startAfter]);
+    }
+    if (endAt != _sentinel) {
+      query = query.endAt([endAt]);
+    }
+    if (endBefore != _sentinel) {
+      query = query.endBefore([endBefore]);
+    }
+
+    return _$CommentQuery(query, _collection);
+  }
+
+  CommentQuery orderByHashCode({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    CommentDocumentSnapshot? startAtDocument,
+    CommentDocumentSnapshot? endAtDocument,
+    CommentDocumentSnapshot? endBeforeDocument,
+    CommentDocumentSnapshot? startAfterDocument,
+  }) {
+    var query = reference.orderBy(_$CommentFieldMap["hashCode"]!,
+        descending: descending);
 
     if (startAtDocument != null) {
       query = query.startAtDocument(startAtDocument.snapshot);
@@ -2050,7 +2551,7 @@ class _$CommentQuery extends QueryReference<CommentQuerySnapshot>
 }
 
 class CommentQuerySnapshot
-    extends FirestoreQuerySnapshot<CommentQueryDocumentSnapshot> {
+    extends FirestoreQuerySnapshot<Comment, CommentQueryDocumentSnapshot> {
   CommentQuerySnapshot._(
     this.snapshot,
     this.docs,
@@ -2066,7 +2567,8 @@ class CommentQuerySnapshot
   final List<FirestoreDocumentChange<CommentDocumentSnapshot>> docChanges;
 }
 
-class CommentQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
+class CommentQueryDocumentSnapshot
+    extends FirestoreQueryDocumentSnapshot<Comment>
     implements CommentDocumentSnapshot {
   CommentQueryDocumentSnapshot._(this.snapshot, this.data);
 
@@ -2086,7 +2588,7 @@ class CommentQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
 // ValidatorGenerator
 // **************************************************************************
 
-_$assertPost(Post instance) {
+void _$assertPost(Post instance) {
   const Min(0).validate(instance.likes, "likes");
 }
 
@@ -2101,13 +2603,29 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       usernameName: json['usernameName'] as String,
       location: json['location'] as String,
       mediaUrl: json['mediaUrl'] as String,
-      createdAt: json['createdAt'] as String,
+      createdAt: const FirestoreTimestampConverter()
+          .fromJson(json['createdAt'] as Timestamp),
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       comments: (json['comments'] as List<dynamic>?)
           ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
       likes: json['likes'] as int,
+      messageEnum: $enumDecode(_$MessageEnumEnumMap, json['messageEnum']),
     );
+
+const _$PostFieldMap = <String, String>{
+  'postText': 'postText',
+  'id': 'id',
+  'ownerId': 'ownerId',
+  'usernameName': 'usernameName',
+  'location': 'location',
+  'mediaUrl': 'mediaUrl',
+  'messageEnum': 'messageEnum',
+  'createdAt': 'createdAt',
+  'tags': 'tags',
+  'comments': 'comments',
+  'likes': 'likes',
+};
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'postText': instance.postText,
@@ -2116,11 +2634,21 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'usernameName': instance.usernameName,
       'location': instance.location,
       'mediaUrl': instance.mediaUrl,
-      'createdAt': instance.createdAt,
+      'messageEnum': _$MessageEnumEnumMap[instance.messageEnum]!,
+      'createdAt':
+          const FirestoreTimestampConverter().toJson(instance.createdAt),
       'tags': instance.tags,
       'comments': instance.comments?.map((e) => e.toJson()).toList(),
       'likes': instance.likes,
     };
+
+const _$MessageEnumEnumMap = {
+  MessageEnum.text: 'text',
+  MessageEnum.image: 'image',
+  MessageEnum.audio: 'audio',
+  MessageEnum.video: 'video',
+  MessageEnum.gif: 'gif',
+};
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       username: json['username'] as String,
@@ -2128,6 +2656,13 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       userDp: json['userDp'] as String,
       userId: json['userId'] as String,
     );
+
+const _$CommentFieldMap = <String, String>{
+  'username': 'username',
+  'comment': 'comment',
+  'userDp': 'userDp',
+  'userId': 'userId',
+};
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'username': instance.username,
