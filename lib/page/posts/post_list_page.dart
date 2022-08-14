@@ -1,15 +1,10 @@
-import 'package:animated_icon/animate_icon.dart';
-import 'package:animated_icon/animate_icons.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked_listview/stacked_listview.dart';
-import 'package:uuid/uuid.dart';
+import 'package:stories_editor/stories_editor.dart';
 import 'package:wings/models/posts/post_model.dart';
-import 'package:wings/provider/notification_provider.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 
 import '../../routes/routes.gr.dart';
@@ -82,28 +77,20 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
         PostQuerySnapshot postquerySnapshot = snapshot.data!;
 
         return Scaffold(
-          // backgroundColor: Colors.white,
-          // appBar: AppBar(
-          //   leading: const Padding(
-          //     padding: EdgeInsets.all(8.0),
-          //     child: CircleAvatar(
-          //       backgroundImage: NetworkImage("https://picsum.photos/200/300"),
-          //     ),
-          //   ),
-          //   title: const Text("Posts"),
-          //   actions: <Widget>[
-          //     IconButton(
-          //       icon: const Icon(Icons.chat_sharp),
-          //       onPressed: () {
-          //         AutoRouter.of(
-          //           context,
-          //         ).push(
-          //           const ChatsListRoute(),
-          //         );
-          //       },
-          //     ),
-          //   ],
-          // ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              AutoRouter.of(context).pushWidget(StoriesEditor(
+                giphyKey: '[YOUR GIPHY API KEY]',
+
+                /// (String) required param
+                onDone: (String uri) {
+                  /// uri is the local path of final render Uint8List
+                  /// here your code
+                },
+              ));
+            },
+            child: Icon(Icons.add),
+          ),
           body: Container(
             height: _size.height,
             width: _size.width,

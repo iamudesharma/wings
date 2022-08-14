@@ -53,6 +53,7 @@ dependencies:
   crop_your_image: ^0.7.2
   animated_icon: ^0.0.4
   stacked_listview: ^1.0.3+2
+  stories_editor: ^0.1.8
   # flutter_chat_ui: ^1.6.4
   # image_picker_for_web: ^2.1.8
   # story_creator: ^1.0.1
