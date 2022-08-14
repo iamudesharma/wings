@@ -353,7 +353,7 @@ class ExtraBottomSheetItems extends ConsumerWidget {
                   if (Platform.isMacOS) {
                     image = await pickerImageMacos();
                   } else {
-                    image = await pickerImage(ImageSource.gallery);
+                    image = await pickerImage(ImageSource.camera);
                   }
 
                   if (image != null) {
@@ -376,7 +376,33 @@ class ExtraBottomSheetItems extends ConsumerWidget {
                 iconData: Icons.camera,
                 title: "Camera"),
             IconWithTextWidget(
-                onTap: () {},
+                onTap: ()async {
+                  XFile? image;
+
+                  final auto = AutoRouter.of(context);
+                  if (Platform.isMacOS) {
+                    image = await pickerImageMacos();
+                  } else {
+                    image = await pickerImage(ImageSource.gallery);
+                  }
+
+                  if (image != null) {
+                    //   await auto
+                    //       .pushWidget(ImageCropWidget(image: File(image.path)));
+                    // }
+
+                    chatrep.sendFileMessage(
+                        context: context,
+                        file: File(image.path),
+                        recieverUserId: recieverUserId,
+                        senderUserData: currentUser,
+                        messageEnum: MessageEnum.image,
+                        messageReply:
+                        MessageReply("heoo", false, MessageEnum.image),
+                        isGroupChat: false,
+                        ref: ref);
+                  }
+                },
                 iconData: Icons.photo_album,
                 title: "Photo Album"),
             IconWithTextWidget(

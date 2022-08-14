@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.0"
+  animated_icon:
+    dependency: "direct main"
+    description:
+      name: animated_icon
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   archive:
     dependency: transitive
     description:
@@ -674,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  lottie:
+    dependency: transitive
+    description:
+      name: lottie
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.1"
   matcher:
     dependency: transitive
     description:
@@ -1036,6 +1050,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  stacked_listview:
+    dependency: "direct main"
+    description:
+      name: stacked_listview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3+2"
   state_notifier:
     dependency: transitive
     description:
@@ -1247,5 +1268,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.1 <3.0.0"
   flutter: ">=3.0.0"
