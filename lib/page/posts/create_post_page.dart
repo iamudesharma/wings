@@ -1,21 +1,30 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:flutter/foundation.dart';
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
+
 import 'package:wings/models/chats/message.dart';
 import 'package:wings/models/posts/post_model.dart';
+import 'package:wings/provider/firebase_storage_repository.dart';
 import 'package:wings/provider/local_data.dart';
-// import 'package:wings/provider/post_provider/post_provider.dart';
+// / import 'package:wings/provider/post_provider/post_provider.dart';
 // import 'package:stories_editor/stories_editor.dart';
 import 'package:wings/widgets/widgets.dart';
 
 import '../../provider/post_provider/posts_provider.dart';
 
 class CreatePostPage extends StatefulWidget {
-  const CreatePostPage({Key? key}) : super(key: key);
+  const CreatePostPage({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
+  final String image;
 
   @override
   _CreatePostPageState createState() => _CreatePostPageState();
@@ -56,6 +65,29 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Container(
+                          height: 200,
+                          width: 100,
+                          child: Stack(
+                            children: [
+                              Image.file(
+                                File(widget.image),
+                                fit: BoxFit.cover,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  AutoRouter.of(context).navigateBack();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.edit, size: 15)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         15.heightBox,
                         textFormField(_title,
                             hintText: "Write a Title",
@@ -98,14 +130,24 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         CustomButton(
                           child: const Text("Create a Post"),
                           onTap: () async {
+                            final messageId = Uuid().v4();
+                            // final file = File(widget.image);
+
+                            String imageUrl = await ref
+                                .read(commonFirebaseStorageRepositoryProvider)
+                                .storeFileToFirebase(
+                                  'post/${SharedPref.getUid()}$messageId',
+                                File( widget.image),
+                                );
+
                             final _post = Post(
                               messageEnum: MessageEnum.text,
                               postText: _des.text,
-                              id: const Uuid().v4(),
+                              id: messageId,
                               ownerId: SharedPref.getUid()!,
-                              usernameName: SharedPref.getUsername()!,
+                              usernameName: SharedPref.getUsername()??"",
                               location: "Hello World",
-                              mediaUrl: "",
+                              mediaUrl: imageUrl,
                               createdAt: Timestamp.now(),
                               likes: 0,
                               tags: _tags.text.split(" "),

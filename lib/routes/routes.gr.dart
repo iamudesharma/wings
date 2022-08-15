@@ -57,8 +57,10 @@ class AppRouter extends _i8.RootStackRouter {
           child: _i4.UserEditPage(key: args.key, user: args.user));
     },
     CreatePostRoute.name: (routeData) {
+      final args = routeData.argsAs<CreatePostRouteArgs>();
       return _i8.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.CreatePostPage());
+          routeData: routeData,
+          child: _i4.CreatePostPage(key: args.key, image: args.image));
     },
     AuthUserDetailsRoute.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
@@ -175,11 +177,26 @@ class UserEditRouteArgs {
 
 /// generated route for
 /// [_i4.CreatePostPage]
-class CreatePostRoute extends _i8.PageRouteInfo<void> {
-  const CreatePostRoute()
-      : super(CreatePostRoute.name, path: '/create-post-page');
+class CreatePostRoute extends _i8.PageRouteInfo<CreatePostRouteArgs> {
+  CreatePostRoute({_i9.Key? key, required String image})
+      : super(CreatePostRoute.name,
+            path: '/create-post-page',
+            args: CreatePostRouteArgs(key: key, image: image));
 
   static const String name = 'CreatePostRoute';
+}
+
+class CreatePostRouteArgs {
+  const CreatePostRouteArgs({this.key, required this.image});
+
+  final _i9.Key? key;
+
+  final String image;
+
+  @override
+  String toString() {
+    return 'CreatePostRouteArgs{key: $key, image: $image}';
+  }
 }
 
 /// generated route for

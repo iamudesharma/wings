@@ -10,42 +10,6 @@ import 'package:wings/provider/user_provider/user_provider.dart';
 import '../../routes/routes.gr.dart';
 import '../../widgets/widgets.dart';
 
-// class PostsListPage extends StatefulWidget {
-//   const PostsListPage({Key? key}) : super(key: key);
-
-//   @override
-//   State<PostsListPage> createState() => _PostsListPageState();
-// }
-
-// class _PostsListPageState extends State<PostsListPage> {
-//   @override
-//   void initState() {
-//     // permission();
-//     super.initState();
-//   }
-
-//   void permission() async {
-//     if (await Permission.camera.status.isGranted) {
-//     } else {
-//       Permission.camera.request();
-//       Permission.mediaLibrary.request();
-//     }
-//   }
-
-//   @override
-//   void didChangeDependencies() async{
-
-//     UserProvider userProvider = UserProvider(userRepository);
-//     // TODO: implement didChangeDependencies
-//     super.didChangeDependencies();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
-
 class PostsListPage extends ConsumerStatefulWidget {
   const PostsListPage({Key? key}) : super(key: key);
 
@@ -81,15 +45,21 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
             onPressed: () {
               AutoRouter.of(context).pushWidget(StoriesEditor(
                 giphyKey: '[YOUR GIPHY API KEY]',
+                // onDoneButtonStyle: Text("Heloo"),
 
                 /// (String) required param
                 onDone: (String uri) {
+                  AutoRouter.of(context).push(CreatePostRoute(image: uri));
+
+                  print(uri);
+
                   /// uri is the local path of final render Uint8List
                   /// here your code
                 },
+                middleBottomWidget: Text("POSTS"),
               ));
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
           body: Container(
             height: _size.height,
@@ -120,13 +90,14 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                 ),
                 Expanded(
                   child: StackedListView(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 10),
                     itemCount: 10,
                     itemExtent: 500,
                     heightFactor: 0.85,
                     builder: (_, index) {
                       return Container(
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         height: 490,
                         width: _size.width,
                         margin: const EdgeInsets.symmetric(
@@ -141,7 +112,7 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                                     color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
-                                          offset: Offset(0, 1),
+                                          offset: const Offset(0, 1),
                                           blurRadius: 10,
                                           blurStyle: BlurStyle.normal,
                                           color: Colors.grey.shade300,
@@ -157,7 +128,7 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, top: 20),
                               child: Row(
-                                children: [
+                                children: const [
                                   CircleAvatar(
                                     backgroundColor: Colors.red,
                                   ),
@@ -177,10 +148,12 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: GlassMorphism(
+                                        start: 0.2,
+                                        end: 0.3,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Row(
-                                            children: [
+                                            children: const [
                                               Icon(Icons.favorite_border,
                                                   color: Colors.white),
                                               SizedBox(
@@ -190,15 +163,13 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                                             ],
                                           ),
                                         ),
-                                        start: 0.2,
-                                        end: 0.3,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Row(
-                                      children: [
+                                      children: const [
                                         Icon(Icons.comment_rounded,
                                             color: Colors.white),
                                         SizedBox(
@@ -207,10 +178,10 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
                                         Text("1.8k"),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.message,
                                       color: Colors.white,
                                     ),
