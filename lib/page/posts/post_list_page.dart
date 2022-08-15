@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:stacked_listview/stacked_listview.dart';
 import 'package:stories_editor/stories_editor.dart';
 import 'package:wings/models/posts/post_model.dart';
+import 'package:wings/provider/local_data.dart';
 import 'package:wings/provider/user_provider/user_provider.dart';
 
 import '../../routes/routes.gr.dart';
@@ -22,10 +24,23 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
 
   double topContainerHeight = 0;
   @override
+  Logger _logger = Logger();
   void initState() {
-    ref.read(userProvider).getCurrentUser();
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    if (SharedPref.getUsername() == null && SharedPref.getName() == null) {
+      final user = await ref.read(userProvider).getCurrentUser();
+      SharedPref.name(user!.name);
+      SharedPref.name(user.username);
+    } else {
+      _logger.i("user name :${SharedPref.getName()}");
+    }
+
+    // TODO: implement didChangeDependencies
   }
 
   @override
@@ -39,6 +54,8 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
         if (!snapshot.hasData) return const Text('Loading users...');
 
         PostQuerySnapshot postquerySnapshot = snapshot.data!;
+
+        // print()
 
         return Scaffold(
           floatingActionButton: FloatingActionButton(

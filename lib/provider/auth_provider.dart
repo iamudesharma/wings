@@ -67,6 +67,7 @@ class AuthProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       await authRespositoryImpl.login(email, password);
+      
       isLoading = false;
       ToastWidget.showSuccessToast('Login Successfully');
       notifyListeners();

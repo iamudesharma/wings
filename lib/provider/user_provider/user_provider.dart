@@ -74,7 +74,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getCurrentUser() async {
+  Future<UserModel?> getCurrentUser() async {
     // ref.listen(provider, (previous, next) { })
     UserModel? currentUser = ref!.watch(currentUserProvider);
 
@@ -83,7 +83,9 @@ class UserProvider extends ChangeNotifier {
 
       debugPrint(currentUser?.username);
       if (currentUser != null) {
-        // ref!.read(currentUserProvider).state = currentUser;
+        return currentUser;
+        // ref!.read(currentUserProvid
+        //er).state = currentUser;
       }
     } catch (e) {
       debugPrint(e.toString());

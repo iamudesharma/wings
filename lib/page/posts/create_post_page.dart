@@ -13,6 +13,7 @@ import 'package:wings/models/chats/message.dart';
 import 'package:wings/models/posts/post_model.dart';
 import 'package:wings/provider/firebase_storage_repository.dart';
 import 'package:wings/provider/local_data.dart';
+import 'package:wings/routes/routes.gr.dart';
 // / import 'package:wings/provider/post_provider/post_provider.dart';
 // import 'package:stories_editor/stories_editor.dart';
 import 'package:wings/widgets/widgets.dart';
@@ -130,6 +131,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         CustomButton(
                           child: const Text("Create a Post"),
                           onTap: () async {
+                            final route = AutoRouter.of(context);
+
                             final messageId = Uuid().v4();
                             // final file = File(widget.image);
 
@@ -137,7 +140,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                 .read(commonFirebaseStorageRepositoryProvider)
                                 .storeFileToFirebase(
                                   'post/${SharedPref.getUid()}$messageId',
-                                File( widget.image),
+                                  File(widget.image),
                                 );
 
                             final _post = Post(
@@ -145,19 +148,21 @@ class _CreatePostPageState extends State<CreatePostPage> {
                               postText: _des.text,
                               id: messageId,
                               ownerId: SharedPref.getUid()!,
-                              usernameName: SharedPref.getUsername()??"",
+                              usernameName: SharedPref.getUsername() ?? "",
                               location: "Hello World",
                               mediaUrl: imageUrl,
                               createdAt: Timestamp.now(),
                               likes: 0,
-                              tags: _tags.text.split(" "),
+                              tags: [],
                               comments: [],
                             );
 
                             _logger.i(_post.toJson());
 
                             await post.createPost(_post).then((value) {
-                              context.navigateBack();
+                              route
+                                ..navigateBack()
+                                ..navigateBack();
                             }).onError((error, stackTrace) {
                               print(error);
                               print(stackTrace);

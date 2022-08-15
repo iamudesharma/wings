@@ -57,6 +57,7 @@ class AuthRespositoryImpl extends AuthRespository {
           email: email, password: password);
 
       await SharedPref.saveUserUid(userCredential.user!.uid);
+      
       return userCredential.user;
     } catch (e) {
       _logger.e('login', e);
