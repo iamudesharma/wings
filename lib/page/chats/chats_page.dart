@@ -200,7 +200,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                     textEditingController.clear();
                                   } else {
                                     await NotififcationClass.sendNotification(
-                                      playerId: widget.userModel.fcm ?? "",
+                                      playerId: widget.userModel.fcm,
                                       title: textEditingController.text,
                                       userName: currentUser.username,
                                     );

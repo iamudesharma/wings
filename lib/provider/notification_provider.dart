@@ -14,12 +14,12 @@ class NotififcationClass {
       FlutterLocalNotificationsPlugin();
 
   static AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  static IOSInitializationSettings iosInitializationSettings =
-      IOSInitializationSettings();
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
+  // static IOSInitializationSettings iosInitializationSettings =
+  //     IOSInitializationSettings();
 
-  static MacOSInitializationSettings macOSInitializationSettings =
-      MacOSInitializationSettings();
+  // static MacOSInitializationSettings macOSInitializationSettings =
+  //     MacOSInitializationSettings();
 
   static void _requestPermissions() {
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
@@ -38,22 +38,32 @@ class NotififcationClass {
     _requestPermissions();
     final InitializationSettings initializationSettings =
         InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: iosInitializationSettings,
-            macOS: macOSInitializationSettings
-            // iOS: initializationSettingsIOS,
-            // macOS: initializationSettingsMacOS,
-            // linux: initializationSettingsLinux,
-            );
+      android: initializationSettingsAndroid,
+      iOS: const DarwinInitializationSettings(),
+      macOS: const DarwinInitializationSettings(),
+      // iOS: iosInitializationSettings,
+      // macOS: macOSInitializationSettings
+      // iOS: initializationSettingsIOS,
+      // macOS: initializationSettingsMacOS,
+      // linux: initializationSettingsLinux,
+    );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? payload) async {
-      if (payload != null) {
-        debugPrint('notification payload: $payload');
-      }
-      // selectedNotificationPayload = payload;
-      // selectNotificationSubject.add(payload);
-    });
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveBackgroundNotificationResponse: (details) {
+        debugPrint('notification payload: ${details.payload}');
+      },
+      onDidReceiveNotificationResponse: (details) {
+        debugPrint('notification payload: ${details.payload}');
+      },
+      //     onSelectNotification: (String? payload) async {
+      //   if (payload != null) {
+      //     debugPrint('notification payload: $payload');
+      //   }
+      //   // selectedNotificationPayload = payload;
+      //   // selectNotificationSubject.add(payload);
+      // }
+    );
   }
 
   static onNotification() {
@@ -64,7 +74,7 @@ class NotififcationClass {
           event.notification.androidNotificationId!,
           event.notification.title,
           event.notification.body,
-          NotificationDetails(
+          const NotificationDetails(
               // android: AndroidNotificationDetails(event.notification., channelName)
               ));
       // event.notification
@@ -79,7 +89,7 @@ class NotififcationClass {
           result.notification.androidNotificationId!,
           result.notification.title,
           result.notification.body,
-          NotificationDetails(
+          const NotificationDetails(
               // android: AndroidNotificationDetails(event.notification., channelName)
               ));
       // Will be called whenever a notification is opened/button pressed.
