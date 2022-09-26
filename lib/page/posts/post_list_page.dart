@@ -99,110 +99,114 @@ class _PostsListPageState extends ConsumerState<PostsListPage> {
           body: SizedBox(
             height: _size.height,
             width: _size.width,
-            child: StackedListView(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              itemCount: postquerySnapshot.docs.length,
-              itemExtent: 500,
-              heightFactor: 0.85,
-              builder: (_, index) {
-                final post = postquerySnapshot.docs[index].data;
-                return Container(
-                  decoration: const BoxDecoration(),
-                  height: 490,
-                  width: _size.width,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Positioned.fill(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: const Offset(0, 1),
-                                    blurRadius: 10,
-                                    blurStyle: BlurStyle.normal,
-                                    color: Colors.grey.shade300,
-                                    spreadRadius: 3)
+            child: Center(
+              child: StackedListView(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                itemCount: postquerySnapshot.docs.length,
+                itemExtent: 500,
+                heightFactor: 0.85,
+                builder: (_, index) {
+                  final post = postquerySnapshot.docs[index].data;
+                  return Center(
+                    child: Container(
+                      decoration: const BoxDecoration(),
+                      height: 490,
+                      width: _size.width,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Positioned.fill(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        offset: const Offset(0, 1),
+                                        blurRadius: 10,
+                                        blurStyle: BlurStyle.normal,
+                                        color: Colors.grey.shade300,
+                                        spreadRadius: 3)
+                                  ],
+                                ),
+                                child: Image.network(post.mediaUrl,
+                                    // "https://images.unsplash.com/photo-1660337157997-f02497ef1a31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 20),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(post.usernameName),
                               ],
                             ),
-                            child: Image.network(post.mediaUrl,
-                                // "https://images.unsplash.com/photo-1660337157997-f02497ef1a31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
-                                fit: BoxFit.cover),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 20),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.red,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(post.usernameName),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 70,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: GlassMorphism(
-                                  start: 0.2,
-                                  end: 0.3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: const [
-                                        Icon(Icons.favorite_border,
-                                            color: Colors.white),
-                                        SizedBox(
-                                          width: 4,
+                          Positioned(
+                            bottom: 70,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: GlassMorphism(
+                                      start: 0.2,
+                                      end: 0.3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: const [
+                                            Icon(Icons.favorite_border,
+                                                color: Colors.white),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text("7.8k")
+                                          ],
                                         ),
-                                        Text("7.8k")
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Row(
-                                children: const [
-                                  Icon(Icons.comment_rounded,
-                                      color: Colors.white),
-                                  SizedBox(
-                                    width: 4,
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                  Text("1.8k"),
+                                  Row(
+                                    children: const [
+                                      Icon(Icons.comment_rounded,
+                                          color: Colors.white),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text("1.8k"),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const Icon(
+                                    Icons.message,
+                                    color: Colors.white,
+                                  ),
                                 ],
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Icon(
-                                Icons.message,
-                                color: Colors.white,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );
